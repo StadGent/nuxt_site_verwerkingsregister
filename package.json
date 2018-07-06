@@ -7,13 +7,17 @@
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "start": "PORT=8080 nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "nuxt": "^1.0.0",
+    "breakpoint-sass": "^2.7.1",
+    "gent_styleguide": "^3.0.0-alpha.3",
+    "node-sass": "^4.9.1",
+    "nuxt": "^1.4.1",
+    "susy": "^3.0.5",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
@@ -21,6 +25,7 @@
     "eslint": "^4.15.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",
-    "eslint-plugin-vue": "^4.0.0"
+    "eslint-plugin-vue": "^4.0.0",
+    "sass-loader": "^7.0.3"
   }
 }
