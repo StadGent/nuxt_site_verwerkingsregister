@@ -1,6 +1,6 @@
 <template>
   <div class="gentinfo-block">
-    <img src="~/assets/img/svg/gentinfo.svg" alt="Gentinfo icon" class="gentinfo-icon"/>
+    <img src="~/static/img/svg/gentinfo.svg" alt="Gentinfo icon" class="gentinfo-icon"/>
     <div class="gentinfo-block-content">
       <h2>Gentinfo</h2>
       <p class="">Bereikbaar van maandag t.e.m. zaterdag van 8:00 tot 19:00 uur.</p>
