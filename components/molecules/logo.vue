@@ -1,8 +1,5 @@
 <template>
-  <nuxt-link :to="'/'" title="Home" class="site-logo" rel="home">
-    <img
-    src="~/static/img/svg/logo.svg"
-    alt="Home"
-  />
+  <nuxt-link :to="'/'" title="Home" class="site-logo subsite" rel="home">
+      Verwerkingsregister
   </nuxt-link>
 </template>
