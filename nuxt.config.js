@@ -14,10 +14,6 @@ module.exports = {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico'
-      },
-      {
-        rel: 'stylesheet',
-        href: 'http://stijlgids.web.test.gentgrp.gent.be/v3/css/main.css'
       }
     ],
     script: [
@@ -32,6 +28,14 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    extractCSS: {
+      allChunks: true
+    },
+    postcss: {
+      plugins: {
+        'postcss-custom-properties': false
+      }
+    },
     /*
     ** Run ESLint on save
     */
@@ -44,6 +48,33 @@ module.exports = {
           exclude: /(node_modules)/
         });
       }
+      const vueLoader = config.module.rules.find(
+        ({loader}) => loader === 'vue-loader');
+      const {options: {loaders}} = vueLoader || {options: {}};
+      if (loaders) {
+        for (const loader of Object.values(loaders)) {
+          changeLoaderOptions(Array.isArray(loader) ? loader : [loader]);
+        }
+      }
+      config.module.rules.forEach(rule => changeLoaderOptions(rule.use));
+    }
+  },
+  css: [
+    '@/assets/sass/main.scss'
+  ]
+};
+
+function changeLoaderOptions (loaders) {
+  if (loaders) {
+    for (const loader of loaders) {
+      if (loader.loader === 'sass-loader') {
+        Object.assign(loader.options, {
+          includePaths: [
+            'node_modules/breakpoint-sass/stylesheets',
+            'node_modules/susy/sass'
+          ]
+        });
+      }
     }
   }
-};
+}
