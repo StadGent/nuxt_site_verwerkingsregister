@@ -4,10 +4,9 @@
       <h1 class="title">
         verwerkingsregister
       </h1>
-      <ul class="grid-3">
+      <ul class="grid-1">
         <li v-for="item in items" :key="item" class="teaser">
-          <article>
-            <div class="content-bottom">
+          <article class="content-bottom">
               <h3>{{item.name.value}}</h3>
               <p>
                 <a :href=item.url.value class="standalone-link">website <span
@@ -18,7 +17,6 @@
               <nuxt-link :to=" `verwerking/${item.id}` " class="standalone-link">
                 lees meer <span class="visually-hidden">over {{item.name.value}}</span>
               </nuxt-link>
-            </div>
           </article>
         </li>
       </ul>
