@@ -10,12 +10,16 @@
                 v-bind:item="item"
                 v-bind:index="index"/>
       </ul>
+      <pagination
+        v-bind:total="15"
+        v-bind:active="8"/>
     </div>
   </section>
 </template>
 
 <script>
   import teaser from '~/components/molecules/teaser';
+  import pagination from '~/components/molecules/pagination';
 
   export default {
     head () {
@@ -24,7 +28,7 @@
       };
     },
     meta: {},
-    components: {teaser},
+    components: {teaser, pagination},
     async fetch ({store, params}) {
       await store.dispatch('GET_ITEMS');
     },
