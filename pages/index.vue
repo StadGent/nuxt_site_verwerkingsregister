@@ -5,14 +5,14 @@
         verwerkingsregister
       </h1>
       <ul class="grid-1">
-        <teaser v-for="(item, index) in items"
+        <teaser v-for="(item, index) in paginatedItems"
                 v-bind:key="item.id"
                 v-bind:item="item"
                 v-bind:index="index"/>
       </ul>
       <pagination
-        v-bind:total="15"
-        v-bind:active="8"/>
+        v-bind:total="Math.ceil(filteredItems.length / itemsPerPage)"
+        v-bind:active="currentPage"/>
     </div>
   </section>
 </template>
@@ -32,9 +32,28 @@
     async fetch ({store, params}) {
       await store.dispatch('GET_ITEMS');
     },
+    data () {
+      return {
+        currentPage: 1,
+        itemsPerPage: 3,
+      };
+    },
     computed: {
       items () {
         return this.$store.state.items;
+      },
+      filteredItems () {
+        if (!this.items) {
+          return;
+        }
+        return this.items;
+      },
+      paginatedItems () {
+        if (!this.filteredItems) {
+          return;
+        }
+        let index = this.currentPage * this.itemsPerPage - this.itemsPerPage;
+        return this.filteredItems.slice(index, index + this.itemsPerPage);
       }
     }
   };
