@@ -29,13 +29,18 @@
     },
     meta: {},
     components: {teaser, pagination},
-    async fetch ({store, params}) {
+    watchQuery: ['page'],
+    async fetch ({store}) {
       await store.dispatch('GET_ITEMS');
     },
     data () {
       return {
-        currentPage: 1,
         itemsPerPage: 3,
+      };
+    },
+    asyncData ({query}) {
+      return {
+        queryPage: query.page || 1
       };
     },
     computed: {
@@ -52,8 +57,17 @@
         if (!this.filteredItems) {
           return;
         }
-        let index = this.currentPage * this.itemsPerPage - this.itemsPerPage;
+        const index = this.currentPage * this.itemsPerPage - this.itemsPerPage;
         return this.filteredItems.slice(index, index + this.itemsPerPage);
+      },
+      currentPage () {
+        if (this.queryPage <= 0 || isNaN(this.queryPage)) {
+          return 1;
+        }
+        if (this.queryPage > Math.ceil(this.filteredItems.length / this.itemsPerPage)) {
+          return Math.ceil(this.filteredItems.length / this.itemsPerPage);
+        }
+        return this.queryPage;
       }
     }
   };
