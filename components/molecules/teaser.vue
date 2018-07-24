@@ -8,9 +8,9 @@
         <strong>organisator </strong><span>{{item.contributor.value}}</span> <br>
         <strong v-if="item.free.value == 1">gratis </strong>
       </p>
-      <nuxt-link :to=" `verwerking/${item.id}` " class="standalone-link">
+      <a :href="`verwerking/${item.id}` " class="standalone-link">
         lees meer <span class="visually-hidden">over {{item.name.value}}</span>
-      </nuxt-link>
+      </a>
     </article>
   </li>
 </template>
