@@ -26,13 +26,13 @@
 </template>
 
 <script>
-  import gent_info from '~/components/molecules/gent-info';
-  import city_links from '~/components/molecules/city-links';
-  import post_address from '~/components/molecules/post-address';
-  import social_media from '~/components/molecules/social-media';
-  import partnership from '~/components/molecules/partnership';
+import gent_info from "~/components/molecules/gent-info"
+import city_links from "~/components/molecules/city-links"
+import post_address from "~/components/molecules/post-address"
+import social_media from "~/components/molecules/social-media"
+import partnership from "~/components/molecules/partnership"
 
-  export default {
-    components: {gent_info, city_links, post_address, partnership, social_media},
-  };
+export default {
+  components: { gent_info, city_links, post_address, partnership, social_media }
+}
 </script>
