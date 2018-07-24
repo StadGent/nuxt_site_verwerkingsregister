@@ -53,6 +53,9 @@
         }
         return this.items;
       },
+      total () {
+        return Math.ceil(filteredItems.length / this.itemsPerPage);
+      },
       paginatedItems () {
         if (!this.filteredItems) {
           return;
@@ -64,8 +67,8 @@
         if (this.queryPage <= 0 || isNaN(this.queryPage)) {
           return 1;
         }
-        if (this.queryPage > Math.ceil(this.filteredItems.length / this.itemsPerPage)) {
-          return Math.ceil(this.filteredItems.length / this.itemsPerPage);
+        if (this.queryPage > total) {
+          return total;
         }
         return this.queryPage;
       }
