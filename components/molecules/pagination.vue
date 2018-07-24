@@ -9,8 +9,9 @@
         </nuxt-link>
       </li>
       <li>
-        <nuxt-link :to="{query: {page: 1}}" :title="`Ga naar pagina ${1}`"
-                   v-bind:class="{active: 1 === +active}">
+        <nuxt-link :to="{query: {page: 1}, path:'#test'}" :title="`Ga naar pagina ${1}`"
+                   v-bind:class="{active: 1 === +active}"
+                   append>
           <span class="visually-hidden">Pagina</span>
           {{ 1 }}
         </nuxt-link>
@@ -22,7 +23,7 @@
           {{ +active - 1 }}
         </nuxt-link>
       </li>
-      <li v-if="active !==1 && +active !== total">
+      <li v-if="+active !==1 && +active !== total">
         <nuxt-link :to="{query: {page: +active}}" :title="`Ga naar pagina ${active}`"
                    class="active">
           <span class="visually-hidden">Pagina</span>

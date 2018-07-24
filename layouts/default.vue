@@ -17,3 +17,9 @@
     components: {v_header, v_footer},
   };
 </script>
+
+<style>
+  main {
+    margin-bottom: 4rem;
+  }
+</style>

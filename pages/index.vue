@@ -4,7 +4,7 @@
       <h1 class="title">
         verwerkingsregister
       </h1>
-      <ul class="grid-1">
+      <ul class="grid-1" id="test">
         <teaser v-for="(item, index) in paginatedItems"
                 v-bind:key="item.id"
                 v-bind:item="item"
