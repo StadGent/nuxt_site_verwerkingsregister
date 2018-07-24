@@ -21,6 +21,7 @@ export default () => {
 
         try {
           items = items.data.results.bindings;
+          // get the ID from the event value
           items.map(item => {
             const splitValues = item.event.value.split('/');
             item.id = splitValues[splitValues.length - 1];

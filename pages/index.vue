@@ -4,29 +4,22 @@
       <h1 class="title">
         verwerkingsregister
       </h1>
-      <ul class="grid-3">
-        <li v-for="item in items" :key="item" class="teaser">
-          <article>
-            <div class="content-bottom">
-              <h3>{{item.name.value}}</h3>
-              <p>
-                <a :href=item.url.value class="standalone-link">website <span
-                class="visually-hidden">van {{item.name.value}}</span></a> <br>
-                <strong>organisator </strong><span>{{item.contributor.value}}</span> <br>
-                <strong v-if="item.free.value == 1">gratis </strong>
-              </p>
-              <nuxt-link :to=" `verwerking/${item.id}` " class="standalone-link">
-                lees meer <span class="visually-hidden">over {{item.name.value}}</span>
-              </nuxt-link>
-            </div>
-          </article>
-        </li>
+      <ul class="grid-1">
+        <teaser v-for="(item, index) in paginatedItems"
+                v-bind:key="item.id"
+                v-bind:item="item"
+                v-bind:index="index"/>
       </ul>
+      <pagination
+        v-bind:total="Math.ceil(filteredItems.length / itemsPerPage)"
+        v-bind:active="currentPage"/>
     </div>
   </section>
 </template>
 
 <script>
+  import teaser from '~/components/molecules/teaser';
+  import pagination from '~/components/molecules/pagination';
 
   export default {
     head () {
@@ -35,13 +28,49 @@
       };
     },
     meta: {},
-    components: {},
-    async fetch ({store, params}) {
+    components: {teaser, pagination},
+    watchQuery: ['page'],
+    async fetch ({store}) {
       await store.dispatch('GET_ITEMS');
+    },
+    data () {
+      return {
+        itemsPerPage: 10,
+      };
+    },
+    asyncData ({query}) {
+      return {
+        queryPage: query.page || 1
+      };
     },
     computed: {
       items () {
         return this.$store.state.items;
+      },
+      filteredItems () {
+        if (!this.items) {
+          return;
+        }
+        return this.items;
+      },
+      total () {
+        return Math.ceil(this.filteredItems.length / this.itemsPerPage);
+      },
+      paginatedItems () {
+        if (!this.filteredItems) {
+          return;
+        }
+        const index = this.currentPage * this.itemsPerPage - this.itemsPerPage;
+        return this.filteredItems.slice(index, index + this.itemsPerPage);
+      },
+      currentPage () {
+        if (this.queryPage <= 0 || isNaN(this.queryPage)) {
+          return 1;
+        }
+        if (this.queryPage > this.total) {
+          return this.total;
+        }
+        return this.queryPage;
       }
     }
   };
