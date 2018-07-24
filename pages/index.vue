@@ -35,7 +35,7 @@
     },
     data () {
       return {
-        itemsPerPage: 3,
+        itemsPerPage: 10,
       };
     },
     asyncData ({query}) {
