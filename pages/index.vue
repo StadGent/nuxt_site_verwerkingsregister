@@ -54,7 +54,7 @@
         return this.items;
       },
       total () {
-        return Math.ceil(filteredItems.length / this.itemsPerPage);
+        return Math.ceil(this.filteredItems.length / this.itemsPerPage);
       },
       paginatedItems () {
         if (!this.filteredItems) {
@@ -67,8 +67,8 @@
         if (this.queryPage <= 0 || isNaN(this.queryPage)) {
           return 1;
         }
-        if (this.queryPage > total) {
-          return total;
+        if (this.queryPage > this.total) {
+          return this.total;
         }
         return this.queryPage;
       }
