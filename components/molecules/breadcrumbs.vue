@@ -5,7 +5,7 @@
       <ol class="breadcrumb no-style">
         <li><a href='https://stad.gent'>Stad.gent</a></li>
         <li v-for="crumb in crumbs" :key="crumb">
-          <nuxt-link :to="crumb.path">{{crumb.label}}</nuxt-link>
+          <a :href="crumb.path">{{crumb.label}}</a>
         </li>
         <li><span>Page title</span></li>
       </ol>
