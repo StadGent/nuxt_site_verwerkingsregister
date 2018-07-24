@@ -1,0 +1,16 @@
+.verwerkingen {
+  display: flex;
+  margin: 2rem 0;
+  justify-content: space-between;
+
+  .filter {
+    width: span(4 of 12);
+
+    form {
+      margin-bottom: 2rem;
+    }
+  }
+  .result {
+    width: span(8 of 12)
+  }
+}
