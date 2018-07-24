@@ -1,7 +1,9 @@
 <template>
   <div class="cs--default container">
+    <!--todo: move to styleguide-->
+    <a href="#main" class="skiplink">Overslaan en naar de inhoud gaan</a>
     <v_header/>
-    <main>
+    <main id="main">
       <nuxt/>
     </main>
     <v_footer/>

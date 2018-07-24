@@ -9,22 +9,24 @@
         </nuxt-link>
       </li>
       <li>
-        <nuxt-link :to="{query: {page: 1}, path:'#test'}" :title="`Ga naar pagina ${1}`"
-                   v-bind:class="{active: 1 === +active}"
-                   append>
+        <nuxt-link :to="{query: {page: 1}}"
+                   :title="`Ga naar pagina ${1}`"
+                   v-bind:class="{active: 1 === +active}">
           <span class="visually-hidden">Pagina</span>
           {{ 1 }}
         </nuxt-link>
       </li>
       <li v-if="active > 3">...</li>
       <li v-if="active - 1 > 1 && +active-1 !== total">
-        <nuxt-link :to="{query: {page: +active-1}}" :title="`Ga naar pagina ${active-1}`">
+        <nuxt-link :to="{query: {page: +active-1}}"
+                   :title="`Ga naar pagina ${active-1}`">
           <span class="visually-hidden">Pagina</span>
           {{ +active - 1 }}
         </nuxt-link>
       </li>
       <li v-if="+active !==1 && +active !== total">
-        <nuxt-link :to="{query: {page: +active}}" :title="`Ga naar pagina ${active}`"
+        <nuxt-link :to="{query: {page: +active}}"
+                   :title="`Ga naar pagina ${active}`"
                    class="active">
           <span class="visually-hidden">Pagina</span>
           {{ +active }}
@@ -38,14 +40,16 @@
       </li>
       <li v-if="total - active > 3">...</li>
       <li>
-        <nuxt-link :to="{query: {page: total}}" :title="`Ga naar pagina ${total}`"
+        <nuxt-link :to="{query: {page: total}}"
+                   :title="`Ga naar pagina ${total}`"
                    v-bind:class="{active: total === +active}">
           <span class="visually-hidden">Pagina</span>
           {{ total }}
         </nuxt-link>
       </li>
       <li v-if="total !== +active">
-        <nuxt-link :to="{query: {page: +active+1}}" class="next">
+        <nuxt-link :to="{query: {page: +active+1}}"
+                   class="next">
           volgende
           <span class="visually-hidden">pagina</span>
         </nuxt-link>
