@@ -8,10 +8,10 @@
 </template>
 
 <script>
-  import logo from '~/components/molecules/logo';
-  import breadcrumbs from '~/components/molecules/breadcrumbs';
+import logo from "~/components/molecules/logo"
+import breadcrumbs from "~/components/molecules/breadcrumbs"
 
-  export default {
-    components: {logo, breadcrumbs},
-  };
+export default {
+  components: { logo, breadcrumbs }
+}
 </script>
