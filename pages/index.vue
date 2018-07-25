@@ -18,24 +18,25 @@
         </li>
       </ul>
       <section class="verwerkingen">
-        <div id="filter" class="filter">
+        <div id="filter" class="filter-section">
           <h2>Zoek verwerking</h2>
           <form>
             <div class="form-item">
               <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
-              <input id="name" type="text" name="name">
+              <input id="name" :value="$route.query.name" type="text" name="name">
             </div>
             <div class="form-item">
               <label for="service">Verwerkende dienst <span class="label-optional">(Optioneel)</span></label>
-              <input id="service" type="text" name="service" placeholder="vb. Burgerzaken, MSOC, ...">
+              <input id="service" :value="$route.query.service" type="text" name="service"
+                     placeholder="vb. Burgerzaken, MSOC, ...">
             </div>
             <div class="form-item">
               <label for="datatypes">Welke gegevens <span class="label-optional">(Optioneel)</span></label>
-              <input id="datatypes" type="text" name="datatypes">
+              <input id="datatypes" :value="$route.query.datatypes" type="text" name="datatypes">
             </div>
             <div class="form-item">
               <label for="receiver">Ontvanger <span class="label-optional">(Optioneel)</span></label>
-              <input id="receiver" type="text" name="receiver" placeholder="vb. OCMW">
+              <input id="receiver" :value="$route.query.receiver" type="text" name="receiver" placeholder="vb. OCMW">
             </div>
             <button class="button button-primary">Zoek</button>
           </form>
@@ -43,7 +44,16 @@
           <h3>Categorie</h3>
           <h3>Rechtsgrond</h3>
         </div>
-        <div id="result" class="result">
+        <div id="result" class="result-section">
+          <div v-if="selectedFilters.length > 0" class="selected-filters">
+            <h2>U koos voor:</h2>
+            <template v-for="filter in selectedFilters" >
+              <span :key="filter.key" class="tag filter">
+                {{ filter.value }}
+                <button><span class="visually-hidden">Verwijder deze filter</span></button>
+              </span>
+            </template>
+          </div>
           <h2>We vonden {{ total }} {{ total === 1 ? 'resultaat' : 'resultaten' }}</h2>
           <ul class="grid-1">
             <teaser v-for="(item, index) in paginatedItems"
@@ -78,7 +88,8 @@ export default {
   },
   data() {
     return {
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      allowedFilters: ["name", "service", "datatypes", "receiver"]
     }
   },
   asyncData({ query }) {
@@ -111,6 +122,17 @@ export default {
         return this.totalPages
       }
       return this.queryPage
+    },
+    selectedFilters() {
+      return Object.keys(this.$route.query).reduce((result, key) => {
+        if (this.allowedFilters.includes(key) && this.$route.query[key]) {
+          result.push({
+            key: key,
+            value: this.$route.query[key]
+          })
+        }
+        return result
+      }, [])
     }
   }
 }
