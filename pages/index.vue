@@ -50,7 +50,7 @@
             <template v-for="filter in selectedFilters" >
               <span :key="filter.key" class="tag filter">
                 {{ filter.value }}
-                <button><span class="visually-hidden">Verwijder deze filter</span></button>
+                <button @click="clearFilter(filter)"><span class="visually-hidden">Verwijder deze filter</span></button>
               </span>
             </template>
           </div>
@@ -82,7 +82,7 @@ export default {
   },
   meta: {},
   components: { teaser, pagination },
-  watchQuery: ["page"],
+  watchQuery: ["page"].concat(this.allowedFilters),
   async fetch({ store }) {
     await store.dispatch("GET_ITEMS")
   },
@@ -133,6 +133,18 @@ export default {
         }
         return result
       }, [])
+    }
+  },
+  methods: {
+    clearFilter(filter) {
+      let query = Object.assign({}, this.$route.query)
+      delete query[filter.key]
+      delete query.page
+
+      this.$router.push({
+        query: query,
+        force: true
+      })
     }
   }
 }

@@ -14,7 +14,11 @@
     width: span(8 of 12)
   }
 
-  .tag {
-    margin: 0 .5rem .5rem 0;
+  .selected-filters {
+    margin-bottom: 1rem;
+
+    .tag {
+      margin: 0 .5rem .5rem 0;
+    }
   }
 }
