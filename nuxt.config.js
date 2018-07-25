@@ -28,6 +28,18 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    vendor: ["babel-polyfill"],
+    babel: {
+      presets: [
+        [
+          "vue-app",
+          {
+            useBuiltIns: true,
+            targets: { ie: 11, uglify: true }
+          }
+        ]
+      ]
+    },
     extractCSS: {
       allChunks: true
     },

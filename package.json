@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "breakpoint-sass": "^2.7.1",
     "gent_styleguide": "^3.0.0-alpha.3",
     "node-sass": "^4.9.2",
