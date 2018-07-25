@@ -6,7 +6,9 @@ $styleguide-dir: '..';
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/00-mixins/breakpoints/_breakpoints.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/00-mixins/general/_mixins.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/00-mixins/grid/_responsive-utilities.scss";
+
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/00-mixins/svg/_svg-icons.scss";
+
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/00-mixins/themify/_themify.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/00-settings/_colors.scss";
 
@@ -89,6 +91,7 @@ $styleguide-dir: '..';
 
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/collection/_collection.scss";
 @import "organisms/_collection.scss";
+@import "organisms/_verwerkingen.scss";
 
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/document-box/_document-box.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/extra-articles/_extra-articles.scss";
