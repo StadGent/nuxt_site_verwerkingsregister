@@ -20,7 +20,7 @@
       <section class="verwerkingen">
         <div id="filter" class="filter-section">
           <h2>Zoek verwerking</h2>
-          <form>
+          <form action="#result">
             <div class="form-item">
               <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
               <input id="name" :value="$route.query.name" type="text" name="name">
@@ -103,8 +103,9 @@ export default {
           return true
         })
         .sort((a, b) => {
-          a = a.name.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase()
-          b = b.name.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase()
+          // omit non-word characters
+          a = a.name.value.replace(/\W/g, "").toUpperCase()
+          b = b.name.value.replace(/\W/g, "").toUpperCase()
 
           if (a > b) {
             return 1
@@ -145,18 +146,6 @@ export default {
         }
         return result
       }, [])
-    }
-  },
-  methods: {
-    clearFilter(filter) {
-      let query = Object.assign({}, this.$route.query)
-      delete query[filter.key]
-      delete query.page
-
-      this.$router.push({
-        query: query,
-        force: true
-      })
     }
   }
 }
