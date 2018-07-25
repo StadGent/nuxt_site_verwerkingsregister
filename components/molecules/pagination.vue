@@ -1,5 +1,5 @@
 <template>
-  <nav class="pager" aria-labelledby="pagination_1">
+  <nav v-if="total > 1" class="pager" aria-labelledby="pagination_1">
     <h2 id="pagination_1" class="visually-hidden">Pagination</h2>
     <ul class="pager__items">
       <li v-if="1 !== +active">

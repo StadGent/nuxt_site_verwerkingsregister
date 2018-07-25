@@ -102,7 +102,17 @@ export default {
       return this.$store.state.items || []
     },
     filteredItems() {
-      return this.items
+      return this.items.filter(item => {
+        if (
+          this.$route.query.name &&
+          item.name.value
+            .toUpperCase()
+            .indexOf(this.$route.query.name.toUpperCase()) === -1
+        ) {
+          return false
+        }
+        return true
+      })
     },
     total() {
       return this.filteredItems.length
