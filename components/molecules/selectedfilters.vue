@@ -7,6 +7,7 @@
         <button @click="clearFilter(filter)"><span class="visually-hidden">Verwijder deze filter</span></button>
       </span>
     </template>
+    <a :href="$route.path">Wis alle filters</a>
   </div>
 </template>
 
