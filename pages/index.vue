@@ -45,15 +45,7 @@
           <h3>Rechtsgrond</h3>
         </div>
         <div id="result" class="result-section">
-          <div v-if="selectedFilters.length > 0" class="selected-filters">
-            <h2>U koos voor:</h2>
-            <template v-for="filter in selectedFilters" >
-              <span :key="filter.key" class="tag filter">
-                {{ filter.value }}
-                <button @click="clearFilter(filter)"><span class="visually-hidden">Verwijder deze filter</span></button>
-              </span>
-            </template>
-          </div>
+          <selectedfilters :allowed-filters="allowedFilters"/>
           <h2>We vonden {{ total }} {{ total === 1 ? 'resultaat' : 'resultaten' }}</h2>
           <ul class="grid-1">
             <teaser v-for="(item, index) in paginatedItems"
@@ -73,6 +65,7 @@
 <script>
 import teaser from "~/components/molecules/teaser"
 import pagination from "~/components/molecules/pagination"
+import selectedfilters from "~/components/molecules/selectedfilters"
 
 export default {
   head() {
@@ -81,7 +74,7 @@ export default {
     }
   },
   meta: {},
-  components: { teaser, pagination },
+  components: { teaser, pagination, selectedfilters },
   watchQuery: ["page"].concat(this.allowedFilters),
   async fetch({ store }) {
     await store.dispatch("GET_ITEMS")
@@ -92,27 +85,35 @@ export default {
       allowedFilters: ["name", "service", "datatypes", "receiver"]
     }
   },
-  asyncData({ query }) {
-    return {
-      queryPage: query.page || 1
-    }
-  },
   computed: {
     items() {
       return this.$store.state.items || []
     },
     filteredItems() {
-      return this.items.filter(item => {
-        if (
-          this.$route.query.name &&
-          item.name.value
-            .toUpperCase()
-            .indexOf(this.$route.query.name.toUpperCase()) === -1
-        ) {
-          return false
-        }
-        return true
-      })
+      return this.items
+        .filter(item => {
+          if (
+            this.$route.query.name &&
+            item.name.value
+              .toUpperCase()
+              .indexOf(this.$route.query.name.toUpperCase()) === -1
+          ) {
+            return false
+          }
+          return true
+        })
+        .sort((a, b) => {
+          a = a.name.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase()
+          b = b.name.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase()
+
+          if (a > b) {
+            return 1
+          }
+          if (a < b) {
+            return -1
+          }
+          return 0
+        })
     },
     total() {
       return this.filteredItems.length
@@ -125,13 +126,14 @@ export default {
       return this.filteredItems.slice(index, index + this.itemsPerPage)
     },
     currentPage() {
-      if (this.queryPage <= 0 || isNaN(this.queryPage)) {
+      const queryPage = this.$route.query.page || 1
+      if (queryPage <= 0 || isNaN(queryPage)) {
         return 1
       }
-      if (this.queryPage > this.totalPages) {
+      if (queryPage > this.totalPages) {
         return this.totalPages
       }
-      return this.queryPage
+      return +queryPage
     },
     selectedFilters() {
       return Object.keys(this.$route.query).reduce((result, key) => {
