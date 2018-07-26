@@ -76,8 +76,13 @@ export default {
   meta: {},
   components: { teaser, pagination, selectedfilters },
   watchQuery: ["page"].concat(this.allowedFilters),
+  // Key needed to enable watchQuery and update form values
+  key: to => to.fullPath,
   async fetch({ store }) {
-    await store.dispatch("GET_ITEMS")
+    // Only fetch items once
+    if (store.state.items.length === 0) {
+      await store.dispatch("GET_ITEMS")
+    }
   },
   data() {
     return {
@@ -160,6 +165,7 @@ export default {
     submitFilter() {
       this.$router.push({
         path: `${this.$route.path}#result`,
+        // Override existing query, including pagination
         query: this.filter
       })
     }
