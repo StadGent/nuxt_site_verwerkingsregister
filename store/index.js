@@ -8,7 +8,7 @@ export default () => {
       items: []
     },
     mutations: {
-      setBreadcrumbs(state, data) {
+      SET_BREADCRUMBS(state, data) {
         state.breadcrumbs = data
       },
       SET_ITEMS(state, data) {
