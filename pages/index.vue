@@ -20,10 +20,10 @@
       <section class="verwerkingen">
         <div id="filter" class="filter-section">
           <h2>Zoek verwerking</h2>
-          <form action="#result">
+          <form action="#result" @submit.prevent="submitFilter">
             <div class="form-item">
               <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
-              <input id="name" :value="$route.query.name" type="text" name="name">
+              <input id="name" v-model="filter.name" type="text" name="name">
             </div>
             <div class="form-item">
               <label for="service">Verwerkende dienst <span class="label-optional">(Optioneel)</span></label>
@@ -82,7 +82,13 @@ export default {
   data() {
     return {
       itemsPerPage: 10,
-      allowedFilters: ["name", "service", "datatypes", "receiver"]
+      allowedFilters: ["name", "service", "datatypes", "receiver"],
+      filter: {
+        name: this.$route.query.name,
+        service: this.$route.query.service,
+        datatypes: this.$route.query.datatypes,
+        receiver: this.$route.query.receiver
+      }
     }
   },
   computed: {
@@ -92,6 +98,8 @@ export default {
     filteredItems() {
       return this.items
         .filter(item => {
+          // Check each filter and
+          // return true if all checks are valid
           if (
             this.$route.query.name &&
             item.name.value
@@ -146,6 +154,14 @@ export default {
         }
         return result
       }, [])
+    }
+  },
+  methods: {
+    submitFilter() {
+      this.$router.push({
+        path: `${this.$route.path}#result`,
+        query: this.filter
+      })
     }
   }
 }
