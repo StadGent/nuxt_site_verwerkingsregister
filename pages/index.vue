@@ -97,7 +97,13 @@ export default {
   data() {
     return {
       itemsPerPage: 10,
-      allowedFilters: ["name", "service", "datatypes", "receiver"],
+      allowedFilters: [
+        "name",
+        "service",
+        "datatypes",
+        "receiver",
+        "processor[]"
+      ],
       filter: {
         name: this.$route.query.name,
         service: this.$route.query.service,
@@ -126,13 +132,26 @@ export default {
     filteredItems() {
       return this.items
         .filter(item => {
-          // Check each filter and
-          // return true if all checks are valid
+          /* Check each filter and
+          ** return true if all checks are valid
+          */
+
+          // name
           if (
             this.$route.query.name &&
             item.name.value
               .toUpperCase()
               .indexOf(this.$route.query.name.toUpperCase()) === -1
+          ) {
+            return false
+          }
+
+          // processor
+          // todo compare uppercase
+          // todo check invalid querystring values
+          if (
+            this.$route.query["processor[]"] &&
+            !this.$route.query["processor[]"].includes(item.processor.value)
           ) {
             return false
           }
