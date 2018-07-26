@@ -7,7 +7,7 @@
         <button @click="clearFilter(filter)"><span class="visually-hidden">Verwijder deze filter</span></button>
       </span>
     </template>
-    <a :href="$route.path">Wis alle filters</a>
+    <nuxt-link :to="$route.path">Wis alle filters</nuxt-link>
   </div>
 </template>
 
@@ -39,8 +39,7 @@ export default {
       delete query.page
 
       this.$router.push({
-        query: query,
-        force: true
+        query: query
       })
     }
   }
