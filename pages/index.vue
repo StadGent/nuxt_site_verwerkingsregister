@@ -25,6 +25,16 @@
               <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
               <input id="name" v-model="filter.name" type="text" name="name">
             </div>
+            <fieldset class="form-item">
+              <legend>Verwerkende dienst</legend>
+              <div v-for="(name, index) in processors" :key="`processor-chk-${index}`" class="checkbox">
+                <input :value="name" :id="`processor-chk-${index}`"
+                       v-model="filter['processor[]']"
+                       name="processor[]" type="checkbox">
+                <label :for="`processor-chk-${index}`">{{ name }}</label>
+              </div>
+
+            </fieldset>
             <div class="form-item">
               <label for="service">Verwerkende dienst <span class="label-optional">(Optioneel)</span></label>
               <input id="service" :value="$route.query.service" type="text" name="service"
@@ -92,11 +102,24 @@ export default {
         name: this.$route.query.name,
         service: this.$route.query.service,
         datatypes: this.$route.query.datatypes,
-        receiver: this.$route.query.receiver
+        receiver: this.$route.query.receiver,
+        "processor[]": this.$route.query["processor[]"] || []
       }
     }
   },
   computed: {
+    processors() {
+      return this.$store.state.items.reduce((result, item) => {
+        if (
+          item.processor &&
+          item.processor.value &&
+          !result.includes(item.processor.value)
+        ) {
+          result.push(item.processor.value)
+        }
+        return result
+      }, [])
+    },
     items() {
       return this.$store.state.items || []
     },

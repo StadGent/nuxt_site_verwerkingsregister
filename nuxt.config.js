@@ -74,31 +74,11 @@ module.exports = {
       config.module.rules.forEach(rule => changeLoaderOptions(rule.use))
     }
   },
-  css: ["@/assets/sass/main.scss"],
+  css: ["@/assets/sass/main.scss"]
   /*
   ** Fix default router config to enable scroll to top
   ** See https://github.com/nuxt/nuxt.js/issues/2738
   */
-  router: {
-    scrollBehavior(to, from, savedPosition) {
-      if (savedPosition) {
-        return savedPosition
-      } else {
-        let position = {}
-        if (to.matched.length < 2) {
-          position = { x: 0, y: 0 }
-        } else {
-          if (to.matched.some(r => r.components.default.options.scrollToTop)) {
-            position = { x: 0, y: 0 }
-          }
-        }
-        if (to.hash) {
-          position = { selector: to.hash }
-        }
-        return position
-      }
-    }
-  }
 }
 
 function changeLoaderOptions(loaders) {
