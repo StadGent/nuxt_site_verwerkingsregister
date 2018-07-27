@@ -39,10 +39,12 @@ export default {
         }
 
         // Get single value
-        return result.push({
+        result.push({
           key: key,
           value: this.$route.query[key]
         })
+
+        return result
       }, [])
     }
   },
