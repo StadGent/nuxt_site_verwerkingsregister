@@ -22,21 +22,52 @@ export default {
   computed: {
     selectedFilters() {
       return Object.keys(this.$route.query).reduce((result, key) => {
-        if (this.allowedFilters.includes(key) && this.$route.query[key]) {
-          result.push({
-            key: key,
-            value: this.$route.query[key]
-          })
+        if (!this.allowedFilters.includes(key) || !this.$route.query[key]) {
+          return result
         }
-        return result
+
+        // Get checkbox query values
+        if (Array.isArray(this.$route.query[key])) {
+          for (let i = this.$route.query[key].length; i--; ) {
+            result.push({
+              key: `${key}-${i}`,
+              value: this.$route.query[key][i],
+              filterKey: key
+            })
+          }
+          return result
+        }
+
+        // Get single value
+        return result.push({
+          key: key,
+          value: this.$route.query[key]
+        })
       }, [])
     }
   },
   methods: {
     clearFilter(filter) {
       let query = Object.assign({}, this.$route.query)
-      delete query[filter.key]
+
+      // Delete single query value
+      if (query[filter.key]) {
+        delete query[filter.key]
+      }
+
+      // Delete checkbox query value
+      else if (filter.filterKey) {
+        const index = query[filter.filterKey].indexOf(filter.value)
+        if (index !== -1) {
+          query[filter.filterKey].splice(index, 1)
+        }
+      }
+
+      // Reset paging
       delete query.page
+
+      // Force querystring to renew (bug)
+      query.check = ++query.check || 0
 
       this.$router.push({
         query: query

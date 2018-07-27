@@ -151,6 +151,7 @@ export default {
           // todo check invalid querystring values
           if (
             this.$route.query["processor[]"] &&
+            this.$route.query["processor[]"].length > 0 &&
             !this.$route.query["processor[]"].includes(item.processor.value)
           ) {
             return false
