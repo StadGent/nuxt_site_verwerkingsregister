@@ -75,10 +75,6 @@ module.exports = {
     }
   },
   css: ["@/assets/sass/main.scss"]
-  /*
-  ** Fix default router config to enable scroll to top
-  ** See https://github.com/nuxt/nuxt.js/issues/2738
-  */
 }
 
 function changeLoaderOptions(loaders) {

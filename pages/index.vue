@@ -109,7 +109,7 @@ export default {
         service: this.$route.query.service,
         datatypes: this.$route.query.datatypes,
         receiver: this.$route.query.receiver,
-        "processor[]": this.$route.query["processor[]"] || []
+        "processor[]": this.parseQueryArray("processor[]") || []
       }
     }
   },
@@ -205,6 +205,24 @@ export default {
     }
   },
   methods: {
+    /**
+     * Parse a single query value to type Array.
+     *
+     * @param {String} key
+     * @returns {Array|null}
+     */
+    parseQueryArray(key) {
+      if (!this.$route.query[key]) {
+        return null
+      }
+
+      return Array.isArray(this.$route.query[key])
+        ? this.$route.query[key]
+        : [this.$route.query[key]]
+    },
+    /**
+     * Push selected filters to the query.
+     */
     submitFilter() {
       this.$router.push({
         path: `${this.$route.path}#result`,

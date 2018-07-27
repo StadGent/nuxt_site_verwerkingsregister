@@ -16,6 +16,13 @@ export default () => {
       }
     },
     actions: {
+      /**
+       * Fetch the items from the sparql endpoint.
+       *
+       * @param {Function} commit
+       * @returns {Promise.<void>}
+       * @constructor
+       */
       async GET_ITEMS({ commit }) {
         let items = await axios.get(
           "https://stad.gent/sparql?default-graph-uri=&query=PREFIX+schema:+<http://schema.org/>SELECT+?event+?url+?name+?processor+?free+FROM+<http://stad.gent/gentse-feesten-2018/>+WHERE+{\t?event+a+schema:Event;+schema:name+?name;+schema:description+?description;+schema:url+?url;+schema:isAccessibleForFree+?free;+schema:contributor+?c.++\t?c+schema:name+?processor}"

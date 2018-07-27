@@ -20,6 +20,11 @@ export default {
     }
   },
   computed: {
+    /**
+     * Parse the query to extract all selected filters.
+     *
+     * @returns {Array}
+     */
     selectedFilters() {
       return Object.keys(this.$route.query).reduce((result, key) => {
         if (!this.allowedFilters.includes(key) || !this.$route.query[key]) {
@@ -49,6 +54,11 @@ export default {
     }
   },
   methods: {
+    /**
+     * Remove a single filter from the query.
+     *
+     * @param {Object} filter
+     */
     clearFilter(filter) {
       let query = Object.assign({}, this.$route.query)
 
