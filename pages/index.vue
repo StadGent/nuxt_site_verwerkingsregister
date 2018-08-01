@@ -25,16 +25,9 @@
               <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
               <input id="name" v-model="filter.name" type="text" name="name">
             </div>
-            <fieldset class="form-item">
-              <legend>Verwerkende dienst</legend>
-              <div v-for="(name, index) in processors" :key="`processor-chk-${index}`" class="checkbox">
-                <input :value="name" :id="`processor-chk-${index}`"
-                       v-model="filter['processor[]']"
-                       name="processor[]" type="checkbox">
-                <label :for="`processor-chk-${index}`">{{ name }}</label>
-              </div>
 
-            </fieldset>
+            <checkbox_with_filter :processors="processors" v-model="filter['processor[]']"/>
+
             <div class="form-item">
               <label for="service">Verwerkende dienst <span class="label-optional">(Optioneel)</span></label>
               <input id="service" :value="$route.query.service" type="text" name="service"
@@ -76,6 +69,7 @@
 import teaser from "~/components/molecules/teaser"
 import pagination from "~/components/molecules/pagination"
 import selectedfilters from "~/components/molecules/selectedfilters"
+import checkbox_with_filter from "~/components/molecules/checkbox-with-filter"
 
 export default {
   head() {
@@ -84,7 +78,7 @@ export default {
     }
   },
   meta: {},
-  components: { teaser, pagination, selectedfilters },
+  components: { teaser, pagination, selectedfilters, checkbox_with_filter },
   watchQuery: ["page"].concat(this.allowedFilters),
   // Key needed to enable watchQuery and update form values
   key: to => to.fullPath,
