@@ -97,6 +97,17 @@
     let selectedFilters = []
 
     /**
+     * Check to prevent the class from making selected item tags.
+     * @type {boolean}
+     */
+    const makeTags = (() => {
+      if (options.makeTags === false) {
+        return options.makeTags
+      }
+      return true
+    })()
+
+    /**
      * A Gent styleguide class to create a tabTrap.
      * @type {TabTrap}
      */
@@ -181,7 +192,6 @@
      * Open or close the modal
      */
     const toggleModal = () => {
-      console.log("toggling")
       // hide
       if (modal.classList.contains("visible")) {
         openBtn.setAttribute("aria-expanded", "false")
@@ -224,7 +234,9 @@
      * Reset the component to it's stored value.
      */
     const reset = () => {
-      selectedContainer.innerHTML = ""
+      if (makeTags) {
+        selectedContainer.innerHTML = ""
+      }
 
       checkboxLoop(({ checkbox, label }) => {
         if (selectedFilters.indexOf(checkbox) !== -1) {
@@ -232,7 +244,7 @@
         } else {
           checkbox.checked = false
         }
-        if (checkbox.checked) {
+        if (checkbox.checked && makeTags) {
           selectedContainer.appendChild(makeTag(checkbox, label))
         }
       })
@@ -248,7 +260,7 @@
       openBtn.setAttribute("aria-expanded", "false")
 
       checkboxLoop(({ checkbox, label }) => {
-        if (checkbox.checked) {
+        if (checkbox.checked && makeTags) {
           selectedContainer.appendChild(makeTag(checkbox, label))
         }
       })
@@ -276,9 +288,13 @@
       checkboxLoop(({ checkbox, label }) => {
         checkbox.addEventListener("change", () => {
           if (checkbox.checked) {
-            selectedContainer.appendChild(makeTag(checkbox, label))
+            if (makeTags) {
+              selectedContainer.appendChild(makeTag(checkbox, label))
+            }
           } else {
-            removeTag(checkbox)
+            if (makeTags) {
+              removeTag(checkbox)
+            }
           }
         })
       })
@@ -341,8 +357,7 @@
           toggleModal()
           break
         case 13: // enter
-          e.preventDefault()
-          toggleModal()
+          e.preventDefault() // prevent form submit
       }
     }
 

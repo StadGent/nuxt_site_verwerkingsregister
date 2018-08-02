@@ -2,7 +2,17 @@
   <fieldset class="form-item checkbox-filter">
     <legend>{{ legend }} <span v-if="!required">(Optioneel)</span></legend>
 
-    <div class="checkbox-filter__selected"/>
+    <div class="checkbox-filter__selected">
+      <span v-for="(value, index) in selectedItems" :key="`selected-${index}`"
+            :data-value="value"
+            class="tag filter">
+        {{ value }}
+        <button type="button" @click="removeTag(value)">
+          <span class="visually-hidden">Verwijder tag</span>
+        </button>
+      </span>
+    </div>
+
     <div class="checkbox-filter__modal">
       <button type="button" class="button icon-cross checkbox-filter__close">
         <span>Close</span><i class="icon-close" aria-hidden="true"/>
@@ -37,9 +47,12 @@
 
     </div>
 
-    <div class="overlay checkbox-filter__close"/>
+    <div class="overlay checkbox-filter__close"
+         @click="reset" />
 
-    <button type="button" class="button button-secondary button-small checkbox-filter__open">
+    <button type="button"
+            class="button button-secondary button-small checkbox-filter__open"
+            @click="open">
       Selecteer ...
     </button>
   </fieldset>
@@ -78,18 +91,31 @@ export default {
   },
   data() {
     return {
-      selectedItems: this.value
+      selectedItems: this.value,
+      tempItems: []
     }
   },
   mounted() {
     new CheckboxFilter(document.querySelector(".checkbox-filter"), {
-      hiddenTagText: "Remove tag"
+      makeTags: false
     })
   },
   methods: {
     updateValue() {
-      console.log(this.selectedItems)
       this.$emit("input", this.selectedItems)
+    },
+    removeTag(tag) {
+      const index = this.selectedItems.indexOf(tag)
+      if (index > -1) {
+        this.selectedItems.splice(index, 1)
+      }
+      this.updateValue()
+    },
+    reset() {
+      this.selectedItems = this.tempItems
+    },
+    open() {
+      this.tempItems = this.selectedItems
     }
   }
 }
