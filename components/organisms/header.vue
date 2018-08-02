@@ -17,8 +17,8 @@ export default {
   computed: {
     hasBreadcrumbs() {
       return (
-        (this.$store.state.breadcrumbs && this.$store.state.breadcrumbs) ===
-        true
+        (this.$store.state.breadcrumbs &&
+          this.$store.state.breadcrumbs.length > 0) === true
       )
     }
   }
