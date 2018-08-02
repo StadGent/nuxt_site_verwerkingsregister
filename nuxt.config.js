@@ -17,7 +17,9 @@ module.exports = {
       }
     ],
     script: [
-      { src: "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" }
+      {
+        src: "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
+      }
     ]
   },
   /*
@@ -28,7 +30,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ["babel-polyfill"],
+    vendor: ["babel-polyfill", "~/assets/js/base-min.js"],
     babel: {
       presets: [
         [
@@ -74,31 +76,7 @@ module.exports = {
       config.module.rules.forEach(rule => changeLoaderOptions(rule.use))
     }
   },
-  css: ["@/assets/sass/main.scss"],
-  /*
-  ** Fix default router config to enable scroll to top
-  ** See https://github.com/nuxt/nuxt.js/issues/2738
-  */
-  router: {
-    scrollBehavior(to, from, savedPosition) {
-      if (savedPosition) {
-        return savedPosition
-      } else {
-        let position = {}
-        if (to.matched.length < 2) {
-          position = { x: 0, y: 0 }
-        } else {
-          if (to.matched.some(r => r.components.default.options.scrollToTop)) {
-            position = { x: 0, y: 0 }
-          }
-        }
-        if (to.hash) {
-          position = { selector: to.hash }
-        }
-        return position
-      }
-    }
-  }
+  css: ["@/assets/sass/main.scss"]
 }
 
 function changeLoaderOptions(loaders) {

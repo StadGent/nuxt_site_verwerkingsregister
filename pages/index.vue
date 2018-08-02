@@ -25,11 +25,12 @@
               <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
               <input id="name" v-model="filter.name" type="text" name="name">
             </div>
-            <div class="form-item">
-              <label for="service">Verwerkende dienst <span class="label-optional">(Optioneel)</span></label>
-              <input id="service" :value="$route.query.service" type="text" name="service"
-                     placeholder="vb. Burgerzaken, MSOC, ...">
-            </div>
+
+            <checkbox_with_filter :items="processors"
+                                  :legend="'Verwerkende dienst'"
+                                  :name="'processor[]'"
+                                  v-model="filter['processor[]']"/>
+
             <div class="form-item">
               <label for="datatypes">Welke gegevens <span class="label-optional">(Optioneel)</span></label>
               <input id="datatypes" :value="$route.query.datatypes" type="text" name="datatypes">
@@ -38,7 +39,7 @@
               <label for="receiver">Ontvanger <span class="label-optional">(Optioneel)</span></label>
               <input id="receiver" :value="$route.query.receiver" type="text" name="receiver" placeholder="vb. OCMW">
             </div>
-            <button class="button button-primary">Zoek</button>
+            <button type="submit" class="button button-primary">Zoek</button>
           </form>
           <h2>Verfijn resultaten</h2>
           <h3>Categorie</h3>
@@ -66,6 +67,7 @@
 import teaser from "~/components/molecules/teaser"
 import pagination from "~/components/molecules/pagination"
 import selectedfilters from "~/components/molecules/selectedfilters"
+import checkbox_with_filter from "~/components/molecules/checkbox-with-filter"
 
 export default {
   head() {
@@ -74,7 +76,7 @@ export default {
     }
   },
   meta: {},
-  components: { teaser, pagination, selectedfilters },
+  components: { teaser, pagination, selectedfilters, checkbox_with_filter },
   watchQuery: ["page"].concat(this.allowedFilters),
   // Key needed to enable watchQuery and update form values
   key: to => to.fullPath,
@@ -87,29 +89,62 @@ export default {
   data() {
     return {
       itemsPerPage: 10,
-      allowedFilters: ["name", "service", "datatypes", "receiver"],
+      allowedFilters: [
+        "name",
+        "service",
+        "datatypes",
+        "receiver",
+        "processor[]"
+      ],
       filter: {
         name: this.$route.query.name,
         service: this.$route.query.service,
         datatypes: this.$route.query.datatypes,
-        receiver: this.$route.query.receiver
+        receiver: this.$route.query.receiver,
+        "processor[]": this.parseQueryArray("processor[]") || []
       }
     }
   },
   computed: {
+    processors() {
+      return this.$store.state.items.reduce((result, item) => {
+        if (
+          item.processor &&
+          item.processor.value &&
+          !result.includes(item.processor.value)
+        ) {
+          result.push(item.processor.value)
+        }
+        return result
+      }, [])
+    },
     items() {
       return this.$store.state.items || []
     },
     filteredItems() {
       return this.items
         .filter(item => {
-          // Check each filter and
-          // return true if all checks are valid
+          /* Check each filter and
+          ** return true if all checks are valid
+          */
+
+          // name
           if (
             this.$route.query.name &&
             item.name.value
               .toUpperCase()
               .indexOf(this.$route.query.name.toUpperCase()) === -1
+          ) {
+            return false
+          }
+
+          // processor
+          // todo compare uppercase
+          // todo check invalid querystring values
+          if (
+            this.$route.query["processor[]"] &&
+            this.$route.query["processor[]"].length > 0 &&
+            !this.$route.query["processor[]"].includes(item.processor.value)
           ) {
             return false
           }
@@ -162,6 +197,24 @@ export default {
     }
   },
   methods: {
+    /**
+     * Parse a single query value to type Array.
+     *
+     * @param {String} key
+     * @returns {Array|null}
+     */
+    parseQueryArray(key) {
+      if (!this.$route.query[key]) {
+        return null
+      }
+
+      return Array.isArray(this.$route.query[key])
+        ? this.$route.query[key]
+        : [this.$route.query[key]]
+    },
+    /**
+     * Push selected filters to the query.
+     */
     submitFilter() {
       this.$router.push({
         path: `${this.$route.path}#result`,

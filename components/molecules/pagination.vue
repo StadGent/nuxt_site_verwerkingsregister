@@ -68,6 +68,10 @@
 </template>
 
 <script>
+/**
+ * @typedef {object} ClickEvent
+ */
+
 export default {
   props: {
     total: {
@@ -80,10 +84,12 @@ export default {
     }
   },
   methods: {
-    /*
-      ** Remove focus since
-      ** the link value will be updated after click.
-      */
+    /**
+     * Remove focus since the link value will be
+     * updated after the click event.
+     *
+     * @param {ClickEvent} e
+     */
     blur: e => {
       e.target.blur()
     }

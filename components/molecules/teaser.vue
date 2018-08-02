@@ -5,7 +5,7 @@
       <p>
         <a :href="item.url.value" class="standalone-link">website <span
           class="visually-hidden">van {{ item.name.value }}</span></a> <br>
-        <strong>organisator </strong><span>{{ item.contributor.value }}</span> <br>
+        <strong>organisator </strong><span>{{ item.processor.value }}</span> <br>
         <strong v-if="item.free.value == 1">gratis </strong>
       </p>
       <nuxt-link :to="`verwerking/${item.id}` " class="standalone-link">
