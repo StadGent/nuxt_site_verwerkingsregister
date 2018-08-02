@@ -3,7 +3,7 @@
     <div class="content-container">
       <logo/>
     </div>
-    <breadcrumbs/>
+    <breadcrumbs v-if="$store.state.breadcrumbs && $store.state.breadcrumbs > 0"/>
     <hr>
   </header>
 </template>
