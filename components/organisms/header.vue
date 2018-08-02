@@ -3,7 +3,7 @@
     <div class="content-container">
       <logo/>
     </div>
-    <breadcrumbs v-if="$store.state.breadcrumbs && $store.state.breadcrumbs > 0"/>
+    <breadcrumbs v-if="hasBreadcrumbs"/>
     <hr>
   </header>
 </template>
@@ -13,6 +13,14 @@ import logo from "~/components/molecules/logo"
 import breadcrumbs from "~/components/molecules/breadcrumbs"
 
 export default {
-  components: { logo, breadcrumbs }
+  components: { logo, breadcrumbs },
+  computed: {
+    hasBreadcrumbs() {
+      return (
+        (this.$store.state.breadcrumbs && this.$store.state.breadcrumbs) ===
+        true
+      )
+    }
+  }
 }
 </script>
