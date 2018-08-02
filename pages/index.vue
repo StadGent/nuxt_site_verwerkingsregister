@@ -32,11 +32,6 @@
                                   v-model="filter['processor[]']"/>
 
             <div class="form-item">
-              <label for="service">Verwerkende dienst <span class="label-optional">(Optioneel)</span></label>
-              <input id="service" :value="$route.query.service" type="text" name="service"
-                     placeholder="vb. Burgerzaken, MSOC, ...">
-            </div>
-            <div class="form-item">
               <label for="datatypes">Welke gegevens <span class="label-optional">(Optioneel)</span></label>
               <input id="datatypes" :value="$route.query.datatypes" type="text" name="datatypes">
             </div>
@@ -44,7 +39,7 @@
               <label for="receiver">Ontvanger <span class="label-optional">(Optioneel)</span></label>
               <input id="receiver" :value="$route.query.receiver" type="text" name="receiver" placeholder="vb. OCMW">
             </div>
-            <button class="button button-primary">Zoek</button>
+            <button type="submit" class="button button-primary">Zoek</button>
           </form>
           <h2>Verfijn resultaten</h2>
           <h3>Categorie</h3>

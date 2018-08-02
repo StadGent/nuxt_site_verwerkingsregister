@@ -17,7 +17,9 @@ module.exports = {
       }
     ],
     script: [
-      { src: "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" }
+      {
+        src: "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
+      }
     ]
   },
   /*
@@ -28,7 +30,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ["babel-polyfill"],
+    vendor: ["babel-polyfill", "~/assets/js/base-min.js"],
     babel: {
       presets: [
         [

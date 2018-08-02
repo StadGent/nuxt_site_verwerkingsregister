@@ -4,7 +4,7 @@
 
     <div class="checkbox-filter__selected"/>
     <div class="checkbox-filter__modal">
-      <button class="button icon-cross checkbox-filter__close">
+      <button type="button" class="button icon-cross checkbox-filter__close">
         <span>Close</span><i class="icon-close" aria-hidden="true"/>
       </button>
 
@@ -32,20 +32,22 @@
       </div>
 
       <footer class="checkbox-filter__actions">
-        <button class="button button-primary button-small checkbox-filter__submit">Bevestig selectie</button>
+        <button type="button" class="button button-primary button-small checkbox-filter__submit">Bevestig selectie</button>
       </footer>
 
     </div>
 
     <div class="overlay checkbox-filter__close"/>
 
-    <button class="button button-secondary button-small checkbox-filter__open">
+    <button type="button" class="button button-secondary button-small checkbox-filter__open">
       Selecteer ...
     </button>
   </fieldset>
 </template>
 
 <script>
+const CheckboxFilter = require("~/assets/js/checkbox_filter.functions-min")
+
 export default {
   props: {
     required: {
@@ -79,8 +81,14 @@ export default {
       selectedItems: this.value
     }
   },
+  mounted() {
+    new CheckboxFilter(document.querySelector(".checkbox-filter"), {
+      hiddenTagText: "Remove tag"
+    })
+  },
   methods: {
     updateValue() {
+      console.log(this.selectedItems)
       this.$emit("input", this.selectedItems)
     }
   }
