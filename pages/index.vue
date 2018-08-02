@@ -26,7 +26,10 @@
               <input id="name" v-model="filter.name" type="text" name="name">
             </div>
 
-            <checkbox_with_filter :processors="processors" v-model="filter['processor[]']"/>
+            <checkbox_with_filter :items="processors"
+                                  :legend="'Verwerkende dienst'"
+                                  :name="'processor[]'"
+                                  v-model="filter['processor[]']"/>
 
             <div class="form-item">
               <label for="service">Verwerkende dienst <span class="label-optional">(Optioneel)</span></label>
