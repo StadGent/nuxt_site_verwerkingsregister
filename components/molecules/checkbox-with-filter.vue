@@ -1,5 +1,5 @@
 <template>
-  <fieldset class="form-item">
+  <fieldset class="form-item checkbox-filter">
     <legend>{{ legend }} <span v-if="!required">(Optioneel)</span></legend>
 
     <div class="checkbox-filter__selected"/>
