@@ -107,16 +107,30 @@ export default {
   },
   computed: {
     processors() {
-      return this.$store.state.items.reduce((result, item) => {
-        if (
-          item.processor &&
-          item.processor.value &&
-          !result.includes(item.processor.value)
-        ) {
-          result.push(item.processor.value)
-        }
-        return result
-      }, [])
+      return this.$store.state.items
+        .reduce((result, item) => {
+          if (
+            item.processor &&
+            item.processor.value &&
+            !result.includes(item.processor.value)
+          ) {
+            result.push(item.processor.value)
+          }
+          return result
+        }, [])
+        .sort((a, b) => {
+          // omit non-word characters
+          a = a.replace(/\W/g, "").toUpperCase()
+          b = b.replace(/\W/g, "").toUpperCase()
+
+          if (a > b) {
+            return 1
+          }
+          if (a < b) {
+            return -1
+          }
+          return 0
+        })
     },
     items() {
       return this.$store.state.items || []
