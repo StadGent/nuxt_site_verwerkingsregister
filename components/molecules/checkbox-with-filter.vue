@@ -106,9 +106,16 @@ export default {
     })
   },
   methods: {
+    /**
+     * Emit the selected items.
+     */
     updateValue() {
       this.$emit("input", this.selectedItems)
     },
+    /**
+     * Remove an item from selectedItems.
+     * @param {String} tag
+     */
     removeTag(tag) {
       const index = this.selectedItems.indexOf(tag)
       if (index > -1) {
@@ -116,10 +123,16 @@ export default {
       }
       this.updateValue()
     },
+    /**
+     * Close the modal and restore selectedItems.
+     */
     close() {
       this.modalOpen = false
       this.selectedItems = this.tempItems
     },
+    /**
+     * Open the modal and save selectedItems.
+     */
     open() {
       this.modalOpen = true
       this.tempItems = this.selectedItems
