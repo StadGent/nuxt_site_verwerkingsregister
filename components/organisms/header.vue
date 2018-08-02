@@ -4,6 +4,7 @@
       <logo/>
     </div>
     <breadcrumbs/>
+    <hr>
   </header>
 </template>
 
