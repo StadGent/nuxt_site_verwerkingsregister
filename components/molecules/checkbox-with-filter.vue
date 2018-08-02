@@ -13,8 +13,12 @@
       </span>
     </div>
 
-    <div class="checkbox-filter__modal">
-      <button type="button" class="button icon-cross checkbox-filter__close">
+    <div :aria-hidden="modalOpen"
+         :class="`checkbox-filter__modal ${modalOpen ? 'visible' : ''}`"
+         tabindex="-1">
+      <button type="button"
+              class="button icon-cross checkbox-filter__close"
+              @click="close">
         <span>Close</span><i class="icon-close" aria-hidden="true"/>
       </button>
 
@@ -36,7 +40,7 @@
           <input :value="value" :id="`${name}-chk-${index}`"
                  v-model="selectedItems"
                  :name="name" type="checkbox"
-                 @change="updateValue">
+                 @change.prevent="updateValue">
           <label :for="`${name}-chk-${index}`">{{ value }}</label>
         </div>
       </div>
@@ -48,7 +52,7 @@
     </div>
 
     <div class="overlay checkbox-filter__close"
-         @click="reset" />
+         @click="close" />
 
     <button type="button"
             class="button button-secondary button-small checkbox-filter__open"
@@ -92,7 +96,8 @@ export default {
   data() {
     return {
       selectedItems: this.value,
-      tempItems: []
+      tempItems: [],
+      modalOpen: false
     }
   },
   mounted() {
@@ -111,10 +116,12 @@ export default {
       }
       this.updateValue()
     },
-    reset() {
+    close() {
+      this.modalOpen = false
       this.selectedItems = this.tempItems
     },
     open() {
+      this.modalOpen = true
       this.tempItems = this.selectedItems
     }
   }
