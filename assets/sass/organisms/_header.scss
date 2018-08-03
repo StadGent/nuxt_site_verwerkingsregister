@@ -1,0 +1,12 @@
+header {
+  .subsite {
+    h1 {
+      @include theme('color', 'color-tertiary', 'default-text-color');
+      font-size: .9rem;
+
+      @include tablet {
+        display: none;
+      }
+    }
+  }
+}

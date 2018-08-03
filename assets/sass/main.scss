@@ -100,6 +100,9 @@ $styleguide-dir: '..';
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/feedback-form/_feedback-form.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/footer/_footer.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/header/_header.scss";
+
+@import "organisms/_header.scss";
+
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/help-block/_help-block.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/image-gallery/_image-gallery.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/info-box/_info-box.scss";
