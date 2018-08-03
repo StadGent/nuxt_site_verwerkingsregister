@@ -10,7 +10,6 @@ window.gent_styleguide = (function() {
    * @constructor
    */
   function TabTrap(container) {
-    var focusPosition = -1
     var focusables = getFocusables(container)
 
     /**
@@ -36,32 +35,28 @@ window.gent_styleguide = (function() {
       focusables = getFocusables(container)
     }
 
-    this.next = function() {
-      if (++focusPosition > focusables.length - 1) {
-        focusPosition = 0
+    this.next = function(e) {
+      let active = document.activeElement
+      if (active && active === focusables[focusables.length - 1]) {
+        focusables[0].focus()
+        e.preventDefault()
       }
-      focusables[focusPosition].focus()
     }
 
-    this.back = function() {
-      if (--focusPosition < 0) {
-        focusPosition = focusables.length - 1
+    this.back = function(e) {
+      let active = document.activeElement
+      if (active && active === focusables[0]) {
+        focusables[focusables.length - 1].focus()
+        e.preventDefault()
       }
-      focusables[focusPosition].focus()
     }
 
     this.home = function() {
-      focusPosition = 0
-      focusables[focusPosition].focus()
+      focusables[0].focus()
     }
 
     this.end = function() {
-      focusPosition = focusables.length - 1
-      focusables[focusPosition].focus()
-    }
-
-    this.reset = function() {
-      focusPosition = -1
+      focusables[focusables.length - 1].focus()
     }
 
     this.hasFocusables = focusables && focusables.length > 0

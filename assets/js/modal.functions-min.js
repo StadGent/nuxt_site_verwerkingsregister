@@ -33,7 +33,7 @@
      * A Gent styleguide class to create a tabTrap.
      * @type {TabTrap}
      */
-    //const tabTrap = new gent_styleguide.TabTrap(modal) // eslint-disable-line no-undef
+    const tabTrap = new gent_styleguide.TabTrap(modal) // eslint-disable-line no-undef
 
     /**
      * Initialise the component.
@@ -65,6 +65,8 @@
       modal.setAttribute("aria-hidden", "false")
       trigger.setAttribute("aria-expanded", "true")
       document.body.style.overflow = "hidden"
+      document.addEventListener("keydown", handleKeyboardInput)
+      modal.focus()
     }
 
     const close = () => {
@@ -72,6 +74,7 @@
       modal.setAttribute("aria-hidden", "true")
       trigger.setAttribute("aria-expanded", "false")
       document.body.style.overflow = null
+      document.removeEventListener("keydown", handleKeyboardInput)
       trigger.focus()
     }
 
@@ -79,27 +82,26 @@
      * Handle keyboard input
      * @param {object} e event
      */
-    //  const handleKeyboardInput = e => {
-    //    if (!tabTrap || !tabTrap.hasFocusables || !e) {
-    //      return
-    //    }
+    const handleKeyboardInput = e => {
+      if (!tabTrap || !tabTrap.hasFocusables || !e) {
+        return
+      }
 
-    //    var keyCode = e.keyCode || e.which
+      let keyCode = e.keyCode || e.which
 
-    //    switch (keyCode) {
-    //      case 9: // tab
-    //        e.preventDefault()
-    //        if (e.shiftKey) {
-    //          tabTrap.back()
-    //        } else {
-    //          tabTrap.next()
-    //        }
-    //        break
-    //      case 27: // esc
-    //        e.preventDefault()
-    //        break
-    //    }
-    //  }
+      switch (keyCode) {
+        case 9: // tab
+          if (e.shiftKey) {
+            tabTrap.back(e)
+          } else {
+            tabTrap.next(e)
+          }
+          break
+        case 27: // esc
+          e.preventDefault()
+          break
+      }
+    }
 
     init()
 

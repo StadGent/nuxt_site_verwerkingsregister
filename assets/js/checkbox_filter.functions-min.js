@@ -204,7 +204,6 @@
 
         filter(true)
         document.removeEventListener("keydown", handleKeyboardInput)
-        tabTrap.reset()
       }
       // show
       else {
@@ -341,14 +340,12 @@
       }
 
       var keyCode = e.keyCode || e.which
-
       switch (keyCode) {
         case 9: // tab
-          e.preventDefault()
           if (e.shiftKey) {
-            tabTrap.back()
+            tabTrap.back(e)
           } else {
-            tabTrap.next()
+            tabTrap.next(e)
           }
           break
         case 27: // esc
