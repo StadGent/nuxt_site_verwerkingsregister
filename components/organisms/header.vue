@@ -7,7 +7,7 @@
     <hr>
 
     <div class="subsite">
-      <h1>Verwerkingsregister</h1>
+      <span>Verwerkingsregister</span>
     </div>
 
   </header>
