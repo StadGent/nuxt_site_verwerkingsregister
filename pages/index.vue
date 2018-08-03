@@ -6,19 +6,11 @@
       </h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium aliquam, corporis deserunt ea eius eligendi enim est incidunt ipsam nisi odit officia omnis quibusdam quisquam quo recusandae saepe sed! A adipisci consectetur consequatur delectus distinctio error eum explicabo facere hic, illo iusto nemo nesciunt nulla, omnis provident qui repellat! Esse impedit quod reprehenderit voluptatum?</p>
-      <ul>
-        <li>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores doloribus dolorum ex, minus officiis perspiciatis!
-        </li>
-        <li>
-          Animi deserunt dignissimos doloremque harum iure, iusto natus nobis rerum sit suscipit voluptate voluptatem voluptatibus.
-        </li>
-        <li>
-          Cupiditate debitis, deserunt earum, eligendi error explicabo facilis inventore maxime nobis pariatur praesentium unde. Numquam.
-        </li>
-      </ul>
       <section class="verwerkingen">
-        <div id="filter" class="filter-section">
+        <div id="filter" class="filter-section" tabindex="-1">
+          <div class="modal-actions">
+            <button type="button" class="button close icon-cross modal__close">Sluiten</button>
+          </div>
           <h2>Zoek verwerking</h2>
           <form action="#result" @submit.prevent="submitFilter">
             <div class="form-item">
@@ -47,7 +39,12 @@
         </div>
         <div id="result" class="result-section">
           <selectedfilters :allowed-filters="allowedFilters"/>
-          <h2>We vonden {{ total }} {{ total === 1 ? 'resultaat' : 'resultaten' }}</h2>
+          <button type="button"
+                  class="button button-primary icon-filter result__show-filters modal-trigger"
+                  aria-expanded="false"
+                  aria-controls="filter"
+                  @click="showFilters">Toon filters</button>
+          <h2 :class="{'visually-hidden': selectedFilters.length === 0}">We vonden {{ total }} {{ total === 1 ? 'resultaat' : 'resultaten' }}</h2>
           <ul class="grid-1">
             <teaser v-for="(item, index) in paginatedItems"
                     :key="item.id"
@@ -68,6 +65,8 @@ import teaser from "~/components/molecules/teaser"
 import pagination from "~/components/molecules/pagination"
 import selectedfilters from "~/components/molecules/selectedfilters"
 import checkbox_with_filter from "~/components/molecules/checkbox-with-filter"
+
+const Modal = require("~/assets/js/modal.functions-min")
 
 export default {
   head() {
@@ -210,6 +209,9 @@ export default {
       }, [])
     }
   },
+  mounted() {
+    new Modal(document.querySelector("#filter"))
+  },
   methods: {
     /**
      * Parse a single query value to type Array.
@@ -242,7 +244,8 @@ export default {
         // Override existing query, including pagination
         query: this.filter
       })
-    }
+    },
+    showFilters() {}
   }
 }
 </script>
