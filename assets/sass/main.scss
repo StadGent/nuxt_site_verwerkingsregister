@@ -62,6 +62,7 @@ $styleguide-dir: '..';
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/21-atoms/tag/_tag.scss";
 
 @import "atoms/_skiplink.scss";
+@import "atoms/_modal-close.scss";
 
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/accordion/_accordion.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/blocks/disclaimer-block/_disclaimer-block.scss";

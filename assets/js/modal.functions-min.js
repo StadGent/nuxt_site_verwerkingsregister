@@ -54,7 +54,14 @@
         trigger.addEventListener("click", open)
       }
 
-      let closeBtns = modal.querySelectorAll(".modal__close")
+      /**
+       * A list of elements to trigger closing the modal.
+       * At least one must have the button role.
+       * @type {NodeList}
+       */
+      const closeBtns = modal.querySelectorAll(
+        options.closeBtns || ".modal__close"
+      )
       for (let i = closeBtns.length; i--; ) {
         closeBtns[i].addEventListener("click", close)
       }

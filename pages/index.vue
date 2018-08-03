@@ -9,7 +9,7 @@
       <section class="verwerkingen">
         <div id="filter" class="filter-section" tabindex="-1">
           <div class="modal-actions">
-            <button type="button" class="button close icon-cross modal__close">Sluiten</button>
+            <button type="button" class="button close icon-cross modal-close modal__close">Sluiten</button>
           </div>
           <h2>Zoek verwerking</h2>
           <form action="#result" @submit.prevent="submitFilter">
