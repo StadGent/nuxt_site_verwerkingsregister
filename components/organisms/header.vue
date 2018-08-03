@@ -5,6 +5,11 @@
     </div>
     <breadcrumbs v-if="hasBreadcrumbs"/>
     <hr>
+
+    <div class="subsite">
+      <span>Verwerkingsregister</span>
+    </div>
+
   </header>
 </template>
 

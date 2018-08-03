@@ -129,6 +129,7 @@ export default {
     close() {
       this.modalOpen = false
       this.selectedItems = this.tempItems
+      this.updateValue()
     },
     /**
      * Open the modal and save selectedItems.
