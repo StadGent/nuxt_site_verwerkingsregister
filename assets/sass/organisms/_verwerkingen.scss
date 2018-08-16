@@ -38,11 +38,8 @@
         font-size: .8rem;
         font-weight: 400;
         background: transparent;
-
-
       }
     }
-
 
     form {
       margin-bottom: 2rem;
@@ -69,6 +66,16 @@
       .tag {
         margin: 0 .5rem .5rem 0;
       }
+    }
+  }
+
+  .checkbox-filter {
+
+    .checkbox-filter__modal {
+      padding-top: .5rem;
+    }
+    .modal-actions {
+      display: block;
     }
   }
 }
