@@ -76,6 +76,9 @@
       }
     }
 
+    /**
+     * Open the modal.
+     */
     const open = () => {
       modal.classList.add("visible")
       modal.setAttribute("aria-hidden", "false")
@@ -85,6 +88,9 @@
       modal.focus()
     }
 
+    /**
+     * Close the modal.
+     */
     const close = () => {
       modal.classList.remove("visible")
       modal.setAttribute("aria-hidden", "true")
@@ -119,6 +125,9 @@
       }
     }
 
+    /**
+     * Add a user defined throttled resizeEvent.
+     */
     const addResizeEvent = () => {
       let resizeTimer
 
