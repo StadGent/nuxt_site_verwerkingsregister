@@ -65,6 +65,15 @@
       for (let i = closeBtns.length; i--; ) {
         closeBtns[i].addEventListener("click", close)
       }
+
+      /*
+      Custom event triggered on resize and on init.
+      For instance for when the modal is not hidden on all screen sizes.
+       */
+      if (options.resizeEvent) {
+        options.resizeEvent()
+        addResizeEvent()
+      }
     }
 
     const open = () => {
@@ -108,6 +117,15 @@
           e.preventDefault()
           break
       }
+    }
+
+    const addResizeEvent = () => {
+      let resizeTimer
+
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer)
+        resizeTimer = setTimeout(options.resizeEvent, 250)
+      })
     }
 
     init()

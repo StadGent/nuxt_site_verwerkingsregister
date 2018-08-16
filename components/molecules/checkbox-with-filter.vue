@@ -18,7 +18,7 @@
          tabindex="-1">
       <div class="modal-actions">
         <button type="button"
-                class="button icon-cross modal-close"
+                class="button icon-cross modal-close checkbox-filter__close"
                 @click="close">
           <span>Sluiten</span><i class="icon-close" aria-hidden="true"/>
         </button>

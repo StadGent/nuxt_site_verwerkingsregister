@@ -196,7 +196,6 @@
       if (modal.classList.contains("visible")) {
         openBtn.setAttribute("aria-expanded", "false")
         modal.setAttribute("aria-hidden", "true")
-        document.querySelector("body").style.overflow = null
         modal.classList.remove("visible")
         if (trigger) {
           trigger.focus()
@@ -204,15 +203,45 @@
 
         filter(true)
         document.removeEventListener("keydown", handleKeyboardInput)
+
+        /*
+        This component can be part of a filter-organism,
+        we need to remove the scroll lock from the filter modal if visible.
+         */
+        let elem = modal
+        while (
+          (elem = elem.parentElement) &&
+          !elem.classList.contains("modal")
+        );
+
+        if (elem && elem.classList.contains("visible")) {
+          elem.style.overflow = null
+        } else {
+          document.body.style.overflow = null
+        }
       }
       // show
       else {
         openBtn.setAttribute("aria-expanded", "true")
         modal.removeAttribute("aria-hidden")
-        document.querySelector("body").style.overflow = "hidden"
+        document.body.style.overflow = "hidden"
         document.addEventListener("keydown", handleKeyboardInput)
         modal.classList.add("visible")
         modal.focus()
+
+        /*
+        This component can be part of a filter-organism,
+        we need to add a scroll lock to the filter modal if visible.
+         */
+        let elem = modal
+        while (
+          (elem = elem.parentElement) &&
+          !elem.classList.contains("modal")
+        );
+
+        if (elem && elem.classList.contains("visible")) {
+          elem.style.overflow = "hidden"
+        }
       }
     }
 

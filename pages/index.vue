@@ -7,7 +7,7 @@
       <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium aliquam, corporis deserunt ea eius eligendi enim est incidunt ipsam nisi odit officia omnis quibusdam quisquam quo recusandae saepe sed! A adipisci consectetur consequatur delectus distinctio error eum explicabo facere hic, illo iusto nemo nesciunt nulla, omnis provident qui repellat! Esse impedit quod reprehenderit voluptatum?</p>
       <section class="verwerkingen">
-        <div id="filter" class="filter-section" tabindex="-1">
+        <div id="filter" class="filter-section modal" tabindex="-1">
           <div class="modal-actions">
             <button type="button" class="button close icon-cross modal-close modal__close">Sluiten</button>
           </div>
@@ -210,7 +210,16 @@ export default {
     }
   },
   mounted() {
-    new Modal(document.querySelector("#filter"))
+    const filter = document.querySelector("#filter")
+    new Modal(filter, {
+      resizeEvent: () => {
+        if (window.innerWidth > 768) {
+          filter.setAttribute("aria-hidden", "false")
+        } else {
+          filter.setAttribute("aria-hidden", "true")
+        }
+      }
+    })
   },
   methods: {
     /**
