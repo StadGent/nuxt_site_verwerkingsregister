@@ -13,7 +13,7 @@
       </span>
     </div>
 
-    <div :aria-hidden="modalOpen"
+    <div :aria-hidden="`${!modalOpen}`"
          :class="`checkbox-filter__modal ${modalOpen ? 'visible' : ''}`"
          tabindex="-1">
       <div class="modal-actions">
@@ -97,7 +97,7 @@ export default {
     return {
       selectedItems: this.value,
       tempItems: [],
-      modalOpen: false
+      filterHidden: false
     }
   },
   mounted() {

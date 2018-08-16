@@ -7,9 +7,14 @@
       <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium aliquam, corporis deserunt ea eius eligendi enim est incidunt ipsam nisi odit officia omnis quibusdam quisquam quo recusandae saepe sed! A adipisci consectetur consequatur delectus distinctio error eum explicabo facere hic, illo iusto nemo nesciunt nulla, omnis provident qui repellat! Esse impedit quod reprehenderit voluptatum?</p>
       <section class="verwerkingen">
-        <div id="filter" class="filter-section modal" tabindex="-1">
+        <div id="filter"
+             :aria-hidden="`${!filterHidden}`"
+             :class="`filter-section modal ${modalOpen ? 'visible' : ''}`"
+             tabindex="-1">
           <div class="modal-actions">
-            <button type="button" class="button close icon-cross modal-close modal__close">Sluiten</button>
+            <button type="button"
+                    class="button close icon-cross modal-close modal__close"
+                    @click="close">Sluiten</button>
           </div>
           <h2>Zoek verwerking</h2>
           <form action="#result" @submit.prevent="submitFilter">
@@ -43,7 +48,7 @@
                   class="button button-primary icon-filter result__show-filters modal-trigger"
                   aria-expanded="false"
                   aria-controls="filter"
-                  @click="showFilters">Toon filters</button>
+                  @click="open">Toon filters</button>
           <h2 :class="{'visually-hidden': selectedFilters.length === 0}">We vonden {{ total }} {{ total === 1 ? 'resultaat' : 'resultaten' }}</h2>
           <ul class="grid-1">
             <teaser v-for="(item, index) in paginatedItems"
@@ -101,7 +106,9 @@ export default {
         datatypes: this.$route.query.datatypes,
         receiver: this.$route.query.receiver,
         "processor[]": this.parseQueryArray("processor[]") || undefined
-      }
+      },
+      filterHidden: false,
+      modalOpen: false
     }
   },
   computed: {
@@ -210,6 +217,8 @@ export default {
     }
   },
   mounted() {
+    this.filterHidden = window.innerWidth > 768
+
     const filter = document.querySelector("#filter")
     new Modal(filter, {
       resizeEvent: () => {
@@ -254,7 +263,14 @@ export default {
         query: this.filter
       })
     },
-    showFilters() {}
+    open() {
+      this.filterHidden = true
+      this.modalOpen = true
+    },
+    close() {
+      this.filterHidden = false
+      this.modalOpen = false
+    }
   }
 }
 </script>
