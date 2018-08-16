@@ -1,67 +1,65 @@
 <template>
   <section class="content-container">
-    <div>
-      <h1 class="title">
-        Lijst verwerkingen burgers
-      </h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium aliquam, corporis deserunt ea eius eligendi enim est incidunt ipsam nisi odit officia omnis quibusdam quisquam quo recusandae saepe sed! A adipisci consectetur consequatur delectus distinctio error eum explicabo facere hic, illo iusto nemo nesciunt nulla, omnis provident qui repellat! Esse impedit quod reprehenderit voluptatum?</p>
-      <section class="verwerkingen">
-        <div id="filter"
-             :aria-hidden="`${!filterHidden}`"
-             :class="`filter-section modal ${modalOpen ? 'visible' : ''}`"
-             tabindex="-1">
-          <div class="modal-actions">
-            <button type="button"
-                    class="button close icon-cross modal-close modal__close"
-                    @click="close">Sluiten</button>
-          </div>
-          <h2>Zoek verwerking</h2>
-          <form action="#result" @submit.prevent="submitFilter">
-            <div class="form-item">
-              <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
-              <input id="name" v-model="filter.name" type="text" name="name">
-            </div>
-
-            <checkbox_with_filter :items="processors"
-                                  :legend="'Verwerkende dienst'"
-                                  :name="'processor[]'"
-                                  v-model="filter['processor[]']"/>
-
-            <div class="form-item">
-              <label for="datatypes">Welke gegevens <span class="label-optional">(Optioneel)</span></label>
-              <input id="datatypes" :value="$route.query.datatypes" type="text" name="datatypes">
-            </div>
-            <div class="form-item">
-              <label for="receiver">Ontvanger <span class="label-optional">(Optioneel)</span></label>
-              <input id="receiver" :value="$route.query.receiver" type="text" name="receiver" placeholder="vb. OCMW">
-            </div>
-            <button type="submit" class="button button-primary">Zoek</button>
-          </form>
-          <h2>Verfijn resultaten</h2>
-          <h3>Categorie</h3>
-          <h3>Rechtsgrond</h3>
-        </div>
-        <div id="result" class="result-section">
-          <selectedfilters :allowed-filters="allowedFilters"/>
+    <h1 class="title">
+      Lijst verwerkingen burgers
+    </h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium aliquam, corporis deserunt ea eius eligendi enim est incidunt ipsam nisi odit officia omnis quibusdam quisquam quo recusandae saepe sed! A adipisci consectetur consequatur delectus distinctio error eum explicabo facere hic, illo iusto nemo nesciunt nulla, omnis provident qui repellat! Esse impedit quod reprehenderit voluptatum?</p>
+    <section class="verwerkingen">
+      <div id="filter"
+           :aria-hidden="`${!filterHidden}`"
+           :class="`filter-section modal ${modalOpen ? 'visible' : ''}`"
+           tabindex="-1">
+        <div class="modal-actions">
           <button type="button"
-                  class="button button-primary icon-filter result__show-filters modal-trigger"
-                  aria-expanded="false"
-                  aria-controls="filter"
-                  @click="open">Toon filters</button>
-          <h2 :class="{'visually-hidden': selectedFilters.length === 0}">We vonden {{ total }} {{ total === 1 ? 'resultaat' : 'resultaten' }}</h2>
-          <ul class="grid-1">
-            <teaser v-for="(item, index) in paginatedItems"
-                    :key="item.id"
-                    :item="item"
-                    :index="index"/>
-            <pagination
-              :total="totalPages"
-              :active="currentPage"/>
-          </ul>
+                  class="button close icon-cross modal-close modal__close"
+                  @click="closeModal">Sluiten</button>
         </div>
-      </section>
-    </div>
+        <h2>Zoek verwerking</h2>
+        <form action="#result" @submit.prevent="submitFilter">
+          <div class="form-item">
+            <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
+            <input id="name" v-model="filter.name" type="text" name="name">
+          </div>
+
+          <checkbox_with_filter :items="processors"
+                                :legend="'Verwerkende dienst'"
+                                :name="'processor[]'"
+                                v-model="filter['processor[]']"/>
+
+          <div class="form-item">
+            <label for="datatypes">Welke gegevens <span class="label-optional">(Optioneel)</span></label>
+            <input id="datatypes" :value="$route.query.datatypes" type="text" name="datatypes">
+          </div>
+          <div class="form-item">
+            <label for="receiver">Ontvanger <span class="label-optional">(Optioneel)</span></label>
+            <input id="receiver" :value="$route.query.receiver" type="text" name="receiver" placeholder="vb. OCMW">
+          </div>
+          <button type="submit" class="button button-primary" @click="closeModal">Zoek</button>
+        </form>
+        <h2>Verfijn resultaten</h2>
+        <h3>Categorie</h3>
+        <h3>Rechtsgrond</h3>
+      </div>
+      <div id="result" class="result-section">
+        <selectedfilters :allowed-filters="allowedFilters"/>
+        <button type="button"
+                class="button button-primary icon-filter result__show-filters modal-trigger"
+                aria-expanded="false"
+                aria-controls="filter"
+                @click="openModal">Toon filters</button>
+        <h2 :class="{'visually-hidden': selectedFilters.length === 0}">We vonden {{ total }} {{ total === 1 ? 'resultaat' : 'resultaten' }}</h2>
+        <ul class="grid-1">
+          <teaser v-for="(item, index) in paginatedItems"
+                  :key="item.id"
+                  :item="item"
+                  :index="index"/>
+          <pagination
+            :total="totalPages"
+            :active="currentPage"/>
+        </ul>
+      </div>
+    </section>
   </section>
 </template>
 
@@ -263,11 +261,12 @@ export default {
         query: this.filter
       })
     },
-    open() {
+    openModal() {
       this.filterHidden = true
       this.modalOpen = true
     },
-    close() {
+    closeModal() {
+      document.body.style.overflow = null
       this.filterHidden = false
       this.modalOpen = false
     }

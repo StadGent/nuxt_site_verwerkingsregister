@@ -97,7 +97,7 @@ export default {
     return {
       selectedItems: this.value,
       tempItems: [],
-      filterHidden: false
+      modalOpen: false
     }
   },
   mounted() {
