@@ -54,12 +54,31 @@
         trigger.addEventListener("click", open)
       }
 
-      let closeBtns = modal.querySelectorAll(".modal__close")
+      /**
+       * A list of elements to trigger closing the modal.
+       * At least one must have the button role.
+       * @type {NodeList}
+       */
+      const closeBtns = modal.querySelectorAll(
+        options.closeBtns || ".modal__close"
+      )
       for (let i = closeBtns.length; i--; ) {
         closeBtns[i].addEventListener("click", close)
       }
+
+      /*
+      Custom event triggered on resize and on init.
+      For instance for when the modal is not hidden on all screen sizes.
+       */
+      if (options.resizeEvent) {
+        options.resizeEvent()
+        addResizeEvent()
+      }
     }
 
+    /**
+     * Open the modal.
+     */
     const open = () => {
       modal.classList.add("visible")
       modal.setAttribute("aria-hidden", "false")
@@ -69,6 +88,9 @@
       modal.focus()
     }
 
+    /**
+     * Close the modal.
+     */
     const close = () => {
       modal.classList.remove("visible")
       modal.setAttribute("aria-hidden", "true")
@@ -101,6 +123,18 @@
           e.preventDefault()
           break
       }
+    }
+
+    /**
+     * Add a user defined throttled resizeEvent.
+     */
+    const addResizeEvent = () => {
+      let resizeTimer
+
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer)
+        resizeTimer = setTimeout(options.resizeEvent, 250)
+      })
     }
 
     init()

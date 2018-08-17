@@ -13,18 +13,18 @@
       </span>
     </div>
 
-    <div :aria-hidden="modalOpen"
+    <div :aria-hidden="`${!modalOpen}`"
          :class="`checkbox-filter__modal ${modalOpen ? 'visible' : ''}`"
          tabindex="-1">
-      <button type="button"
-              class="button icon-cross checkbox-filter__close"
-              @click="close">
-        <span>Close</span><i class="icon-close" aria-hidden="true"/>
-      </button>
+      <div class="modal-actions">
+        <button type="button"
+                class="button icon-cross modal-close checkbox-filter__close"
+                @click="close">
+          <span>Sluiten</span><i class="icon-close" aria-hidden="true"/>
+        </button>
+      </div>
 
-      <header>
-        <h3>{{ legend }} <span v-if="!required">(Optioneel)</span></h3>
-      </header>
+      <h3>{{ legend }} <span v-if="!required">(Optioneel)</span></h3>
 
       <div class="form-item">
         <label :for="`checkboxes__filter_id_${legend}`">Filter onderstaande lijst</label>
