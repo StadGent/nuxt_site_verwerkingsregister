@@ -45,7 +45,7 @@
           {{ +active + 1 }}
         </nuxt-link>
       </li>
-      <li v-if="total - active > 3">...</li>
+      <li v-if="total - active > 2">...</li>
       <li>
         <nuxt-link :to="{path: `${this.$route.path}#result`, query: Object.assign({}, $route.query, {page: total})}"
                    :title="`Ga naar pagina ${total}`"
