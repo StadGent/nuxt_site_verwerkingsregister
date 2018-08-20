@@ -1,5 +1,5 @@
 <template>
-  <div class="cs--default container">
+  <div class="cs--cyan container">
     <!--todo: move to styleguide-->
     <a href="#main" class="skiplink">Overslaan en naar de inhoud gaan</a>
     <v_header/>
