@@ -4,7 +4,7 @@
     <address>
       Stad Gent<br>
       Botermarkt 1<br>
-      9000 Ghent
+      9000 Gent
     </address>
   </div>
 </template>
