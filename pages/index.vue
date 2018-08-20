@@ -5,11 +5,11 @@
     </h1>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium aliquam, corporis deserunt ea eius eligendi enim est incidunt ipsam nisi odit officia omnis quibusdam quisquam quo recusandae saepe sed! A adipisci consectetur consequatur delectus distinctio error eum explicabo facere hic, illo iusto nemo nesciunt nulla, omnis provident qui repellat! Esse impedit quod reprehenderit voluptatum?</p>
-    <section class="verwerkingen">
-      <div id="filter"
-           :aria-hidden="`${!filterHidden}`"
-           :class="`filter-section modal ${modalOpen ? 'visible' : ''}`"
-           tabindex="-1">
+    <div class="sidebar-layout filter">
+      <section id="filter"
+               :aria-hidden="`${!filterHidden}`"
+               :class="`filter-section sidebar modal ${modalOpen ? 'visible' : ''}`"
+               tabindex="-1">
         <div class="modal-actions">
           <button type="button"
                   class="button close icon-cross modal-close modal__close"
@@ -35,13 +35,13 @@
             <label for="receiver">Ontvanger <span class="label-optional">(Optioneel)</span></label>
             <input id="receiver" :value="$route.query.receiver" type="text" name="receiver" placeholder="vb. OCMW">
           </div>
-          <button type="submit" class="button button-primary" @click="closeModal">Zoek</button>
+          <button type="submit" class="button button-primary filter__submit" @click="closeModal">Zoek</button>
         </form>
         <h2>Verfijn resultaten</h2>
         <h3>Categorie</h3>
         <h3>Rechtsgrond</h3>
-      </div>
-      <div id="result" class="result-section">
+      </section>
+      <section id="result" class="content result-section">
         <selectedfilters :allowed-filters="allowedFilters"/>
         <button type="button"
                 class="button button-primary icon-filter result__show-filters modal-trigger"
@@ -49,17 +49,17 @@
                 aria-controls="filter"
                 @click="openModal">Toon filters</button>
         <h2 :class="{'visually-hidden': selectedFilters.length === 0}">We vonden {{ total }} {{ total === 1 ? 'resultaat' : 'resultaten' }}</h2>
-        <ul class="grid-1">
+        <ul class="filter__results">
           <teaser v-for="(item, index) in paginatedItems"
                   :key="item.id"
                   :item="item"
                   :index="index"/>
-          <pagination
-            :total="totalPages"
-            :active="currentPage"/>
         </ul>
-      </div>
-    </section>
+        <pagination
+          :total="totalPages"
+          :active="currentPage"/>
+      </section>
+    </div>
   </section>
 </template>
 
@@ -190,6 +190,13 @@ export default {
     },
     paginatedItems() {
       const index = this.currentPage * this.itemsPerPage - this.itemsPerPage
+      console.log(
+        JSON.parse(
+          JSON.stringify(
+            this.filteredItems.slice(index, index + this.itemsPerPage)
+          )
+        )
+      )
       return this.filteredItems.slice(index, index + this.itemsPerPage)
     },
     currentPage() {
@@ -275,4 +282,7 @@ export default {
 </script>
 
 <style>
+.result-section {
+  padding-top: 1.2rem;
+}
 </style>
