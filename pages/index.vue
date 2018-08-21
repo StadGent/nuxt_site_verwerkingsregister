@@ -3,8 +3,7 @@
     <h1 class="title">
       Lijst verwerkingen burgers
     </h1>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium aliquam, corporis deserunt ea eius eligendi enim est incidunt ipsam nisi odit officia omnis quibusdam quisquam quo recusandae saepe sed! A adipisci consectetur consequatur delectus distinctio error eum explicabo facere hic, illo iusto nemo nesciunt nulla, omnis provident qui repellat! Esse impedit quod reprehenderit voluptatum?</p>
+    <introductietekst/>
     <div class="sidebar-layout filter">
       <section id="filter"
                :aria-hidden="`${!filterHidden}`"
@@ -69,6 +68,7 @@ import teaser from "~/components/molecules/teaser"
 import pagination from "~/components/molecules/pagination"
 import selectedfilters from "~/components/molecules/selectedfilters"
 import checkbox_with_filter from "~/components/molecules/checkbox-with-filter"
+import introductietekst from "~/components/introductietekst"
 
 const Modal = require("~/assets/js/modal.functions")
 
@@ -79,7 +79,13 @@ export default {
     }
   },
   meta: {},
-  components: { teaser, pagination, selectedfilters, checkbox_with_filter },
+  components: {
+    teaser,
+    pagination,
+    selectedfilters,
+    checkbox_with_filter,
+    introductietekst
+  },
   watchQuery: ["page"].concat(this.allowedFilters),
   // Key needed to enable watchQuery and update form values
   key: to => to.fullPath,
