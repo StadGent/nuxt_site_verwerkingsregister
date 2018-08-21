@@ -1,6 +1,6 @@
 <template>
   <li class="teaser teaser-search">
-    <article class="content-content">
+    <article class="teaser-content">
       <div class="teaser__bottom">
         <h3 v-if="item.name">{{ item.name.value }}</h3>
         <dl>
@@ -17,7 +17,7 @@
             <dd v-if="item.formal_framework">{{ item.formal_framework.value }}</dd>
           </div>
         </dl>
-        <nuxt-link v-if="item.id && item.name" :to="`verwerking/${item.id.value}`" class="standalone-link">
+        <nuxt-link v-if="item.id && item.name" :to="`verwerking/${item.id.value}`" class="standalone-link read-more">
           lees meer <span class="visually-hidden">over {{ item.name.value }}</span>
         </nuxt-link>
       </div>

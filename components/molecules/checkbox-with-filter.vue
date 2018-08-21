@@ -68,8 +68,6 @@
 </template>
 
 <script>
-const CheckboxFilter = require("~/assets/js/checkbox_filter.functions")
-
 export default {
   props: {
     required: {
@@ -111,9 +109,6 @@ export default {
     }
   },
   mounted() {
-    new CheckboxFilter(document.querySelector(".checkbox-filter"), {
-      makeTags: false
-    })
     this.updateCount()
   },
   methods: {

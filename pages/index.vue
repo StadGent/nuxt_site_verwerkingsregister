@@ -26,15 +26,17 @@
                                 :selected_legend="'dienst(en)'"
                                 :name="'processor[]'"
                                 v-model="filter['processor[]']"/>
+          <checkbox_with_filter :items="personalData"
+                                :legend="'Welke gegevens?'"
+                                :selected_legend="'gegeven(s)'"
+                                :name="'personalData[]'"
+                                v-model="filter['personalData[]']"/>
+          <checkbox_with_filter :items="grantees"
+                                :legend="'Ontvanger'"
+                                :selected_legend="'ontvanger(s)'"
+                                :name="'grantees[]'"
+                                v-model="filter['grantees[]']"/>
 
-          <div class="form-item">
-            <label for="datatypes">Welke gegevens <span class="label-optional">(Optioneel)</span></label>
-            <input id="datatypes" :value="$route.query.datatypes" type="text" name="datatypes">
-          </div>
-          <div class="form-item">
-            <label for="receiver">Ontvanger <span class="label-optional">(Optioneel)</span></label>
-            <input id="receiver" :value="$route.query.receiver" type="text" name="receiver" placeholder="vb. OCMW">
-          </div>
           <button type="submit" class="button button-primary filter__submit" @click="closeModal">Zoek</button>
         </form>
         <h2>Verfijn resultaten</h2>
@@ -51,7 +53,7 @@
         <h2 :class="{'visually-hidden': selectedFilters.length === 0}">We vonden {{ total }} {{ total === 1 ? 'resultaat' : 'resultaten' }}</h2>
         <ul class="filter__results">
           <teaser v-for="(item, index) in paginatedItems"
-                  :key="item.id"
+                  :key="index"
                   :item="item"
                   :index="index"/>
         </ul>
@@ -71,6 +73,7 @@ import checkbox_with_filter from "~/components/molecules/checkbox-with-filter"
 import introductietekst from "~/components/introductietekst"
 
 const Modal = require("~/assets/js/modal.functions")
+const CheckboxFilter = require("~/assets/js/checkbox_filter.functions")
 
 export default {
   head() {
@@ -100,15 +103,15 @@ export default {
       itemsPerPage: 10,
       allowedFilters: [
         "name",
-        "service",
-        "datatypes",
+        "grantees[]",
+        "personalData[]",
         "receiver",
         "processor[]"
       ],
       filter: {
         name: this.$route.query.name,
-        service: this.$route.query.service,
-        datatypes: this.$route.query.datatypes,
+        "personalData[]": this.parseQueryArray("personalData[]") || undefined,
+        "grantees[]": this.parseQueryArray("grantees[]") || undefined,
         receiver: this.$route.query.receiver,
         "processor[]": this.parseQueryArray("processor[]") || undefined
       },
@@ -143,10 +146,73 @@ export default {
           return 0
         })
     },
+    personalData() {
+      return this.$store.state.items
+        .reduce((result, item) => {
+          if (item.personalData && item.personalData.value) {
+            for (let i = item.personalData.value.length; i--; ) {
+              if (!result.includes(item.personalData.value[i])) {
+                result.push(item.personalData.value[i])
+              }
+            }
+          }
+          return result
+        }, [])
+        .sort((a, b) => {
+          // omit non-word characters
+          a = a.replace(/\W/g, "").toUpperCase()
+          b = b.replace(/\W/g, "").toUpperCase()
+
+          if (a > b) {
+            return 1
+          }
+          if (a < b) {
+            return -1
+          }
+          return 0
+        })
+    },
+    grantees() {
+      return this.$store.state.items
+        .reduce((result, item) => {
+          if (item.grantees && item.grantees.value) {
+            for (let i = item.grantees.value.length; i--; ) {
+              if (!result.includes(item.grantees.value[i])) {
+                result.push(item.grantees.value[i])
+              }
+            }
+          }
+          return result
+        }, [])
+        .sort((a, b) => {
+          // omit non-word characters
+          a = a.replace(/\W/g, "").toUpperCase()
+          b = b.replace(/\W/g, "").toUpperCase()
+
+          if (a > b) {
+            return 1
+          }
+          if (a < b) {
+            return -1
+          }
+          return 0
+        })
+    },
     items() {
       return this.$store.state.items || []
     },
     filteredItems() {
+      const processors = this.parseQueryArray("processor[]")
+      const processorRegex = processors
+        ? new RegExp(processors.join("|"), "i")
+        : null
+
+      const data = this.parseQueryArray("personalData[]")
+      const dataRegex = data ? new RegExp(data.join("|"), "i") : null
+
+      const grantees = this.parseQueryArray("grantees[]")
+      const granteeRegex = grantees ? new RegExp(grantees.join("|"), "i") : null
+
       return this.items
         .filter(item => {
           /* Check each filter and
@@ -164,15 +230,32 @@ export default {
           }
 
           // processor
-          // todo compare uppercase
-          // todo check invalid querystring values
           if (
-            this.$route.query["processor[]"] &&
-            this.$route.query["processor[]"].length > 0 &&
-            !this.$route.query["processor[]"].includes(item.processor.value)
+            processors &&
+            processors.length > 0 &&
+            !processorRegex.test(item.processor.value)
           ) {
             return false
           }
+
+          // personalData
+          if (
+            data &&
+            data.length > 0 &&
+            !dataRegex.test(item.personalData.value)
+          ) {
+            return false
+          }
+
+          // grantees
+          if (
+            grantees &&
+            grantees.length > 0 &&
+            !granteeRegex.test(item.grantees.value)
+          ) {
+            return false
+          }
+
           return true
         })
         .sort((a, b) => {
@@ -217,13 +300,6 @@ export default {
     },
     paginatedItems() {
       const index = this.currentPage * this.itemsPerPage - this.itemsPerPage
-      console.log(
-        JSON.parse(
-          JSON.stringify(
-            this.filteredItems.slice(index, index + this.itemsPerPage)
-          )
-        )
-      )
       return this.filteredItems.slice(index, index + this.itemsPerPage)
     },
     currentPage() {
@@ -251,6 +327,7 @@ export default {
   mounted() {
     this.filterHidden = window.innerWidth > 768
 
+    // init gent_styleguide modal
     const filter = document.querySelector("#filter")
     new Modal(filter, {
       resizeEvent: () => {
@@ -261,6 +338,14 @@ export default {
         }
       }
     })
+
+    // init gent_styleguide checkbox-with-filters
+    const checkboxWithFilters = document.querySelectorAll(".checkbox-filter")
+    for (let i = checkboxWithFilters.length; i--; ) {
+      new CheckboxFilter(checkboxWithFilters[i], {
+        makeTags: false
+      })
+    }
   },
   methods: {
     /**
