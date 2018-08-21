@@ -18,7 +18,7 @@
       return
     }
 
-    if (!modal.id) {
+    if (!modal || !modal.id) {
       return
     }
 
@@ -95,7 +95,7 @@
       modal.classList.remove("visible")
       modal.setAttribute("aria-hidden", "true")
       trigger.setAttribute("aria-expanded", "false")
-      document.body.style.overflow = null
+      document.body.style.overflow = ""
       document.removeEventListener("keydown", handleKeyboardInput)
       trigger.focus()
     }
@@ -121,6 +121,7 @@
           break
         case 27: // esc
           e.preventDefault()
+          close()
           break
       }
     }

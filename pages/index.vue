@@ -24,6 +24,7 @@
 
           <checkbox_with_filter :items="processors"
                                 :legend="'Verwerkende dienst'"
+                                :selected_legend="'dienst(en)'"
                                 :name="'processor[]'"
                                 v-model="filter['processor[]']"/>
 
@@ -69,7 +70,7 @@ import pagination from "~/components/molecules/pagination"
 import selectedfilters from "~/components/molecules/selectedfilters"
 import checkbox_with_filter from "~/components/molecules/checkbox-with-filter"
 
-const Modal = require("~/assets/js/modal.functions-min")
+const Modal = require("~/assets/js/modal.functions")
 
 export default {
   head() {

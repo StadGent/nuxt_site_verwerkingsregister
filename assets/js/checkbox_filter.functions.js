@@ -14,7 +14,8 @@
 })(this || window, function() {
   return function(elem, options) {
     if (typeof gent_styleguide === "undefined") {
-      console.error("You need to include base.js.") // eslint-disable-line no-console
+      // eslint-disable-next-line no-console
+      console.error("You need to include base.js.")
       return
     }
 
@@ -85,6 +86,14 @@
     )
 
     /**
+     * Container to display the number of selected values.
+     * @type {Element}
+     */
+    const countSpan = elem.querySelector(
+      options.countSpan || ".checkbox-filter__count"
+    )
+
+    /**
      * Store the button that triggered the modal.
      * @type {null|Element}
      */
@@ -111,7 +120,8 @@
      * A Gent styleguide class to create a tabTrap.
      * @type {TabTrap}
      */
-    const tabTrap = new gent_styleguide.TabTrap(modal) // eslint-disable-line no-undef
+    // eslint-disable-next-line no-undef
+    const tabTrap = new gent_styleguide.TabTrap(modal)
 
     /**
      * Filter the displayed checkboxes.
@@ -194,6 +204,9 @@
     const toggleModal = () => {
       // hide
       if (modal.classList.contains("visible")) {
+        if (countSpan) {
+          countSpan.innerText = selectedContainer.children.length
+        }
         openBtn.setAttribute("aria-expanded", "false")
         modal.setAttribute("aria-hidden", "true")
         modal.classList.remove("visible")
@@ -209,15 +222,16 @@
         we need to remove the scroll lock from the filter modal if visible.
          */
         let elem = modal
+        // eslint-disable-next-line no-empty
         while (
           (elem = elem.parentElement) &&
           !elem.classList.contains("modal")
-        );
+        ) {}
 
         if (elem && elem.classList.contains("visible")) {
-          elem.style.overflow = null
+          elem.style.overflow = ""
         } else {
-          document.body.style.overflow = null
+          document.body.style.overflow = ""
         }
       }
       // show
@@ -234,10 +248,11 @@
         we need to add a scroll lock to the filter modal if visible.
          */
         let elem = modal
+        // eslint-disable-next-line no-empty
         while (
           (elem = elem.parentElement) &&
           !elem.classList.contains("modal")
-        );
+        ) {}
 
         if (elem && elem.classList.contains("visible")) {
           elem.style.overflow = "hidden"
