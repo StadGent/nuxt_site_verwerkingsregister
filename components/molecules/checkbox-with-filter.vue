@@ -130,7 +130,6 @@ export default {
       if (index > -1) {
         this.selectedItems.splice(index, 1)
       }
-      this.updateValue()
     },
     /**
      * Close the modal and restore selectedItems.
@@ -145,7 +144,8 @@ export default {
      */
     open() {
       this.modalOpen = true
-      this.tempItems = this.selectedItems
+      // make a shallow copy
+      this.tempItems = this.selectedItems.slice()
     }
   }
 }
