@@ -1,0 +1,13 @@
+.teaser-search {
+  dl dd {
+    margin: 0;
+    padding-left: 0.5rem;
+  }
+
+  @include tablet {
+    dt,
+    dd {
+      display: inline;
+    }
+  }
+}

@@ -64,7 +64,7 @@ $styleguide-dir: '..';
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/21-atoms/tag/_tag.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/21-atoms/modal-close/_modal-close.scss";
 
-@import "atoms/_skiplink.scss";
+@import "atoms/skiplink";
 
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/accordion/_accordion.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/blocks/disclaimer-block/_disclaimer-block.scss";
@@ -97,6 +97,8 @@ $styleguide-dir: '..';
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/teasers/teaser.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/video/_video.scss";
 
+@import "molecules/teaser-search";
+
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/collection/_collection.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/contact-box/_contact-box.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/document-box/_document-box.scss";
@@ -106,7 +108,7 @@ $styleguide-dir: '..';
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/footer/_footer.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/header/_header.scss";
 
-@import "organisms/_header.scss";
+@import "organisms/header";
 
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/help-block/_help-block.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/image-collections/_image-collections.scss";
