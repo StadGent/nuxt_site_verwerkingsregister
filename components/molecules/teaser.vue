@@ -3,11 +3,20 @@
     <article class="content-content">
       <div class="teaser__bottom">
         <h3 v-if="item.name">{{ item.name.value }}</h3>
-        <ul>
-          <li v-if="item.processor">{{ item.processor.value }}</li>
-          <li v-if="item.formal_framework">{{ item.formal_framework.value }}</li>
-          <li v-if="item.typeLabel">{{ item.typeLabel.value }}</li>
-        </ul>
+        <dl>
+          <div v-if="item.type">
+            <dt>Categorie</dt>
+            <dd v-if="item.type">{{ item.type.value }}</dd>
+          </div>
+          <div v-if="item.processor">
+            <dt>Verwerkende dienst</dt>
+            <dd v-if="item.processor">{{ item.processor.value }}</dd>
+          </div>
+          <div v-if="item.formal_framework">
+            <dt>Rechtsgrond</dt>
+            <dd v-if="item.formal_framework">{{ item.formal_framework.value }}</dd>
+          </div>
+        </dl>
         <nuxt-link v-if="item.id && item.name" :to="`verwerking/${item.id.value}`" class="standalone-link">
           lees meer <span class="visually-hidden">over {{ item.name.value }}</span>
         </nuxt-link>
