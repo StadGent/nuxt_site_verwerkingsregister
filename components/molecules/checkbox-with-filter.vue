@@ -1,17 +1,6 @@
 <template>
   <fieldset class="form-item checkbox-filter">
-    <legend>{{ legend }} <span v-if="!required">(Optioneel)</span></legend>
-
-    <div class="checkbox-filter__selected">
-      <span v-for="(value, index) in selectedItems" :key="`selected-${index}`"
-            :data-value="value"
-            class="tag filter">
-        {{ value }}
-        <button type="button" @click="removeTag(value)">
-          <span class="visually-hidden">Verwijder tag</span>
-        </button>
-      </span>
-    </div>
+    <legend>{{ legend }} <span v-if="!required" class="label-optional">(Optioneel)</span></legend>
 
     <div :aria-hidden="`${!modalOpen}`"
          :class="`checkbox-filter__modal ${modalOpen ? 'visible' : ''}`"
@@ -24,12 +13,24 @@
         </button>
       </div>
 
-      <h3>{{ legend }} <span v-if="!required">(Optioneel)</span></h3>
+      <header>
+        <h3>{{ legend }} <span v-if="!required" class="label-optional">(Optioneel)</span></h3>
+      </header>
 
       <div class="form-item">
         <label :for="`checkboxes__filter_id_${legend}`">Filter onderstaande lijst</label>
         <input id="`checkboxes__filter_id_${legend}`" type="search"
                class="checkbox-filter__filter">
+        <div class="checkbox-filter__selected">
+          <span v-for="(value, index) in selectedItems" :key="`selected-${index}`"
+                :data-value="value"
+                class="tag filter">
+            {{ value }}
+            <button type="button" @click="removeTag(value)">
+              <span class="visually-hidden">Verwijder tag</span>
+            </button>
+          </span>
+        </div>
         <strong aria-live="polite" class="checkbox-filter__result-wrapper">
           We vonden <span class="checkbox-filter__result">#</span> resultaten.
         </strong>
@@ -46,13 +47,17 @@
       </div>
 
       <footer class="checkbox-filter__actions">
-        <button type="button" class="button button-primary button-small checkbox-filter__submit">Bevestig selectie</button>
+        <button type="button" class="button button-primary button-small checkbox-filter__submit"
+                @click="updateCount">Bevestig selectie</button>
       </footer>
-
     </div>
 
     <div class="overlay checkbox-filter__close"
          @click="close" />
+
+    <p>
+      <strong>{{ `${selectedCount} ${selected_legend} geselecteerd` }}</strong>
+    </p>
 
     <button type="button"
             class="button button-secondary button-small checkbox-filter__open"
@@ -63,7 +68,7 @@
 </template>
 
 <script>
-const CheckboxFilter = require("~/assets/js/checkbox_filter.functions-min")
+const CheckboxFilter = require("~/assets/js/checkbox_filter.functions")
 
 export default {
   props: {
@@ -74,6 +79,10 @@ export default {
       }
     },
     legend: {
+      type: String,
+      required: true
+    },
+    selected_legend: {
       type: String,
       required: true
     },
@@ -97,13 +106,15 @@ export default {
     return {
       selectedItems: this.value,
       tempItems: [],
-      modalOpen: false
+      modalOpen: false,
+      selectedCount: 0
     }
   },
   mounted() {
     new CheckboxFilter(document.querySelector(".checkbox-filter"), {
       makeTags: false
     })
+    this.updateCount()
   },
   methods: {
     /**
@@ -121,22 +132,29 @@ export default {
       if (index > -1) {
         this.selectedItems.splice(index, 1)
       }
-      this.updateValue()
     },
     /**
      * Close the modal and restore selectedItems.
      */
     close() {
-      this.modalOpen = false
       this.selectedItems = this.tempItems
+      this.updateCount()
       this.updateValue()
+      this.modalOpen = false
     },
     /**
      * Open the modal and save selectedItems.
      */
     open() {
       this.modalOpen = true
-      this.tempItems = this.selectedItems
+      // make a shallow copy
+      this.tempItems = this.selectedItems.slice()
+    },
+    /**
+     * Updated the selected items count.
+     */
+    updateCount() {
+      this.selectedCount = this.selectedItems.length
     }
   }
 }

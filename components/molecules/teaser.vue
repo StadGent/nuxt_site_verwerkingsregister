@@ -1,17 +1,19 @@
 <template>
-  <li class="teaser">
-    <article class="content-bottom">
-      <h3>{{ item.name.value }}</h3>
-      <p>
-        <a :href="item.url.value" class="standalone-link">website <span
-          class="visually-hidden">van {{ item.name.value }}</span></a> <br>
-        <strong>organisator </strong><span>{{ item.processor.value }}</span> <br>
-        <strong v-if="item.free.value == 1">gratis </strong>
-      </p>
-      <nuxt-link :to="`verwerking/${item.id}` " class="standalone-link">
-        lees meer <span class="visually-hidden">over {{ item.name.value }}</span>
-      </nuxt-link>
+  <li class="teaser teaser-search">
+    <article class="content-content">
+      <div class="teaser__bottom">
+        <h3 v-if="item.name">{{ item.name.value }}</h3>
+        <ul>
+          <li v-if="item.processor">{{ item.processor.value }}</li>
+          <li v-if="item.formal_framework">{{ item.formal_framework.value }}</li>
+          <li v-if="item.typeLabel">{{ item.typeLabel.value }}</li>
+        </ul>
+        <nuxt-link v-if="item.id && item.name" :to="`verwerking/${item.id.value}`" class="standalone-link">
+          lees meer <span class="visually-hidden">over {{ item.name.value }}</span>
+        </nuxt-link>
+      </div>
     </article>
+    <nuxt-link v-if="item.id && item.name" :to="`verwerking/${item.id.value}`" class="teaser-overlay-link" tabindex="-1" aria-hidden="true"/>
   </li>
 </template>
 
