@@ -23,3 +23,8 @@ Before running the dev environment: disable _svg-icons.scss in assets/sass/main.
 Be sure to include it again in the production build!
 
 For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+
+## Customization
+
+You can change the introduction text by updating the introductietekst.vue component 
+located in the root of the components folder.
