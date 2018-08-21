@@ -176,15 +176,35 @@ export default {
           return true
         })
         .sort((a, b) => {
-          // omit non-word characters
-          a = a.name.value.replace(/\W/g, "").toUpperCase()
-          b = b.name.value.replace(/\W/g, "").toUpperCase()
+          try {
+            // sort by name
+            // omit non-word characters
+            const nameA = a.name.value.replace(/\W/g, "").toUpperCase()
+            const nameB = b.name.value.replace(/\W/g, "").toUpperCase()
 
-          if (a > b) {
-            return 1
-          }
-          if (a < b) {
-            return -1
+            if (nameA > nameB) {
+              return 1
+            }
+            if (nameA < nameB) {
+              return -1
+            }
+
+            // sort by processor
+            // omit non-word characters
+            const processorA = a.processor.value
+              .replace(/\W/g, "")
+              .toUpperCase()
+            const processorB = b.processor.value
+              .replace(/\W/g, "")
+              .toUpperCase()
+            if (processorA > processorB) {
+              return 1
+            }
+            if (processorA < processorB) {
+              return -1
+            }
+          } catch (error) {
+            return 0
           }
           return 0
         })
