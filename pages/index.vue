@@ -26,15 +26,12 @@
                                 :selected_legend="'dienst(en)'"
                                 :name="'processor[]'"
                                 v-model="filter['processor[]']"/>
+          <checkbox_with_filter :items="datatypes"
+                                :legend="'Welke gegevens'"
+                                :selected_legend="'gegeven(s)'"
+                                :name="'datatype[]'"
+                                v-model="filter['datatype[]']"/>
 
-          <div class="form-item">
-            <label for="datatypes">Welke gegevens <span class="label-optional">(Optioneel)</span></label>
-            <input id="datatypes" :value="$route.query.datatypes" type="text" name="datatypes">
-          </div>
-          <div class="form-item">
-            <label for="receiver">Ontvanger <span class="label-optional">(Optioneel)</span></label>
-            <input id="receiver" :value="$route.query.receiver" type="text" name="receiver" placeholder="vb. OCMW">
-          </div>
           <button type="submit" class="button button-primary filter__submit" @click="closeModal">Zoek</button>
         </form>
         <h2>Verfijn resultaten</h2>
@@ -51,7 +48,7 @@
         <h2 :class="{'visually-hidden': selectedFilters.length === 0}">We vonden {{ total }} {{ total === 1 ? 'resultaat' : 'resultaten' }}</h2>
         <ul class="filter__results">
           <teaser v-for="(item, index) in paginatedItems"
-                  :key="item.id"
+                  :key="index"
                   :item="item"
                   :index="index"/>
         </ul>
@@ -71,6 +68,7 @@ import checkbox_with_filter from "~/components/molecules/checkbox-with-filter"
 import introductietekst from "~/components/introductietekst"
 
 const Modal = require("~/assets/js/modal.functions")
+const CheckboxFilter = require("~/assets/js/checkbox_filter.functions")
 
 export default {
   head() {
@@ -101,14 +99,14 @@ export default {
       allowedFilters: [
         "name",
         "service",
-        "datatypes",
+        "datatype[]",
         "receiver",
         "processor[]"
       ],
       filter: {
         name: this.$route.query.name,
         service: this.$route.query.service,
-        datatypes: this.$route.query.datatypes,
+        "datatype[]": this.parseQueryArray("datatype[]") || undefined,
         receiver: this.$route.query.receiver,
         "processor[]": this.parseQueryArray("processor[]") || undefined
       },
@@ -126,6 +124,32 @@ export default {
             !result.includes(item.processor.value)
           ) {
             result.push(item.processor.value)
+          }
+          return result
+        }, [])
+        .sort((a, b) => {
+          // omit non-word characters
+          a = a.replace(/\W/g, "").toUpperCase()
+          b = b.replace(/\W/g, "").toUpperCase()
+
+          if (a > b) {
+            return 1
+          }
+          if (a < b) {
+            return -1
+          }
+          return 0
+        })
+    },
+    datatypes() {
+      return this.$store.state.items
+        .reduce((result, item) => {
+          if (
+            item.type &&
+            item.type.value &&
+            !result.includes(item.type.value)
+          ) {
+            result.push(item.type.value)
           }
           return result
         }, [])
@@ -217,13 +241,6 @@ export default {
     },
     paginatedItems() {
       const index = this.currentPage * this.itemsPerPage - this.itemsPerPage
-      console.log(
-        JSON.parse(
-          JSON.stringify(
-            this.filteredItems.slice(index, index + this.itemsPerPage)
-          )
-        )
-      )
       return this.filteredItems.slice(index, index + this.itemsPerPage)
     },
     currentPage() {
@@ -251,6 +268,7 @@ export default {
   mounted() {
     this.filterHidden = window.innerWidth > 768
 
+    // init gent_styleguide modal
     const filter = document.querySelector("#filter")
     new Modal(filter, {
       resizeEvent: () => {
@@ -261,6 +279,14 @@ export default {
         }
       }
     })
+
+    // init gent_styleguide checkbox-with-filters
+    const checkboxWithFilters = document.querySelectorAll(".checkbox-filter")
+    for (let i = checkboxWithFilters.length; i--; ) {
+      new CheckboxFilter(checkboxWithFilters[i], {
+        makeTags: false
+      })
+    }
   },
   methods: {
     /**
