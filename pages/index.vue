@@ -26,11 +26,11 @@
                                 :selected_legend="'dienst(en)'"
                                 :name="'processor[]'"
                                 v-model="filter['processor[]']"/>
-          <checkbox_with_filter :items="datatypes"
+          <checkbox_with_filter :items="personalData"
                                 :legend="'Welke gegevens'"
                                 :selected_legend="'gegeven(s)'"
-                                :name="'datatype[]'"
-                                v-model="filter['datatype[]']"/>
+                                :name="'personalData[]'"
+                                v-model="filter['personalData[]']"/>
 
           <button type="submit" class="button button-primary filter__submit" @click="closeModal">Zoek</button>
         </form>
@@ -99,14 +99,13 @@ export default {
       allowedFilters: [
         "name",
         "service",
-        "datatype[]",
+        "personalData[]",
         "receiver",
         "processor[]"
       ],
       filter: {
         name: this.$route.query.name,
-        service: this.$route.query.service,
-        "datatype[]": this.parseQueryArray("datatype[]") || undefined,
+        "personalData[]": this.parseQueryArray("personalData[]") || undefined,
         receiver: this.$route.query.receiver,
         "processor[]": this.parseQueryArray("processor[]") || undefined
       },
@@ -141,15 +140,15 @@ export default {
           return 0
         })
     },
-    datatypes() {
+    personalData() {
       return this.$store.state.items
         .reduce((result, item) => {
-          if (
-            item.type &&
-            item.type.value &&
-            !result.includes(item.type.value)
-          ) {
-            result.push(item.type.value)
+          if (item.personalData && item.personalData.value) {
+            for (let i = item.personalData.value.length; i--; ) {
+              if (!result.includes(item.personalData.value[i])) {
+                result.push(item.personalData.value[i])
+              }
+            }
           }
           return result
         }, [])
@@ -171,6 +170,14 @@ export default {
       return this.$store.state.items || []
     },
     filteredItems() {
+      const processors = this.parseQueryArray("processor[]")
+      const processorRegex = processors
+        ? new RegExp(processors.join("|"), "i")
+        : null
+
+      const data = this.parseQueryArray("personalData[]")
+      const dataRegex = data ? new RegExp(data.join("|"), "i") : null
+
       return this.items
         .filter(item => {
           /* Check each filter and
@@ -188,12 +195,19 @@ export default {
           }
 
           // processor
-          // todo compare uppercase
-          // todo check invalid querystring values
           if (
-            this.$route.query["processor[]"] &&
-            this.$route.query["processor[]"].length > 0 &&
-            !this.$route.query["processor[]"].includes(item.processor.value)
+            processors &&
+            processors.length > 0 &&
+            !processorRegex.test(item.processor.value)
+          ) {
+            return false
+          }
+
+          // data
+          if (
+            data &&
+            data.length > 0 &&
+            !dataRegex.test(item.personalData.value)
           ) {
             return false
           }
