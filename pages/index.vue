@@ -27,10 +27,15 @@
                                 :name="'processor[]'"
                                 v-model="filter['processor[]']"/>
           <checkbox_with_filter :items="personalData"
-                                :legend="'Welke gegevens'"
+                                :legend="'Welke gegevens?'"
                                 :selected_legend="'gegeven(s)'"
                                 :name="'personalData[]'"
                                 v-model="filter['personalData[]']"/>
+          <checkbox_with_filter :items="grantees"
+                                :legend="'Ontvanger'"
+                                :selected_legend="'ontvanger(s)'"
+                                :name="'grantees[]'"
+                                v-model="filter['grantees[]']"/>
 
           <button type="submit" class="button button-primary filter__submit" @click="closeModal">Zoek</button>
         </form>
@@ -98,7 +103,7 @@ export default {
       itemsPerPage: 10,
       allowedFilters: [
         "name",
-        "service",
+        "grantees[]",
         "personalData[]",
         "receiver",
         "processor[]"
@@ -106,6 +111,7 @@ export default {
       filter: {
         name: this.$route.query.name,
         "personalData[]": this.parseQueryArray("personalData[]") || undefined,
+        "grantees[]": this.parseQueryArray("grantees[]") || undefined,
         receiver: this.$route.query.receiver,
         "processor[]": this.parseQueryArray("processor[]") || undefined
       },
@@ -166,6 +172,32 @@ export default {
           return 0
         })
     },
+    grantees() {
+      return this.$store.state.items
+        .reduce((result, item) => {
+          if (item.grantees && item.grantees.value) {
+            for (let i = item.grantees.value.length; i--; ) {
+              if (!result.includes(item.grantees.value[i])) {
+                result.push(item.grantees.value[i])
+              }
+            }
+          }
+          return result
+        }, [])
+        .sort((a, b) => {
+          // omit non-word characters
+          a = a.replace(/\W/g, "").toUpperCase()
+          b = b.replace(/\W/g, "").toUpperCase()
+
+          if (a > b) {
+            return 1
+          }
+          if (a < b) {
+            return -1
+          }
+          return 0
+        })
+    },
     items() {
       return this.$store.state.items || []
     },
@@ -177,6 +209,9 @@ export default {
 
       const data = this.parseQueryArray("personalData[]")
       const dataRegex = data ? new RegExp(data.join("|"), "i") : null
+
+      const grantees = this.parseQueryArray("grantees[]")
+      const granteeRegex = grantees ? new RegExp(grantees.join("|"), "i") : null
 
       return this.items
         .filter(item => {
@@ -203,7 +238,7 @@ export default {
             return false
           }
 
-          // data
+          // personalData
           if (
             data &&
             data.length > 0 &&
@@ -211,6 +246,16 @@ export default {
           ) {
             return false
           }
+
+          // grantees
+          if (
+            grantees &&
+            grantees.length > 0 &&
+            !granteeRegex.test(item.grantees.value)
+          ) {
+            return false
+          }
+
           return true
         })
         .sort((a, b) => {
