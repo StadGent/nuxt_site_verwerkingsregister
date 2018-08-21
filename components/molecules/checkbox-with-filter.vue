@@ -47,16 +47,16 @@
       </div>
 
       <footer class="checkbox-filter__actions">
-        <button type="button" class="button button-primary button-small checkbox-filter__submit">Bevestig selectie</button>
+        <button type="button" class="button button-primary button-small checkbox-filter__submit"
+                @click="updateCount">Bevestig selectie</button>
       </footer>
-
     </div>
 
     <div class="overlay checkbox-filter__close"
          @click="close" />
 
     <p>
-      <strong>{{ `${selectedItems.length} ${selected_legend} geselecteerd` }}</strong>
+      <strong>{{ `${selectedCount} ${selected_legend} geselecteerd` }}</strong>
     </p>
 
     <button type="button"
@@ -106,13 +106,15 @@ export default {
     return {
       selectedItems: this.value,
       tempItems: [],
-      modalOpen: false
+      modalOpen: false,
+      selectedCount: 0
     }
   },
   mounted() {
     new CheckboxFilter(document.querySelector(".checkbox-filter"), {
       makeTags: false
     })
+    this.updateCount()
   },
   methods: {
     /**
@@ -136,6 +138,7 @@ export default {
      */
     close() {
       this.selectedItems = this.tempItems
+      this.updateCount()
       this.updateValue()
       this.modalOpen = false
     },
@@ -146,6 +149,12 @@ export default {
       this.modalOpen = true
       // make a shallow copy
       this.tempItems = this.selectedItems.slice()
+    },
+    /**
+     * Updated the selected items count.
+     */
+    updateCount() {
+      this.selectedCount = this.selectedItems.length
     }
   }
 }
