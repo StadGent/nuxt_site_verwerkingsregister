@@ -6,7 +6,7 @@
       <ul class="icon-list">
         <li>
           <i class="icon-phone" aria-hidden="true"/>
-          <a href="tel:09 210 10 10" alt="Gentinfo tel link">T: 09 210 10 10</a>
+          <a href="tel:09 210 10 10" alt="Gentinfo tel link">09 210 10 10</a>
         </li>
         <li>
           <i class="icon-envelope" aria-hidden="true"/>
