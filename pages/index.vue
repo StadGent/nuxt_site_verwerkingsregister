@@ -72,8 +72,8 @@ import selectedfilters from "~/components/molecules/selectedfilters"
 import checkbox_with_filter from "~/components/molecules/checkbox-with-filter"
 import introductietekst from "~/components/introductietekst"
 
-const Modal = require("~/assets/js/modal.functions")
-const CheckboxFilter = require("~/assets/js/checkbox_filter.functions")
+const Modal = require("~/node_modules/gent_styleguide/build/styleguide/js/modal.functions")
+const CheckboxFilter = require("~/node_modules/gent_styleguide/build/styleguide/js/checkbox_filter.functions")
 
 export default {
   head() {

@@ -56,7 +56,7 @@
          @click="close" />
 
     <p>
-      <strong>{{ `${selectedCount} ${selected_legend} geselecteerd` }}</strong>
+      <strong><span class="checkbox-filter__count"/>{{ `${selectedCount} ${selected_legend} geselecteerd` }}</strong>
     </p>
 
     <button type="button"
@@ -154,3 +154,13 @@ export default {
   }
 }
 </script>
+
+<style>
+/*
+Hide the styleguide required countspan,
+replaced by our own.
+*/
+.checkbox-filter__count {
+  display: none;
+}
+</style>

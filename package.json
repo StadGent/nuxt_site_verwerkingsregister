@@ -19,7 +19,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "breakpoint-sass": "^2.7.1",
-    "gent_styleguide": "^3.0.0-alpha.5",
+    "gent_styleguide": "^3.0.0-alpha.6",
     "node-sass": "^4.9.3",
     "nuxt": "^1.4.2",
     "sass-loader": "^7.1.0",
