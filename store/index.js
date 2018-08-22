@@ -1,5 +1,19 @@
 import Vuex from "vuex"
 import axios from "axios"
+import { cacheAdapterEnhancer } from "axios-extensions"
+import LRUCache from "lru-cache"
+
+const SIX_HOURS = 1000 * 60 * 60 * 6
+
+// Make axios enable caching
+const http = axios.create({
+  baseURL: "/",
+  headers: { "Cache-Control": "no-cache" },
+  // cache will be enabled by default
+  adapter: cacheAdapterEnhancer(axios.defaults.adapter, {
+    defaultCache: new LRUCache({ maxAge: SIX_HOURS })
+  })
+})
 
 const SPARQL_QUERY =
   "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>" +
@@ -59,21 +73,29 @@ export default () => {
        */
       async GET_ITEMS({ commit }) {
         try {
-          let verwerkingen = await axios.get(
+          let verwerkingen = await http.get(
             "https://qa.stad.gent/sparql?query=" +
               encodeURIComponent(SPARQL_QUERY)
           )
 
           verwerkingen = verwerkingen.data.results.bindings
-          verwerkingen.map(verwerking => {
-            verwerking.grantees.value = verwerking.grantees.value.split(",")
-            verwerking.personalData.value = verwerking.personalData.value.split(
-              ","
-            )
-          })
+
+          // check for cached version
+          if (!verwerkingen.cached) {
+            verwerkingen.map(verwerking => {
+              verwerking.grantees.value = verwerking.grantees.value.split(",")
+              verwerking.personalData.value = verwerking.personalData.value.split(
+                ","
+              )
+            })
+
+            // label data as cached
+            verwerkingen.cached = true
+          }
 
           commit("SET_ITEMS", verwerkingen)
         } catch (error) {
+          console.error(error)
           // todo show error
         }
       }

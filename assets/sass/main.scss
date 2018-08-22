@@ -126,3 +126,15 @@ $styleguide-dir: '..';
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/61-layouts/general/detail-layout/_detail-layout.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/61-layouts/general/overview-layout/_overview-layout.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/61-layouts/general/sidebar-layout/_sidebar-layout.scss";
+
+/*
+ webfontLoader classes
+ to prevent font flashing
+*/
+html.wf-loading {
+  opacity: 0;
+}
+html.wf-active {
+  transition: .1s opacity ease-in;
+  opacity: 1;
+}

@@ -15,11 +15,6 @@ module.exports = {
         type: "image/x-icon",
         href: "/favicon.ico"
       }
-    ],
-    script: [
-      {
-        src: "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
-      }
     ]
   },
   /*
@@ -79,7 +74,8 @@ module.exports = {
       config.module.rules.forEach(rule => changeLoaderOptions(rule.use))
     }
   },
-  css: ["@/assets/sass/main.scss"]
+  css: ["@/assets/sass/main.scss"],
+  plugins: [{ src: "~plugins/webFontLoader.js", ssr: false }]
 }
 
 function changeLoaderOptions(loaders) {
