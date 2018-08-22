@@ -41,7 +41,7 @@
         </form>
         <h2>Verfijn resultaten</h2>
         <h3>Categorie</h3>
-        <h3>Rechtsgrond</h3>
+        <h3>Rechtmatigheid</h3>
       </section>
       <section id="result" class="content result-section">
         <selectedfilters :allowed-filters="allowedFilters"/>

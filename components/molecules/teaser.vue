@@ -13,7 +13,7 @@
             <dd v-if="item.processor">{{ item.processor.value }}</dd>
           </div>
           <div v-if="item.formal_framework">
-            <dt>Rechtsgrond</dt>
+            <dt>Rechtmatigheid</dt>
             <dd v-if="item.formal_framework">{{ item.formal_framework.value }}</dd>
           </div>
         </dl>
