@@ -73,7 +73,7 @@ $styleguide-dir: '..';
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/blocks/social-media-block/_social-media-block.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/breadcrumbs/_breadcrumbs.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/cta-block/_cta-block.scss";
-@import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/fields/checkbox-with-filter/_checkbox-with-filter.scss";
+//@import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/fields/checkbox-with-filter/_checkbox-with-filter.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/fields/checkbox/_checkbox.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/fields/radio/_radio.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/figure/_figure.scss";
@@ -98,6 +98,7 @@ $styleguide-dir: '..';
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/31-molecules/video/_video.scss";
 
 @import "molecules/teaser-search";
+@import "molecules/checkbox-with-filter";
 
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/collection/_collection.scss";
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/41-organisms/contact-box/_contact-box.scss";
