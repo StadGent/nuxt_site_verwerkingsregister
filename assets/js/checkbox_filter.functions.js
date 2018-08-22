@@ -47,6 +47,15 @@
     )
 
     /**
+     * Container for the checkboxes.
+     * @type {Element}
+     */
+    const checkboxContainer = elem.querySelector(
+      options.checkboxContainer || ".checkbox-filter__checkboxes"
+    )
+
+
+    /**
      * Button to trigger opening the modal.
      * @type {Element}
      */
@@ -138,21 +147,29 @@
 
       let count = 0
 
-      checkboxLoop(({ checkboxContainer, checkbox, label }) => {
+      if (checkboxContainer) {
+        checkboxContainer.style.display = "none"
+      }
+
+      checkboxLoop(({ checkboxWrapper, checkbox, label }) => {
         if (
           !label ||
           label.innerText
             .toUpperCase()
             .indexOf(filterfield.value.toUpperCase()) === -1
         ) {
-          checkboxContainer.setAttribute("hidden", "true")
+          checkboxWrapper.setAttribute("hidden", "true")
           checkbox.setAttribute("hidden", "true")
         } else {
-          checkboxContainer.removeAttribute("hidden")
+          checkboxWrapper.removeAttribute("hidden")
           checkbox.removeAttribute("hidden")
           count++
         }
       })
+
+      if (checkboxContainer) {
+        checkboxContainer.style.display = ""
+      }
 
       resultSpan.innerText = count
       tabTrap.setFocusables()
@@ -266,10 +283,10 @@
      */
     const checkboxLoop = next => {
       for (let i = checkboxes.length; i--; ) {
-        let checkboxContainer = checkboxes[i]
-        let checkbox = checkboxContainer.querySelector("input[type=checkbox]")
-        let label = checkboxContainer.querySelector("label")
-        next({ checkboxContainer, checkbox, label })
+        let checkboxWrapper = checkboxes[i]
+        let checkbox = checkboxWrapper.querySelector("input[type=checkbox]")
+        let label = checkboxWrapper.querySelector("label")
+        next({ checkboxWrapper, checkbox, label })
       }
     }
 
