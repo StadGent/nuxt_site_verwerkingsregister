@@ -132,9 +132,13 @@ $styleguide-dir: '..';
  to prevent font flashing
 */
 html.wf-loading {
-  opacity: 0;
+  .container {
+    opacity: 0;
+  }
 }
 html.wf-active {
-  transition: .1s opacity ease-in;
-  opacity: 1;
+  .container {
+    transition: .1s opacity ease-in;
+    opacity: 1;
+  }
 }

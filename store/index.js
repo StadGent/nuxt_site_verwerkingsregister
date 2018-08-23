@@ -72,10 +72,14 @@ export default () => {
        * @constructor
        */
       async GET_ITEMS({ commit }) {
+        let url = "https://qa.stad.gent/sparql"
+        if (process.env.DEPLOY_ENV === "production") {
+          url = "https://stad.gent/sparql"
+        }
+
         try {
           let verwerkingen = await http.get(
-            "https://qa.stad.gent/sparql?query=" +
-              encodeURIComponent(SPARQL_QUERY)
+            url + "?query=" + encodeURIComponent(SPARQL_QUERY)
           )
 
           verwerkingen = verwerkingen.data.results.bindings
