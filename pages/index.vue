@@ -4,7 +4,7 @@
       Lijst verwerkingen burgers
     </h1>
 
-    <aside class="summary-box box-top">
+    <aside class="box-top">
       <div class="inner-box">
         <introductietekst/>
         <div class="accolade "/>
