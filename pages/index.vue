@@ -3,7 +3,14 @@
     <h1 class="title">
       Lijst verwerkingen burgers
     </h1>
-    <introductietekst/>
+
+    <aside class="summary-box box-top">
+      <div class="inner-box">
+        <introductietekst/>
+        <div class="accolade "/>
+      </div>
+    </aside>
+
     <div class="sidebar-layout filter">
       <section id="filter"
                :aria-hidden="`${!filterHidden}`"
@@ -396,5 +403,9 @@ export default {
 <style>
 .result-section {
   padding-top: 1.2rem;
+}
+
+.summary-box {
+  margin-bottom: 2rem;
 }
 </style>
