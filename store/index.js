@@ -24,7 +24,6 @@ const COUNT_QUERY =
 
 const SPARQL_QUERY =
   "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>" +
-  "PREFIX schema: <http://schema.org/>" +
   "PREFIX dcterms: <http://purl.org/dc/terms/>" +
   "PREFIX gdv: <http://stad.gent/data/ns/data-processing/>" +
   "SELECT" +
@@ -43,8 +42,8 @@ const SPARQL_QUERY =
   "  ?verwerking <http://data.vlaanderen.be/ns/toestemming#verwerker>/skos:prefLabel ?processor;" +
   "  dcterms:type/skos:prefLabel ?type;" +
   "  dcterms:title ?name; " +
-  "  <http://stad.gent/data/ns/data-processing/grantee>/skos:prefLabel ?grantee;" +
-  "  <http://stad.gent/data/ns/data-processing/hasPersonalData>/dcterms:type/skos:prefLabel ?personalData ." +
+  "  <http://stad.gent/data/ns/data-processing/grantee>/skos:prefLabel ?grantee ." +
+  "  OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasPersonalData>/dcterms:type/skos:prefLabel ?personalData }" +
   "  OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasSensitivePersonalData>/dcterms:type/skos:prefLabel ?sensitivePersonalData }" +
   "}" +
   "group by" +
