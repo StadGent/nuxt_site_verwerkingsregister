@@ -27,7 +27,7 @@ For detailed explanation on how things work, checkout the [Nuxt.js docs](https:/
 ## Deploy
 
 Set a environment variable "DEPLOY_ENV" to "test", "qa" or "production".  
-In absence of "PROD_ENV=production", the SPARQL endpoint will be qa.stad.gent. 
+In absence of "DEPLOY_ENV=production", the SPARQL endpoint will be qa.stad.gent. 
 
 ## Customization
 
