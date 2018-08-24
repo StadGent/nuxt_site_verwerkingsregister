@@ -1,7 +1,9 @@
 <template>
   <section class="content-container">
-    <h1 class="title">
-      Lijst verwerkingen burgers
+    <h1 class="overview-title">
+      <span class="overview-title-colon">Lijst verwerkingen burgers
+        <span class="colon" aria-hidden="true"/>
+      </span>
     </h1>
 
     <aside class="box-top">
@@ -332,7 +334,11 @@ export default {
     },
     selectedFilters() {
       return Object.keys(this.$route.query).reduce((result, key) => {
-        if (this.allowedFilters.includes(key) && this.$route.query[key]) {
+        if (
+          this.allowedFilters.includes(key) &&
+          this.$route.query[key] &&
+          this.$route.query[key].length > 0
+        ) {
           result.push({
             key: key,
             value: this.$route.query[key]
@@ -412,11 +418,11 @@ export default {
 </script>
 
 <style>
-.result-section {
+.selected-filters {
   padding-top: 1.2rem;
 }
 
-.summary-box {
+.box-top {
   margin-bottom: 2rem;
 }
 </style>
