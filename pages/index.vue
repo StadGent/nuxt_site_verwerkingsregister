@@ -51,9 +51,6 @@
                                 :name="'types[]'"
                                 v-model="filter['types[]']"/>
 
-          {{ filter['formalFrameworks[]'] }}
-          {{ filter['types[]'] }}
-
           <fieldset class="form-item">
             <legend>Rechtmatigheid</legend>
             <div v-for="(formalFramework, index) in formalFrameworks" :key="index" class="checkbox" >
