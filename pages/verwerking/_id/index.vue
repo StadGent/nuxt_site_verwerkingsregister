@@ -31,10 +31,12 @@
     <ul v-if="details.personalData && details.personalData.value.length > 0">
       <li v-for="(value, index) in details.personalData.value" :key="index">{{ value }}</li>
     </ul>
+    <p v-else>Er zijn geen persoonsgegevens van toepassing</p>
     <h3>Welke gevoelige persoonsgegevens?</h3>
     <ul v-if="details.sensitivePersonalData && details.sensitivePersonalData.value.length > 0">
       <li v-for="(value, index) in details.sensitivePersonalData.value" :key="index">{{ value }}</li>
     </ul>
+    <p v-else>Er zijn geen gevoelige persoonsgegevens van toepassing</p>
     <h2>Rechtmatigheid</h2>
     <h3>Type</h3>
     <p>{{ details.formal_framework ? details.formal_framework.value : "" }}</p>
