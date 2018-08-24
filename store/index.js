@@ -4,6 +4,7 @@ import { cacheAdapterEnhancer } from "axios-extensions"
 import LRUCache from "lru-cache"
 
 const SIX_HOURS = 1000 * 60 * 60 * 6
+const LIMIT = 1000
 
 // Make axios enable caching
 const http = axios.create({
@@ -15,9 +16,14 @@ const http = axios.create({
   })
 })
 
+const COUNT_QUERY =
+  "SELECT " +
+  "(count(?verwerking) as ?count)" +
+  "FROM <http://stad.gent/data-processes/>" +
+  "WHERE { ?verwerking a <http://data.vlaanderen.be/ns/toestemming#VerwerkingsActiviteit> }"
+
 const SPARQL_QUERY =
   "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>" +
-  "PREFIX schema: <http://schema.org/>" +
   "PREFIX dcterms: <http://purl.org/dc/terms/>" +
   "PREFIX gdv: <http://stad.gent/data/ns/data-processing/>" +
   "SELECT" +
@@ -27,19 +33,18 @@ const SPARQL_QUERY =
   "  ?name" +
   "  (concat(group_concat(distinct ?personalData;separator=','),group_concat(distinct ?sensitivePersonalData;separator=',')) as ?personalData)" +
   "  ?formal_framework" +
-  "  (concat(group_concat(distinct ?grantee;separator=',')) as ?grantees)" +
+  "  (group_concat(distinct ?grantee;separator=',') as ?grantees)" +
   "FROM <http://stad.gent/data-processes/>" +
-  "FROM <http://stad.gent/agents/>" +
-  "WHERE {\n" +
-  "  ?verwerking a <http://data.vlaanderen.be/ns/toestemming#VerwerkingsActiviteit>;\n" +
-  "  dcterms:identifier ?id;\t\n" +
-  "  <http://data.vlaanderen.be/ns/toestemming#verwerkingsgrond> ?formal_framework .\n" +
-  "  ?verwerking <http://data.vlaanderen.be/ns/toestemming#verwerker>/skos:prefLabel ?processor;\n" +
-  "  dcterms:type/skos:prefLabel ?type;\n" +
-  "  dcterms:title ?name; \n" +
-  "  <http://stad.gent/data/ns/data-processing/grantee> ?grantee;\t\n" +
-  "  <http://stad.gent/data/ns/data-processing/hasPersonalData>/dcterms:type/skos:prefLabel ?personalData .\n" +
-  "  OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasSensitivePersonalData>/dcterms:type/skos:prefLabel ?sensitivePersonalData }\n" +
+  "WHERE {" +
+  "  ?verwerking a <http://data.vlaanderen.be/ns/toestemming#VerwerkingsActiviteit>;" +
+  "  dcterms:identifier ?id;" +
+  "  <http://data.vlaanderen.be/ns/toestemming#verwerkingsgrond>/skos:prefLabel ?formal_framework ." +
+  "  ?verwerking <http://data.vlaanderen.be/ns/toestemming#verwerker>/skos:prefLabel ?processor;" +
+  "  dcterms:type/skos:prefLabel ?type;" +
+  "  dcterms:title ?name; " +
+  "  <http://stad.gent/data/ns/data-processing/grantee>/skos:prefLabel ?grantee ." +
+  "  OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasPersonalData>/dcterms:type/skos:prefLabel ?personalData }" +
+  "  OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasSensitivePersonalData>/dcterms:type/skos:prefLabel ?sensitivePersonalData }" +
   "}" +
   "group by" +
   "?verwerking" +
@@ -78,24 +83,58 @@ export default () => {
         }
 
         try {
-          let verwerkingen = await http.get(
-            url + "?query=" + encodeURIComponent(SPARQL_QUERY)
+          let count = await http.get(
+            url + "?query=" + encodeURIComponent(COUNT_QUERY)
           )
 
-          verwerkingen = verwerkingen.data.results.bindings
+          count = count.data.results.bindings[0].count.value
 
-          // check for cached version
-          if (!verwerkingen.cached) {
-            verwerkingen.map(verwerking => {
-              verwerking.grantees.value = verwerking.grantees.value.split(",")
-              verwerking.personalData.value = verwerking.personalData.value.split(
-                ","
-              )
-            })
+          let promises = []
+          for (let i = 0; i < count / LIMIT; i++) {
+            promises.push(
+              new Promise((resolve, reject) => {
+                http
+                  .get(
+                    url +
+                      "?query=" +
+                      encodeURIComponent(
+                        SPARQL_QUERY +
+                          " LIMIT " +
+                          LIMIT +
+                          " OFFSET " +
+                          i * LIMIT
+                      )
+                  )
+                  .then(result => {
+                    result = result.data.results.bindings
+                    console.log(result.cached, i)
 
-            // label data as cached
-            verwerkingen.cached = true
+                    // check for cached version
+                    if (!result.cached) {
+                      result.map(verwerking => {
+                        verwerking.grantees.value = verwerking.grantees.value.split(
+                          ","
+                        )
+                        verwerking.personalData.value = verwerking.personalData.value.split(
+                          ","
+                        )
+                      })
+
+                      // label data as cached
+                      result.cached = true
+                    }
+                    resolve(result)
+                  })
+                  .catch(error => {
+                    reject(error)
+                  })
+              })
+            )
           }
+
+          let result = await Promise.all(promises)
+          let verwerkingen = [].concat.apply([], result)
+          console.log(verwerkingen.length)
 
           commit("SET_ITEMS", verwerkingen)
         } catch (error) {
