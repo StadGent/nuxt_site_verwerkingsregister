@@ -54,7 +54,9 @@
 export default {
   head() {
     return {
-      title: `${this.$route.params.id} | verwerkingsregister`
+      title: `${
+        this.details.name ? this.details.name.value : ""
+      } | verwerkingsregister`
     }
   },
   meta: {
