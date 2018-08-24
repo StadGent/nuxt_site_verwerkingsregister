@@ -99,10 +99,21 @@ export default {
   watchQuery: ["page"].concat(this.allowedFilters),
   // Key needed to enable watchQuery and update form values
   key: to => to.fullPath,
-  async fetch({ store }) {
+  async fetch({ store, error }) {
     // Only fetch items once
     if (store.state.items.length === 0) {
-      await store.dispatch("GET_ITEMS")
+      try {
+        await store.dispatch("GET_ITEMS")
+      } catch (err) {
+        if (err.statusCode) {
+          error(err)
+        } else {
+          error({
+            statusCode: 500,
+            message: err.code || "Unexpected error"
+          })
+        }
+      }
     }
   },
   data() {

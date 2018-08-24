@@ -15,6 +15,11 @@ const http = axios.create({
   })
 })
 
+let URL = "https://qa.stad.gent/"
+if (process.env.DEPLOY_ENV === "production") {
+  URL = "https://stad.gent/"
+}
+
 const COUNT_QUERY =
   "SELECT " +
   "(count(?verwerking) as ?count)" +
@@ -53,7 +58,7 @@ const SPARQL_QUERY =
   "?type" +
   "?name"
 
-const DETAIL_QUERY = id => {
+const DETAIL_QUERY = (id, URL) => {
   return `PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
   PREFIX dcterms: <http://purl.org/dc/terms/> 
   PREFIX gdv: <http://stad.gent/data/ns/data-processing/> 
@@ -87,7 +92,7 @@ const DETAIL_QUERY = id => {
     OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasSensitivePersonalData>/dcterms:type/skos:prefLabel ?sensitivePersonalData } 
     OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasPersonalData>/dcterms:description ?personalDataDescription } 
     OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasSensitivePersonalData>/dcterms:description ?sensitivePersonalDataDescription } 
-    FILTER (?verwerking=<https://qa.stad.gent/id/data-process/${id}>) 
+    FILTER (?verwerking=<${URL}id/data-process/${id}>) 
   }`
 }
 
@@ -118,26 +123,24 @@ export default () => {
        * @constructor
        */
       async GET_ITEMS({ commit }) {
-        let url = "https://qa.stad.gent/sparql"
-        if (process.env.DEPLOY_ENV === "production") {
-          url = "https://stad.gent/sparql"
-        }
-
+        let count, result
         try {
-          let count = await http.get(
-            url + "?query=" + encodeURIComponent(COUNT_QUERY)
+          count = await http.get(
+            URL + "sparql?query=" + encodeURIComponent(COUNT_QUERY)
           )
-
+        } catch (error) {
+          throw error
+        }
+        try {
           count = count.data.results.bindings[0].count.value
-
           let promises = []
           for (let i = 0; i < count / LIMIT; i++) {
             promises.push(
               new Promise((resolve, reject) => {
                 http
                   .get(
-                    url +
-                      "?query=" +
+                    URL +
+                      "sparql?query=" +
                       encodeURIComponent(
                         SPARQL_QUERY +
                           " LIMIT " +
@@ -171,14 +174,15 @@ export default () => {
               })
             )
           }
-
-          let result = await Promise.all(promises)
+          result = await Promise.all(promises)
+        } catch (error) {
+          throw error
+        }
+        try {
           let verwerkingen = [].concat.apply([], result)
-
           commit("SET_ITEMS", verwerkingen)
         } catch (error) {
-          console.error(error)
-          // todo throw error
+          throw { statusCode: 500, message: "Invalid JSON response" }
         }
       },
       /**
@@ -189,14 +193,10 @@ export default () => {
        * @constructor
        */
       async GET_DETAIL({ commit }, id) {
-        let url = "https://qa.stad.gent/sparql"
-        if (process.env.DEPLOY_ENV === "production") {
-          url = "https://stad.gent/sparql"
-        }
         let result
         try {
           result = await http.get(
-            url + "?query=" + encodeURIComponent(DETAIL_QUERY(id))
+            URL + "sparql/?query=" + encodeURIComponent(DETAIL_QUERY(id, URL))
           )
         } catch (error) {
           // connection error
