@@ -1,6 +1,6 @@
 <template>
   <article class="detail-layout">
-    <h1>{{ details.name.value }}</h1>
+    <h1>{{ details.name ? details.name.value : "" }}</h1>
     <div class="summary-box box-top">
       <div class="inner-box">
         <h2 class="visually-hidden">samenvatting</h2>
@@ -31,10 +31,12 @@
     <ul v-if="details.personalData && details.personalData.value.length > 0">
       <li v-for="(value, index) in details.personalData.value" :key="index">{{ value }}</li>
     </ul>
+    <p v-else>Er zijn geen persoonsgegevens van toepassing</p>
     <h3>Welke gevoelige persoonsgegevens?</h3>
     <ul v-if="details.sensitivePersonalData && details.sensitivePersonalData.value.length > 0">
       <li v-for="(value, index) in details.sensitivePersonalData.value" :key="index">{{ value }}</li>
     </ul>
+    <p v-else>Er zijn geen gevoelige persoonsgegevens van toepassing</p>
     <h2>Rechtmatigheid</h2>
     <h3>Type</h3>
     <p>{{ details.formal_framework ? details.formal_framework.value : "" }}</p>
@@ -62,19 +64,35 @@ export default {
   meta: {
     breadcrumbs: [{ label: "verwerkingsregister", path: "/" }]
   },
-  async fetch({ store, params }) {
+  async fetch({ store, params, error }) {
     // Only fetch items once
     let id = params.id
-    if (id && !store.state.details[id]) {
-      await store.dispatch("GET_DETAIL", id)
+    if (!id) {
+      error({ statusCode: 404, message: "Post not found" })
+    }
+    if (!store.state.details[id]) {
+      try {
+        await store.dispatch("GET_DETAIL", id)
+      } catch (err) {
+        if (err.statusCode) {
+          error(err)
+        } else {
+          error({
+            statusCode: 500,
+            message: err.code || "Unexpected error"
+          })
+        }
+      }
     }
   },
   computed: {
     details() {
       let id = this.$route.params.id
+      let result = {}
       if (id) {
-        return this.$store.state.details[id]
+        result = this.$store.state.details[id] || {}
       }
+      return result
     }
   }
 }

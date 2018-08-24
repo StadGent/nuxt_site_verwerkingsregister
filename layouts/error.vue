@@ -58,7 +58,7 @@
 export default {
   props: {
     error: {
-      type: Error,
+      type: [Error, Object],
       required: true
     }
   },
