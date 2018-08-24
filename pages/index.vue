@@ -98,6 +98,20 @@ import introductietekst from "~/components/introductietekst"
 const Modal = require("~/node_modules/gent_styleguide/build/styleguide/js/modal.functions")
 const CheckboxFilter = require("~/node_modules/gent_styleguide/build/styleguide/js/checkbox_filter.functions")
 
+const sortFunction = (a, b) => {
+  // omit non-word characters
+  a = a.replace(/\W/g, "").toUpperCase()
+  b = b.replace(/\W/g, "").toUpperCase()
+
+  if (a > b) {
+    return 1
+  }
+  if (a < b) {
+    return -1
+  }
+  return 0
+}
+
 export default {
   head() {
     return {
@@ -168,19 +182,7 @@ export default {
           }
           return result
         }, [])
-        .sort((a, b) => {
-          // omit non-word characters
-          a = a.replace(/\W/g, "").toUpperCase()
-          b = b.replace(/\W/g, "").toUpperCase()
-
-          if (a > b) {
-            return 1
-          }
-          if (a < b) {
-            return -1
-          }
-          return 0
-        })
+        .sort(sortFunction)
     },
     personalData() {
       return this.$store.state.items
@@ -194,19 +196,7 @@ export default {
           }
           return result
         }, [])
-        .sort((a, b) => {
-          // omit non-word characters
-          a = a.replace(/\W/g, "").toUpperCase()
-          b = b.replace(/\W/g, "").toUpperCase()
-
-          if (a > b) {
-            return 1
-          }
-          if (a < b) {
-            return -1
-          }
-          return 0
-        })
+        .sort(sortFunction)
     },
     grantees() {
       return this.$store.state.items
@@ -220,19 +210,7 @@ export default {
           }
           return result
         }, [])
-        .sort((a, b) => {
-          // omit non-word characters
-          a = a.replace(/\W/g, "").toUpperCase()
-          b = b.replace(/\W/g, "").toUpperCase()
-
-          if (a > b) {
-            return 1
-          }
-          if (a < b) {
-            return -1
-          }
-          return 0
-        })
+        .sort(sortFunction)
     },
     types() {
       return this.$store.state.items
@@ -246,19 +224,7 @@ export default {
           }
           return result
         }, [])
-        .sort((a, b) => {
-          // omit non-word characters
-          a = a.replace(/\W/g, "").toUpperCase()
-          b = b.replace(/\W/g, "").toUpperCase()
-
-          if (a > b) {
-            return 1
-          }
-          if (a < b) {
-            return -1
-          }
-          return 0
-        })
+        .sort(sortFunction)
     },
     formalFrameworks() {
       return this.$store.state.items
@@ -272,19 +238,7 @@ export default {
           }
           return result
         }, [])
-        .sort((a, b) => {
-          // omit non-word characters
-          a = a.replace(/\W/g, "").toUpperCase()
-          b = b.replace(/\W/g, "").toUpperCase()
-
-          if (a > b) {
-            return 1
-          }
-          if (a < b) {
-            return -1
-          }
-          return 0
-        })
+        .sort(sortFunction)
     },
     items() {
       return this.$store.state.items || []
