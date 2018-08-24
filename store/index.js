@@ -178,7 +178,7 @@ export default () => {
           commit("SET_ITEMS", verwerkingen)
         } catch (error) {
           console.error(error)
-          // todo show error
+          // todo throw error
         }
       },
       /**
@@ -193,11 +193,28 @@ export default () => {
         if (process.env.DEPLOY_ENV === "production") {
           url = "https://stad.gent/sparql"
         }
-
+        let result
         try {
-          let result = await http.get(
+          result = await http.get(
             url + "?query=" + encodeURIComponent(DETAIL_QUERY(id))
           )
+        } catch (error) {
+          // connection error
+          throw error
+        }
+
+        if (
+          !result ||
+          !result.data ||
+          !result.data.results ||
+          !result.data.results.bindings ||
+          result.data.results.bindings.length === 0
+        ) {
+          // no results found
+          throw { statusCode: 404, message: "Post not found" }
+        }
+
+        try {
           result = result.data.results.bindings[0]
           if (!result.cached) {
             result.grantees.value =
@@ -217,8 +234,8 @@ export default () => {
 
           commit("SET_DETAIL", result)
         } catch (error) {
-          console.error(error)
-          // todo show error
+          // result processing failed
+          throw { statusCode: 500, message: "Invalid JSON response" }
         }
       }
     }

@@ -1,6 +1,6 @@
 <template>
   <article class="detail-layout">
-    <h1>{{ details.name.value }}</h1>
+    <h1>{{ details.name ? details.name.value : "" }}</h1>
     <div class="summary-box box-top">
       <div class="inner-box">
         <h2 class="visually-hidden">samenvatting</h2>
@@ -62,19 +62,35 @@ export default {
   meta: {
     breadcrumbs: [{ label: "verwerkingsregister", path: "/" }]
   },
-  async fetch({ store, params }) {
+  async fetch({ store, params, error }) {
     // Only fetch items once
     let id = params.id
-    if (id && !store.state.details[id]) {
-      await store.dispatch("GET_DETAIL", id)
+    if (!id) {
+      error({ statusCode: 404, message: "Post not found" })
+    }
+    if (!store.state.details[id]) {
+      try {
+        await store.dispatch("GET_DETAIL", id)
+      } catch (err) {
+        if (err.statusCode) {
+          error(err)
+        } else {
+          error({
+            statusCode: 500,
+            message: err.code || "Unexpected error"
+          })
+        }
+      }
     }
   },
   computed: {
     details() {
       let id = this.$route.params.id
+      let result = {}
       if (id) {
-        return this.$store.state.details[id]
+        result = this.$store.state.details[id] || {}
       }
+      return result
     }
   }
 }
