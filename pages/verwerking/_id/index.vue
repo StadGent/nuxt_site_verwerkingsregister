@@ -1,5 +1,5 @@
 <template>
-  <article class="content-container">
+  <article class="detail-layout">
     <h1>{{ details.name.value }}</h1>
     <div class="summary-box box-top">
       <div class="inner-box">
@@ -79,12 +79,12 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-  margin-top: 2rem;
-}
-
 .columns {
   columns: 320px;
   column-gap: 2rem;
+}
+
+li {
+  font-size: inherit;
 }
 </style>
