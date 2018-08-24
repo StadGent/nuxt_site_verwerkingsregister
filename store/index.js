@@ -200,11 +200,18 @@ export default () => {
           )
           result = result.data.results.bindings[0]
           if (!result.cached) {
-            result.grantees.value = result.grantees.value.split(",")
-            result.personalData.value = result.personalData.value.split(",")
-            result.sensitivePersonalData.value = result.sensitivePersonalData.value.split(
-              ","
-            )
+            result.grantees.value =
+              result.grantees.value !== ""
+                ? result.grantees.value.split(",")
+                : []
+            result.personalData.value =
+              result.personalData.value !== ""
+                ? result.personalData.value.split(",")
+                : []
+            result.sensitivePersonalData.value =
+              result.sensitivePersonalData.value !== ""
+                ? result.sensitivePersonalData.value.split(",")
+                : []
             result.cached = true
           }
 
