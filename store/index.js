@@ -105,7 +105,7 @@ export default () => {
       SET_ITEMS(state, data) {
         state.items = data
       },
-      SET_ITEM(state, data) {
+      SET_DETAIL(state, data) {
         state.details[data.id.value] = data
       }
     },
@@ -188,7 +188,7 @@ export default () => {
        * @returns {Promise.<void>}
        * @constructor
        */
-      async GET_ITEM({ commit }, id) {
+      async GET_DETAIL({ commit }, id) {
         let url = "https://qa.stad.gent/sparql"
         if (process.env.DEPLOY_ENV === "production") {
           url = "https://stad.gent/sparql"
@@ -208,7 +208,7 @@ export default () => {
             result.cached = true
           }
 
-          commit("SET_ITEM", result)
+          commit("SET_DETAIL", result)
         } catch (error) {
           console.error(error)
           // todo show error

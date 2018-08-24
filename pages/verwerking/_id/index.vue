@@ -64,7 +64,7 @@ export default {
     // Only fetch items once
     let id = params.id
     if (id && !store.state.details[id]) {
-      await store.dispatch("GET_ITEM", id)
+      await store.dispatch("GET_DETAIL", id)
     }
   },
   computed: {
