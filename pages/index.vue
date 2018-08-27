@@ -1,7 +1,7 @@
 <template>
   <section class="content-container">
     <h1 class="overview-title">
-      <span class="overview-title-colon">Lijst verwerkingen medewerkers
+      <span class="overview-title-colon">Lijst verwerkingen burgers
         <span class="colon" aria-hidden="true"/>
       </span>
     </h1>
@@ -11,7 +11,7 @@
         <div class="accolade "/>
       </div>
     </aside>
-    <filter-layout :items="$store.state.items"/>
+    <filter-layout :items="$store.state.items_civ"/>
   </section>
 </template>
 
@@ -37,9 +37,9 @@ export default {
   key: to => to.fullPath,
   async fetch({ store, error }) {
     // Only fetch items once
-    if (store.state.items.length === 0) {
+    if (store.state.items_civ.length === 0) {
       try {
-        await store.dispatch("GET_ITEMS")
+        await store.dispatch("GET_ITEMS_CIV")
       } catch (err) {
         if (err.statusCode) {
           error(err)

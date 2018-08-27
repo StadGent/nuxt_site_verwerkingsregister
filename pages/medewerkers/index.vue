@@ -11,7 +11,7 @@
         <div class="accolade "/>
       </div>
     </aside>
-    <filter-layout :items="$store.state.items"/>
+    <filter-layout :items="$store.state.items_emp"/>
   </section>
 </template>
 
@@ -25,7 +25,7 @@ const CheckboxFilter = require("~/node_modules/gent_styleguide/build/styleguide/
 export default {
   head() {
     return {
-      title: "verwerkingsregister"
+      title: "verwerkingsregister - medewekers"
     }
   },
   meta: {
@@ -41,9 +41,9 @@ export default {
   key: to => to.fullPath,
   async fetch({ store, error }) {
     // Only fetch items once
-    if (store.state.items.length === 0) {
+    if (store.state.items_emp.length === 0) {
       try {
-        await store.dispatch("GET_ITEMS")
+        await store.dispatch("GET_ITEMS_EMP")
       } catch (err) {
         if (err.statusCode) {
           error(err)

@@ -72,7 +72,7 @@ export default {
     }
     if (!store.state.details[id]) {
       try {
-        await store.dispatch("GET_DETAIL", id)
+        await store.dispatch("GET_DETAIL_CIV", id)
       } catch (err) {
         if (err.statusCode) {
           error(err)
