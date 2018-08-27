@@ -66,7 +66,6 @@ export default {
   },
   middleware: "home",
   async fetch({ store, params, error }) {
-    console.log("fetching")
     // Only fetch items once
     let id = params.id
     if (!id) {
