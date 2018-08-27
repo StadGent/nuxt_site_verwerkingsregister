@@ -80,7 +80,7 @@ module.exports = {
     [
       "@nuxtjs/google-analytics",
       {
-        id: "UA‌-791237-60"
+        id: "UA-791237-60"
       }
     ]
   ]
