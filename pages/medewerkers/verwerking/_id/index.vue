@@ -62,9 +62,11 @@ export default {
     }
   },
   meta: {
-    breadcrumbs: [{ label: "verwerkingsregister", path: "/" }]
+    home: "/medewerkers"
   },
+  middleware: "home",
   async fetch({ store, params, error }) {
+    console.log("fetching")
     // Only fetch items once
     let id = params.id
     if (!id) {
@@ -72,7 +74,7 @@ export default {
     }
     if (!store.state.details[id]) {
       try {
-        await store.dispatch("GET_DETAIL_CIV", id)
+        await store.dispatch("GET_DETAIL_EMP", id)
       } catch (err) {
         if (err.statusCode) {
           error(err)

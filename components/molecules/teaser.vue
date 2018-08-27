@@ -17,12 +17,12 @@
             <dd v-if="item.formal_framework">{{ item.formal_framework.value }}</dd>
           </div>
         </dl>
-        <nuxt-link v-if="item.id && item.name" :to="`verwerking/${item.id.value}`" class="standalone-link read-more">
+        <nuxt-link v-if="item.id && item.name" :to="`verwerking/${item.id.value}`" class="standalone-link read-more" append>
           lees meer <span class="visually-hidden">over {{ item.name.value }}</span>
         </nuxt-link>
       </div>
     </article>
-    <nuxt-link v-if="item.id && item.name" :to="`verwerking/${item.id.value}`" class="teaser-overlay-link" tabindex="-1" aria-hidden="true"/>
+    <nuxt-link v-if="item.id && item.name" :to="`verwerking/${item.id.value}`" class="teaser-overlay-link" tabindex="-1" aria-hidden="true" append/>
   </li>
 </template>
 
