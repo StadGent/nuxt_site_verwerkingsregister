@@ -101,11 +101,15 @@ export default () => {
     state: {
       breadcrumbs: [],
       items: [],
-      details: {}
+      details: {},
+      home: "/"
     },
     mutations: {
       SET_BREADCRUMBS(state, data) {
         state.breadcrumbs = data
+      },
+      SET_HOME_URL(state, data) {
+        state.home = data
       },
       SET_ITEMS(state, data) {
         state.items = data
