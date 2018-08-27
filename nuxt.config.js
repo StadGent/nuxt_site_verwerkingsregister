@@ -75,7 +75,15 @@ module.exports = {
     }
   },
   css: ["@/assets/sass/main.scss"],
-  plugins: [{ src: "~plugins/webFontLoader.js", ssr: false }]
+  plugins: [{ src: "~plugins/webFontLoader.js", ssr: false }],
+  modules: [
+    [
+      "@nuxtjs/google-analytics",
+      {
+        id: "UA‌-791237-60"
+      }
+    ]
+  ]
 }
 
 function changeLoaderOptions(loaders) {
