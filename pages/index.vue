@@ -45,12 +45,26 @@
                                 :selected_legend="'ontvanger(s)'"
                                 :name="'grantees[]'"
                                 v-model="filter['grantees[]']"/>
+          <checkbox_with_filter :items="types"
+                                :legend="'Categorie'"
+                                :selected_legend="'categorie(ën)'"
+                                :name="'types[]'"
+                                v-model="filter['types[]']"/>
 
+          <fieldset class="form-item">
+            <legend>Rechtmatigheid</legend>
+            <div v-for="(formalFramework, index) in formalFrameworks" :key="index" class="checkbox" >
+              <input :id="`formalFrameworks-chk-${index}`"
+                     :value="formalFramework"
+                     :name="'formalFrameworks[]'"
+                     v-model="filter['formalFrameworks[]']"
+                     type="checkbox"
+                     class="checkbox">
+              <label :for="`formalFrameworks-chk-${index}`">{{ formalFramework }}</label>
+            </div>
+          </fieldset>
           <button type="submit" class="button button-primary filter__submit" @click="closeModal">Zoek</button>
         </form>
-        <h2>Verfijn resultaten</h2>
-        <h3>Categorie</h3>
-        <h3>Rechtmatigheid</h3>
       </section>
       <section id="result" class="content result-section">
         <selectedfilters :allowed-filters="allowedFilters"/>
@@ -83,6 +97,20 @@ import introductietekst from "~/components/introductietekst"
 
 const Modal = require("~/node_modules/gent_styleguide/build/styleguide/js/modal.functions")
 const CheckboxFilter = require("~/node_modules/gent_styleguide/build/styleguide/js/checkbox_filter.functions")
+
+const sortFunction = (a, b) => {
+  // omit non-word characters
+  a = a.replace(/\W/g, "").toUpperCase()
+  b = b.replace(/\W/g, "").toUpperCase()
+
+  if (a > b) {
+    return 1
+  }
+  if (a < b) {
+    return -1
+  }
+  return 0
+}
 
 export default {
   head() {
@@ -125,15 +153,17 @@ export default {
         "name",
         "grantees[]",
         "personalData[]",
-        "receiver",
+        "types[]",
+        "formalFrameworks[]",
         "processor[]"
       ],
       filter: {
         name: this.$route.query.name,
-        "personalData[]": this.parseQueryArray("personalData[]") || undefined,
-        "grantees[]": this.parseQueryArray("grantees[]") || undefined,
-        receiver: this.$route.query.receiver,
-        "processor[]": this.parseQueryArray("processor[]") || undefined
+        "personalData[]": this.parseQueryArray("personalData[]") || [],
+        "grantees[]": this.parseQueryArray("grantees[]") || [],
+        "types[]": this.parseQueryArray("types[]") || [],
+        "formalFrameworks[]": this.parseQueryArray("formalFrameworks[]") || [],
+        "processor[]": this.parseQueryArray("processor[]") || []
       },
       filterHidden: false,
       modalOpen: false
@@ -152,19 +182,7 @@ export default {
           }
           return result
         }, [])
-        .sort((a, b) => {
-          // omit non-word characters
-          a = a.replace(/\W/g, "").toUpperCase()
-          b = b.replace(/\W/g, "").toUpperCase()
-
-          if (a > b) {
-            return 1
-          }
-          if (a < b) {
-            return -1
-          }
-          return 0
-        })
+        .sort(sortFunction)
     },
     personalData() {
       return this.$store.state.items
@@ -178,19 +196,7 @@ export default {
           }
           return result
         }, [])
-        .sort((a, b) => {
-          // omit non-word characters
-          a = a.replace(/\W/g, "").toUpperCase()
-          b = b.replace(/\W/g, "").toUpperCase()
-
-          if (a > b) {
-            return 1
-          }
-          if (a < b) {
-            return -1
-          }
-          return 0
-        })
+        .sort(sortFunction)
     },
     grantees() {
       return this.$store.state.items
@@ -204,19 +210,35 @@ export default {
           }
           return result
         }, [])
-        .sort((a, b) => {
-          // omit non-word characters
-          a = a.replace(/\W/g, "").toUpperCase()
-          b = b.replace(/\W/g, "").toUpperCase()
-
-          if (a > b) {
-            return 1
+        .sort(sortFunction)
+    },
+    types() {
+      return this.$store.state.items
+        .reduce((result, item) => {
+          if (
+            item.type &&
+            item.type.value &&
+            !result.includes(item.type.value)
+          ) {
+            result.push(item.type.value)
           }
-          if (a < b) {
-            return -1
+          return result
+        }, [])
+        .sort(sortFunction)
+    },
+    formalFrameworks() {
+      return this.$store.state.items
+        .reduce((result, item) => {
+          if (
+            item.formal_framework &&
+            item.formal_framework.value &&
+            !result.includes(item.formal_framework.value)
+          ) {
+            result.push(item.formal_framework.value)
           }
-          return 0
-        })
+          return result
+        }, [])
+        .sort(sortFunction)
     },
     items() {
       return this.$store.state.items || []
@@ -232,6 +254,14 @@ export default {
 
       const grantees = this.parseQueryArray("grantees[]")
       const granteeRegex = grantees ? new RegExp(grantees.join("|"), "i") : null
+
+      const types = this.parseQueryArray("types[]")
+      const typesRegex = types ? new RegExp(types.join("|"), "i") : null
+
+      const formalFrameworks = this.parseQueryArray("formalFrameworks[]")
+      const formalFrameworksRegex = formalFrameworks
+        ? new RegExp(formalFrameworks.join("|"), "i")
+        : null
 
       return this.items
         .filter(item => {
@@ -272,6 +302,20 @@ export default {
             grantees &&
             grantees.length > 0 &&
             !granteeRegex.test(item.grantees.value)
+          ) {
+            return false
+          }
+
+          // types
+          if (types && types.length > 0 && !typesRegex.test(item.type.value)) {
+            return false
+          }
+
+          // formalFrameworks
+          if (
+            formalFrameworks &&
+            formalFrameworks.length > 0 &&
+            !formalFrameworksRegex.test(item.formal_framework.value)
           ) {
             return false
           }
