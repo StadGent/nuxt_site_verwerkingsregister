@@ -163,4 +163,8 @@ replaced by our own.
 .checkbox-filter__count {
   display: none;
 }
+
+.checkbox-filter__content {
+  -webkit-overflow-scrolling: touch;
+}
 </style>
