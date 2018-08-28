@@ -164,7 +164,7 @@ replaced by our own.
   display: none;
 }
 
-.checkbox-filter__content {
+.checkbox-filter .checkbox-filter__modal {
   -webkit-overflow-scrolling: touch;
 }
 </style>
