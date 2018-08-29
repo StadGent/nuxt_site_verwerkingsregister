@@ -12,50 +12,48 @@
           <span>Sluiten</span><i class="icon-close" aria-hidden="true"/>
         </button>
       </div>
-
-      <header>
+      <div class="checkbox-filter__content">
         <h3>{{ legend }} <span v-if="!required" class="label-optional">(Optioneel)</span></h3>
-      </header>
-
-      <div class="form-item">
-        <label :for="`checkboxes__filter_id_${legend}`">Filter onderstaande lijst</label>
-        <input id="`checkboxes__filter_id_${legend}`" type="search"
-               class="checkbox-filter__filter">
-        <div class="checkbox-filter__selected">
-          <span v-for="(value, index) in selectedItems" :key="`selected-${index}`"
-                :data-value="value"
-                class="tag filter">
-            {{ value }}
-            <button type="button" @click="removeTag(value)">
-              <span class="visually-hidden">Verwijder tag</span>
-            </button>
-          </span>
+        <div class="form-item">
+          <label :for="`checkboxes__filter_id_${legend}`">Filter onderstaande lijst</label>
+          <input id="`checkboxes__filter_id_${legend}`" type="search"
+                 class="checkbox-filter__filter">
+          <div class="checkbox-filter__selected">
+            <span v-for="(value, index) in selectedItems" :key="`selected-${index}`"
+                  :data-value="value"
+                  class="tag filter">
+              {{ value }}
+              <button type="button" @click="removeTag(value)">
+                <span class="visually-hidden">Verwijder tag</span>
+              </button>
+            </span>
+          </div>
         </div>
-        <strong aria-live="polite" class="checkbox-filter__result-wrapper">
-          We vonden <span class="checkbox-filter__result">#</span> resultaten.
-        </strong>
-      </div>
-
-      <div class="checkbox-filter__checkboxes">
-        <div v-for="(value, index) in items" :key="`${name}-chk-${index}`" class="checkbox">
-          <input :value="value" :id="`${name}-chk-${index}`"
-                 v-model="selectedItems"
-                 :name="name" type="checkbox"
-                 @change.prevent="updateValue">
-          <label :for="`${name}-chk-${index}`">{{ value }}</label>
+        <p class="checkbox-filter__result-wrapper">
+          <strong aria-live="polite" class="checkbox-filter__result-wrapper">
+            We vonden <span class="checkbox-filter__result">#</span> resultaten.
+          </strong>
+        </p>
+        <div class="checkbox-filter__checkboxes">
+          <div v-for="(value, index) in items" :key="`${name}-chk-${index}`" class="checkbox">
+            <input :value="value" :id="`${name}-chk-${index}`"
+                   v-model="selectedItems"
+                   :name="name" type="checkbox"
+                   @change.prevent="updateValue">
+            <label :for="`${name}-chk-${index}`">{{ value }}</label>
+          </div>
         </div>
       </div>
-
-      <footer class="checkbox-filter__actions">
+      <div class="checkbox-filter__actions">
         <button type="button" class="button button-primary button-small checkbox-filter__submit"
                 @click="updateCount">Bevestig selectie</button>
-      </footer>
+      </div>
     </div>
 
     <div class="overlay checkbox-filter__close"
          @click="close" />
 
-    <p>
+    <p v-if="selectedCount > 0">
       <strong><span class="checkbox-filter__count"/>{{ `${selectedCount} ${selected_legend} geselecteerd` }}</strong>
     </p>
 
