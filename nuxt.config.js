@@ -3,17 +3,50 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: "verwerkingsregister",
+    title: "Verwerkingsregister",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "Nuxt.js project" }
+      {
+        hid: "description",
+        name: "description",
+        content:
+          "De Stad en het OCMW Gent vinden de bescherming van uw persoonsgegevens erg belangrijk.\n" +
+          "Daarom vindt u op deze pagina een overzicht van de verwerkingen van persoonsgegevens die we uitvoeren."
+      },
+      { name: "msapplication-TileColor", content: "#009DE0" },
+      { name: "theme-color", content: "#009DE0" }
     ],
     link: [
       {
+        rel: "apple",
+        sizes: "180x180",
+        href: "/favicon/apple-touch-icon.png"
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "favicon/favicon-32x32.png"
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        href: "favicon/favicon-16x16.png"
+      },
+      {
+        rel: "manifest",
+        href: "favicon/site.webmanifest"
+      },
+      {
+        rel: "mask-icon",
+        href: "favicon/safari-pinned-tab.svg"
+      },
+      {
         rel: "icon",
         type: "image/x-icon",
-        href: "/favicon.ico"
+        href: "/favicon.ico?v2"
       }
     ]
   },
