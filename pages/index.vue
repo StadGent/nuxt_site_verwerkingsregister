@@ -24,7 +24,7 @@ const CheckboxFilter = require("~/node_modules/gent_styleguide/build/styleguide/
 export default {
   head() {
     return {
-      title: "verwerkingsregister"
+      title: "Verwerkingsregister"
     }
   },
   components: {
