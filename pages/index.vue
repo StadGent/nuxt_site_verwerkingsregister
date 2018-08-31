@@ -1,8 +1,7 @@
 <template>
   <section class="content-container">
     <h1 class="overview-title">
-      Lijst verwerkingen van
-      <span class="overview-title-colon">persoonsgegevens<span class="colon" aria-hidden="true"/></span>
+      <span class="overview-title-colon">Lijst verwerkingen van persoonsgegevens<span class="colon" aria-hidden="true"/></span>
     </h1>
     <aside class="box-top">
       <div class="inner-box">
@@ -24,7 +23,7 @@ const CheckboxFilter = require("~/node_modules/gent_styleguide/build/styleguide/
 export default {
   head() {
     return {
-      title: "verwerkingsregister"
+      title: "Verwerkingsregister"
     }
   },
   components: {

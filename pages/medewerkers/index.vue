@@ -1,8 +1,7 @@
 <template>
   <section class="content-container">
     <h1 class="overview-title">
-      Lijst verwerkingen van persoonsgegevens voor
-      <span class="overview-title-colon">medewerkers<span class="colon" aria-hidden="true"/></span>
+      <span class="overview-title-colon">Lijst verwerkingen van persoonsgegevens voor medewerkers<span class="colon" aria-hidden="true"/></span>
     </h1>
     <aside class="box-top">
       <div class="inner-box">

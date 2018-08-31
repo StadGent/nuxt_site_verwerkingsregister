@@ -135,7 +135,6 @@ $styleguide-dir: '..';
 @import "@/node_modules/gent_styleguide/build/styleguide/sass/61-layouts/general/sidebar-layout/_sidebar-layout.scss";
 // endinject
 
-@import "atoms/skiplink";
 @import "molecules/teaser-search";
 @import "organisms/header";
 
@@ -152,14 +151,5 @@ html.wf-active {
   .container {
     transition: .1s opacity ease-in;
     opacity: 1;
-  }
-}
-
-// Todo: remove after styleguide update!
-h1.overview-title {
-  display: block;
-
-  .overview-title-colon {
-    white-space: nowrap;
   }
 }

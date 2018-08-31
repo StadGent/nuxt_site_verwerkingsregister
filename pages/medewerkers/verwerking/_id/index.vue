@@ -10,7 +10,17 @@ export default {
     return {
       title: `${
         this.details.name ? this.details.name.value : ""
-      } | verwerkingsregister`
+      } | verwerkingsregister`,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.details.description
+            ? this.details.description.value
+            : "De Stad en het OCMW Gent vinden de bescherming van uw persoonsgegevens erg belangrijk.\n" +
+              "Daarom vindt u op deze pagina een overzicht van de verwerkingen van persoonsgegevens die we uitvoeren."
+        }
+      ]
     }
   },
   meta: {
