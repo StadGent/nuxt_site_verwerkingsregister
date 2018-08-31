@@ -17,9 +17,6 @@
 import introductietekst from "~/components/introductietekst"
 import filterLayout from "~/components/organisms/filter_layout"
 
-const Modal = require("~/node_modules/gent_styleguide/build/styleguide/js/modal.functions")
-const CheckboxFilter = require("~/node_modules/gent_styleguide/build/styleguide/js/checkbox_filter.functions")
-
 export default {
   head() {
     return {
@@ -51,6 +48,9 @@ export default {
     }
   },
   mounted() {
+    const Modal = require("~/assets/js/modal.functions-min")
+    const CheckboxFilter = require("~/assets/js/checkbox_filter.functions")
+
     // init gent_styleguide modal
     const filter = document.querySelector("#filter")
     new Modal(filter, {

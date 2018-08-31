@@ -1,0 +1,1 @@
+"use strict";!function(){if(Accordion)for(var c=document.querySelectorAll(".accordion"),o=c.length;o--;)new Accordion(c[o])}();

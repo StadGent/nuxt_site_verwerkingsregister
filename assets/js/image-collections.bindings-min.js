@@ -1,0 +1,1 @@
+"use strict";baguetteBox&&baguetteBox.run(".js-lightbox",{filter:/.*/i,async:!0,captions:function(t){var e=t.querySelector("figcaption");return e?e.innerText:null},buttons:!0});
