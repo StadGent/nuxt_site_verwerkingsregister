@@ -161,4 +161,8 @@ replaced by our own.
 .checkbox-filter__count {
   display: none;
 }
+
+.checkbox-filter .checkbox-filter__modal .checkbox-filter__content {
+  overflow-y: auto;
+}
 </style>
