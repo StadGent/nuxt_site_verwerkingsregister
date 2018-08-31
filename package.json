@@ -5,7 +5,7 @@
   "author": "bart <bart.delrue@digipolis.gent>",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "HOST=0.0.0.0 nuxt",
     "build": "nuxt build",
     "start": "PORT=8080 nuxt start",
     "generate": "nuxt generate",
