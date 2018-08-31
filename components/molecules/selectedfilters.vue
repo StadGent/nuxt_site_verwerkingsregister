@@ -82,6 +82,7 @@ export default {
       query.check = ++query.check || 0
 
       this.$router.push({
+        path: `${this.$route.path}#result`,
         query: query
       })
     }

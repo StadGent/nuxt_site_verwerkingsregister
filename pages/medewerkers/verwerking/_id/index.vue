@@ -24,8 +24,9 @@ export default {
     }
   },
   meta: {
-    breadcrumbs: [{ label: "verwerkingsregister", path: "/" }]
+    home: "/medewerkers"
   },
+  middleware: "home",
   components: { verwerking },
   async fetch({ store, params, error }) {
     // Only fetch items once
@@ -35,7 +36,7 @@ export default {
     }
     if (!store.state.details[id]) {
       try {
-        await store.dispatch("GET_DETAIL_CIV", id)
+        await store.dispatch("GET_DETAIL_EMP", id)
       } catch (err) {
         if (err.statusCode) {
           error(err)

@@ -2,7 +2,7 @@
   <nav v-if="total > 1" class="pager" aria-labelledby="pagination_1">
     <h2 id="pagination_1" class="visually-hidden">Pagination</h2>
     <ul class="pager__items">
-      <li v-if="1 !== +active">
+      <li v-if="1 !== +active" class="previous">
         <nuxt-link :to="{path: `${this.$route.path}#result`, query: Object.assign({}, $route.query,{page: +active-1})}"
                    class="previous"
                    @click.native="blur">
@@ -45,7 +45,7 @@
           {{ +active + 1 }}
         </nuxt-link>
       </li>
-      <li v-if="total - active > 3">...</li>
+      <li v-if="total - active > 2">...</li>
       <li>
         <nuxt-link :to="{path: `${this.$route.path}#result`, query: Object.assign({}, $route.query, {page: total})}"
                    :title="`Ga naar pagina ${total}`"
@@ -55,7 +55,7 @@
           {{ total }}
         </nuxt-link>
       </li>
-      <li v-if="total !== +active">
+      <li v-if="total !== +active" class="next">
         <nuxt-link :to="{path: `${this.$route.path}#result`, query: Object.assign({}, $route.query, {page: +active+1})}"
                    class="next"
                    @click.native="blur">

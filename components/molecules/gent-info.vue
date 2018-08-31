@@ -3,11 +3,19 @@
     <div class="gentinfo-block-content">
       <h2>Gentinfo</h2>
       <p class="">Bereikbaar van maandag t.e.m. zaterdag van 8:00 tot 19:00 uur.</p>
-      <ul class="">
-        <li><a href="tel:09 210 10 10" alt="Gentinfo tel link"
-               class="button button-secondary button-call icon-phone">T: 09 210 10 10</a></li>
-        <li><a href="mailto:gentinfo@stad.gent" alt="Gentinfo mail link">Gentinfo@stad.gent</a></li>
-        <li><a href="https://stad.gent/contact" class="standalone-link" alt="Contact form">Contactformulier</a></li>
+      <ul class="icon-list">
+        <li>
+          <i class="icon-phone" aria-hidden="true"/>
+          <a href="tel:09 210 10 10" alt="Gentinfo tel link">09 210 10 10</a>
+        </li>
+        <li>
+          <i class="icon-envelope" aria-hidden="true"/>
+          <a href="mailto:gentinfo@stad.gent" alt="Gentinfo mail link">Gentinfo@stad.gent</a>
+        </li>
+        <li>
+          <i class="icon-document" aria-hidden="true"/>
+          <a href="https://stad.gent/contact" alt="Contact form">Contactformulier</a>
+        </li>
       </ul>
     </div>
   </div>

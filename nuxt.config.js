@@ -3,22 +3,50 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: "verwerkingsregister",
+    title: "Verwerkingsregister",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "Nuxt.js project" }
+      {
+        hid: "description",
+        name: "description",
+        content:
+          "De Stad en het OCMW Gent vinden de bescherming van uw persoonsgegevens erg belangrijk.\n" +
+          "Daarom vindt u op deze pagina een overzicht van de verwerkingen van persoonsgegevens die we uitvoeren."
+      },
+      { name: "msapplication-TileColor", content: "#009DE0" },
+      { name: "theme-color", content: "#009DE0" }
     ],
     link: [
+      {
+        rel: "apple",
+        sizes: "180x180",
+        href: "/apple-touch-icon.png"
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "/favicon-32x32.png"
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        href: "/favicon-16x16.png"
+      },
+      {
+        rel: "manifest",
+        href: "/site.webmanifest"
+      },
+      {
+        rel: "mask-icon",
+        href: "/safari-pinned-tab.svg"
+      },
       {
         rel: "icon",
         type: "image/x-icon",
         href: "/favicon.ico"
-      }
-    ],
-    script: [
-      {
-        src: "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
       }
     ]
   },
@@ -30,7 +58,10 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ["babel-polyfill", "~/assets/js/base-min.js"],
+    vendor: [
+      "babel-polyfill",
+      "~/node_modules/gent_styleguide/build/styleguide/js/base-min.js"
+    ],
     babel: {
       presets: [
         [
@@ -59,7 +90,7 @@ module.exports = {
           enforce: "pre",
           test: /\.(js|vue)$/,
           loader: "eslint-loader",
-          exclude: /(node_modules)/
+          exclude: /(node_modules|assets)/
         })
       }
       const vueLoader = config.module.rules.find(
@@ -76,7 +107,16 @@ module.exports = {
       config.module.rules.forEach(rule => changeLoaderOptions(rule.use))
     }
   },
-  css: ["@/assets/sass/main.scss"]
+  css: ["@/assets/sass/main.scss"],
+  plugins: [{ src: "~plugins/webFontLoader.js", ssr: false }],
+  modules: [
+    [
+      "@nuxtjs/google-analytics",
+      {
+        id: "UA-791237-60"
+      }
+    ]
+  ]
 }
 
 function changeLoaderOptions(loaders) {

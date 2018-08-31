@@ -1,58 +1,61 @@
 <template>
   <fieldset class="form-item checkbox-filter">
-    <legend>{{ legend }} <span v-if="!required">(Optioneel)</span></legend>
+    <legend>{{ legend }} <span v-if="!required" class="label-optional">(Optioneel)</span></legend>
 
-    <div class="checkbox-filter__selected">
-      <span v-for="(value, index) in selectedItems" :key="`selected-${index}`"
-            :data-value="value"
-            class="tag filter">
-        {{ value }}
-        <button type="button" @click="removeTag(value)">
-          <span class="visually-hidden">Verwijder tag</span>
-        </button>
-      </span>
-    </div>
-
-    <div :aria-hidden="modalOpen"
+    <div :aria-hidden="`${!modalOpen}`"
          :class="`checkbox-filter__modal ${modalOpen ? 'visible' : ''}`"
          tabindex="-1">
-      <button type="button"
-              class="button icon-cross checkbox-filter__close"
-              @click="close">
-        <span>Close</span><i class="icon-close" aria-hidden="true"/>
-      </button>
-
-      <header>
-        <h3>{{ legend }} <span v-if="!required">(Optioneel)</span></h3>
-      </header>
-
-      <div class="form-item">
-        <label :for="`checkboxes__filter_id_${legend}`">Filter onderstaande lijst</label>
-        <input id="`checkboxes__filter_id_${legend}`" type="search"
-               class="checkbox-filter__filter">
-        <strong aria-live="polite" class="checkbox-filter__result-wrapper">
-          We vonden <span class="checkbox-filter__result">#</span> resultaten.
-        </strong>
+      <div class="modal-actions">
+        <button type="button"
+                class="button icon-cross modal-close checkbox-filter__close"
+                @click="close">
+          <span>Sluiten</span><i class="icon-close" aria-hidden="true"/>
+        </button>
       </div>
-
-      <div class="checkbox-filter__checkboxes">
-        <div v-for="(value, index) in items" :key="`${name}-chk-${index}`" class="checkbox">
-          <input :value="value" :id="`${name}-chk-${index}`"
-                 v-model="selectedItems"
-                 :name="name" type="checkbox"
-                 @change.prevent="updateValue">
-          <label :for="`${name}-chk-${index}`">{{ value }}</label>
+      <div class="checkbox-filter__content">
+        <h3>{{ legend }} <span v-if="!required" class="label-optional">(Optioneel)</span></h3>
+        <div class="form-item">
+          <label :for="`checkboxes__filter_id_${legend}`">Filter onderstaande lijst</label>
+          <input id="`checkboxes__filter_id_${legend}`" type="search"
+                 class="checkbox-filter__filter">
+          <div class="checkbox-filter__selected">
+            <span v-for="(value, index) in selectedItems" :key="`selected-${index}`"
+                  :data-value="value"
+                  class="tag filter">
+              {{ value }}
+              <button type="button" @click="removeTag(value)">
+                <span class="visually-hidden">Verwijder tag</span>
+              </button>
+            </span>
+          </div>
+        </div>
+        <p class="checkbox-filter__result-wrapper">
+          <strong aria-live="polite" class="checkbox-filter__result-wrapper">
+            We vonden <span class="checkbox-filter__result">#</span> resultaten.
+          </strong>
+        </p>
+        <div class="checkbox-filter__checkboxes">
+          <div v-for="(value, index) in items" :key="`${name}-chk-${index}`" class="checkbox">
+            <input :value="value" :id="`${name}-chk-${index}`"
+                   v-model="selectedItems"
+                   :name="name" type="checkbox"
+                   @change.prevent="updateValue">
+            <label :for="`${name}-chk-${index}`">{{ value }}</label>
+          </div>
         </div>
       </div>
-
-      <footer class="checkbox-filter__actions">
-        <button type="button" class="button button-primary button-small checkbox-filter__submit">Bevestig selectie</button>
-      </footer>
-
+      <div class="checkbox-filter__actions">
+        <button type="button" class="button button-primary button-small checkbox-filter__submit"
+                @click="updateCount">Bevestig selectie</button>
+      </div>
     </div>
 
     <div class="overlay checkbox-filter__close"
          @click="close" />
+
+    <p v-if="selectedCount > 0">
+      <strong><span class="checkbox-filter__count"/>{{ `${selectedCount} ${selected_legend} geselecteerd` }}</strong>
+    </p>
 
     <button type="button"
             class="button button-secondary button-small checkbox-filter__open"
@@ -63,8 +66,6 @@
 </template>
 
 <script>
-const CheckboxFilter = require("~/assets/js/checkbox_filter.functions-min")
-
 export default {
   props: {
     required: {
@@ -74,6 +75,10 @@ export default {
       }
     },
     legend: {
+      type: String,
+      required: true
+    },
+    selected_legend: {
       type: String,
       required: true
     },
@@ -97,13 +102,12 @@ export default {
     return {
       selectedItems: this.value,
       tempItems: [],
-      modalOpen: false
+      modalOpen: false,
+      selectedCount: 0
     }
   },
   mounted() {
-    new CheckboxFilter(document.querySelector(".checkbox-filter"), {
-      makeTags: false
-    })
+    this.updateCount()
   },
   methods: {
     /**
@@ -121,22 +125,44 @@ export default {
       if (index > -1) {
         this.selectedItems.splice(index, 1)
       }
-      this.updateValue()
     },
     /**
      * Close the modal and restore selectedItems.
      */
     close() {
-      this.modalOpen = false
       this.selectedItems = this.tempItems
+      this.updateCount()
+      this.updateValue()
+      this.modalOpen = false
     },
     /**
      * Open the modal and save selectedItems.
      */
     open() {
       this.modalOpen = true
-      this.tempItems = this.selectedItems
+      // make a shallow copy
+      this.tempItems = this.selectedItems.slice()
+    },
+    /**
+     * Updated the selected items count.
+     */
+    updateCount() {
+      this.selectedCount = this.selectedItems.length
     }
   }
 }
 </script>
+
+<style>
+/*
+Hide the styleguide required countspan,
+replaced by our own.
+*/
+.checkbox-filter__count {
+  display: none;
+}
+
+.checkbox-filter .checkbox-filter__modal .checkbox-filter__content {
+  overflow-y: auto;
+}
+</style>
