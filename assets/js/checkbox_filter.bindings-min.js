@@ -1,1 +1,0 @@
-"use strict";!function(){if(CheckboxFilter)for(var e=document.querySelectorAll(".checkbox-filter"),t=e.length;t--;)new CheckboxFilter(e[t],{hiddenTagText:"Remove tag"})}();

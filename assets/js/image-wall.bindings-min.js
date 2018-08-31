@@ -1,1 +1,0 @@
-"use strict";!function(){if(Masonry&&imagesLoaded){var e=document.querySelector(".image-wall");if(e){var i=new Masonry(e,{columnWidth:"li:not(.hidden)",itemSelector:"li",transitionDuration:0,gutter:24});imagesLoaded(e).on("progress",function(){i.layout()})}}}();

@@ -48,8 +48,8 @@ export default {
     }
   },
   mounted() {
-    const Modal = require("~/assets/js/modal.functions-min")
-    const CheckboxFilter = require("~/assets/js/checkbox_filter.functions")
+    const Modal = require("~/assets/styleguide/js/modal.functions-min")
+    const CheckboxFilter = require("~/assets/styleguide/js/checkbox_filter.functions")
 
     // init gent_styleguide modal
     const filter = document.querySelector("#filter")

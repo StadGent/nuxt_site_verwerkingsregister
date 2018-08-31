@@ -7,10 +7,11 @@
   "scripts": {
     "dev": "HOST=0.0.0.0 nuxt",
     "build": "nuxt build",
-    "start": "PORT=8080 nuxt start",
+    "start": "HOST=0.0.0.0 PORT=8080 nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .eslintignore .",
-    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .eslintignore ."
+    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .eslintignore .",
+    "postinstall": "./postinstall.sh"
   },
   "pre-commit": [
     "lint"

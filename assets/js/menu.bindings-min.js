@@ -1,1 +1,0 @@
-"use strict";!function(){if(Menu)for(var e=document.querySelectorAll("nav.menu"),n=e.length;n--;)new Menu(e[n])}();
