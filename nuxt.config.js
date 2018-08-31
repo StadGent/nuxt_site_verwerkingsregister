@@ -21,32 +21,32 @@ module.exports = {
       {
         rel: "apple",
         sizes: "180x180",
-        href: "/favicon/apple-touch-icon.png"
+        href: "/apple-touch-icon.png"
       },
       {
         rel: "icon",
         type: "image/png",
         sizes: "32x32",
-        href: "favicon/favicon-32x32.png"
+        href: "/favicon-32x32.png"
       },
       {
         rel: "icon",
         type: "image/png",
         sizes: "16x16",
-        href: "favicon/favicon-16x16.png"
+        href: "/favicon-16x16.png"
       },
       {
         rel: "manifest",
-        href: "favicon/site.webmanifest"
+        href: "/site.webmanifest"
       },
       {
         rel: "mask-icon",
-        href: "favicon/safari-pinned-tab.svg"
+        href: "/safari-pinned-tab.svg"
       },
       {
         rel: "icon",
         type: "image/x-icon",
-        href: "/favicon.ico?v2"
+        href: "/favicon.ico"
       }
     ]
   },
