@@ -16,7 +16,7 @@
         <h3>{{ legend }} <span v-if="!required" class="label-optional">(Optioneel)</span></h3>
         <div class="form-item">
           <label :for="`checkboxes__filter_id_${legend}`">Filter onderstaande lijst</label>
-          <input id="`checkboxes__filter_id_${legend}`" type="search"
+          <input :id="`checkboxes__filter_id_${legend}`" type="search"
                  class="checkbox-filter__filter">
           <div class="checkbox-filter__selected">
             <span v-for="(value, index) in selectedItems" :key="`selected-${index}`"
