@@ -15,13 +15,13 @@ SELECT
   (group_concat(distinct ?grantee;separator=',') as ?grantees)
 FROM <http://stad.gent/data-processes/>
 WHERE {
-  ?verwerking a <http://data.vlaanderen.be/ns/toestemming#VerwerkingsActiviteit>;
-  dcterms:identifier ?id;
-  <http://data.vlaanderen.be/ns/toestemming#verwerkingsgrond>/skos:prefLabel ?formal_framework .
-  ?verwerking <http://data.vlaanderen.be/ns/toestemming#verwerker>/skos:prefLabel ?processor;
-  dcterms:type/skos:prefLabel ?type;
-  dcterms:title ?name; 
-  <http://stad.gent/data/ns/data-processing/grantee>/skos:prefLabel ?grantee .
+  ?verwerking a <http://data.vlaanderen.be/ns/toestemming#VerwerkingsActiviteit>.
+  ?verwerking <http://data.vlaanderen.be/ns/toestemming#verwerkingsgrond>/skos:prefLabel ?formal_framework .
+  ?verwerking <http://data.vlaanderen.be/ns/toestemming#verwerker>/skos:prefLabel ?processor.
+  ?verwerking dcterms:type/skos:prefLabel ?type.
+  ?verwerking dcterms:identifier ?id .
+  ?verwerking dcterms:title ?name. 
+  OPTIONAL { ?verwerking  <http://stad.gent/data/ns/data-processing/grantee>/skos:prefLabel ?grantee }.
   OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasPersonalData>/dcterms:type/skos:prefLabel ?personalData }
   OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasSensitivePersonalData>/dcterms:type/skos:prefLabel ?sensitivePersonalData }
 }
@@ -36,7 +36,7 @@ group by
 /**
  * @return {string}
  */
-export function DETAIL(id, URL) {
+export function DETAIL(id) {
   return `PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
   PREFIX dcterms: <http://purl.org/dc/terms/> 
   PREFIX gdv: <http://stad.gent/data/ns/data-processing/> 
@@ -59,17 +59,17 @@ export function DETAIL(id, URL) {
     ?verwerking a <http://data.vlaanderen.be/ns/toestemming#VerwerkingsActiviteit>; 
     dcterms:identifier ?id; 
     dcterms:description ?description; 
-    <http://data.vlaanderen.be/ns/toestemming#verwerkingsgrond>/skos:prefLabel ?formal_framework; 
-    gdv:formalFrameworkClarification ?formal_framework_clarification . 
-    ?verwerking <http://data.vlaanderen.be/ns/toestemming#verwerker>/skos:prefLabel ?processor; 
     dcterms:type/skos:prefLabel ?type; 
     dcterms:title ?name;  
-    <http://stad.gent/data/ns/data-processing/grantee>/skos:prefLabel ?grantee; 
-    dcterms:temporal/dcterms:title ?storagePeriod 
+    dcterms:temporal/dcterms:title ?storagePeriod;
+    <http://data.vlaanderen.be/ns/toestemming#verwerkingsgrond>/skos:prefLabel ?formal_framework;
+    <http://data.vlaanderen.be/ns/toestemming#verwerker>/skos:prefLabel ?processor.
+    OPTIONAL { ?verwerking gdv:formalFrameworkClarification ?formal_framework_clarification }
+    OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/grantee>/skos:prefLabel ?grantee }
     OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasPersonalData>/dcterms:type/skos:prefLabel ?personalData } 
     OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasSensitivePersonalData>/dcterms:type/skos:prefLabel ?sensitivePersonalData } 
     OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasPersonalData>/dcterms:description ?personalDataDescription } 
     OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasSensitivePersonalData>/dcterms:description ?sensitivePersonalDataDescription } 
-    FILTER (?verwerking=<${URL}id/data-process/${id}>) 
+    FILTER (?verwerking=<http://stad.gent/id/data-processing/types/${id}>) 
   }`
 }
