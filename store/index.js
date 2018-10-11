@@ -71,10 +71,15 @@ const processList = result => {
     // check for cached version
     if (!result.cached) {
       result.map(verwerking => {
-        verwerking.grantees.value = verwerking.grantees.value.split(",")
-        verwerking.personalData.value = verwerking.personalData.value.split(",")
+        verwerking.grantees.value =
+          verwerking.grantees.value === ""
+            ? []
+            : verwerking.grantees.value.split(",")
+        verwerking.personalData.value =
+          verwerking.personalData.value === ""
+            ? []
+            : verwerking.personalData.value.split(",")
       })
-
       // label data as cached
       result.cached = true
     }
