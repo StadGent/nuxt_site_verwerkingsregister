@@ -3,14 +3,7 @@ import axios from "axios"
 import { cacheAdapterEnhancer } from "axios-extensions"
 import LRUCache from "lru-cache"
 // Todo: add distinct queries for employers and civilians.
-import {
-  COUNT as COUNT_QUERY_CIV,
-  LIST as LIST_QUERY_CIV,
-  DETAIL as DETAIL_QUERY_CIV,
-  COUNT as COUNT_QUERY_EMP,
-  LIST as LIST_QUERY_EMP,
-  DETAIL as DETAIL_QUERY_EMP
-} from "~/queries"
+import { COUNT, LIST, DETAIL } from "~/queries"
 
 const SIX_HOURS = 1000 * 60 * 60 * 6
 const LIMIT = 1000
@@ -71,8 +64,14 @@ const processList = result => {
     // check for cached version
     if (!result.cached) {
       result.map(verwerking => {
-        verwerking.grantees.value = verwerking.grantees.value.split(",")
-        verwerking.personalData.value = verwerking.personalData.value.split(",")
+        verwerking.grantees.value =
+          verwerking.grantees.value !== ""
+            ? verwerking.grantees.value.split(",")
+            : []
+        verwerking.personalData.value =
+          verwerking.personalData.value !== ""
+            ? verwerking.personalData.value.split(",")
+            : []
       })
 
       // label data as cached
@@ -120,7 +119,7 @@ export default () => {
         let count, result
         try {
           count = await http.get(
-            URL + "sparql?query=" + encodeURIComponent(COUNT_QUERY_CIV)
+            URL + "sparql?query=" + encodeURIComponent(COUNT("burger"))
           )
         } catch (error) {
           throw error
@@ -136,7 +135,7 @@ export default () => {
                     URL +
                       "sparql?query=" +
                       encodeURIComponent(
-                        LIST_QUERY_CIV +
+                        LIST("burger") +
                           " LIMIT " +
                           LIMIT +
                           " OFFSET " +
@@ -175,9 +174,7 @@ export default () => {
         let result
         try {
           result = await http.get(
-            URL +
-              "sparql/?query=" +
-              encodeURIComponent(DETAIL_QUERY_CIV(id, URL))
+            URL + "sparql/?query=" + encodeURIComponent(DETAIL(id, URL))
           )
         } catch (error) {
           // connection error
@@ -202,7 +199,7 @@ export default () => {
         let count, result
         try {
           count = await http.get(
-            URL + "sparql?query=" + encodeURIComponent(COUNT_QUERY_EMP)
+            URL + "sparql?query=" + encodeURIComponent(COUNT("werknemer stad"))
           )
         } catch (error) {
           throw error
@@ -218,7 +215,7 @@ export default () => {
                     URL +
                       "sparql?query=" +
                       encodeURIComponent(
-                        LIST_QUERY_EMP +
+                        LIST("werknemer stad") +
                           " LIMIT " +
                           LIMIT +
                           " OFFSET " +
@@ -257,9 +254,7 @@ export default () => {
         let result
         try {
           result = await http.get(
-            URL +
-              "sparql/?query=" +
-              encodeURIComponent(DETAIL_QUERY_EMP(id, URL))
+            URL + "sparql/?query=" + encodeURIComponent(DETAIL(id, URL))
           )
         } catch (error) {
           // connection error
