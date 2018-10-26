@@ -15,29 +15,32 @@
           <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
           <input id="name" v-model="filter.name" type="text" name="name">
         </div>
-
-        <checkbox_with_filter :items="processors"
+        <checkbox_with_filter v-if="processors.length"
+                              :items="processors"
                               :legend="'Verwerkende dienst'"
                               :selected_legend="'dienst(en)'"
                               :name="'processor[]'"
                               v-model="filter['processor[]']"/>
-        <checkbox_with_filter :items="personalData"
+        <checkbox_with_filter v-if="personalData.length"
+                              :items="personalData"
                               :legend="'Welke gegevens?'"
                               :selected_legend="'gegeven(s)'"
                               :name="'personalData[]'"
                               v-model="filter['personalData[]']"/>
-        <checkbox_with_filter :items="grantees"
+        <checkbox_with_filter v-if="grantees.length"
+                              :items="grantees"
                               :legend="'Ontvanger'"
                               :selected_legend="'ontvanger(s)'"
                               :name="'grantees[]'"
                               v-model="filter['grantees[]']"/>
-        <checkbox_with_filter :items="types"
+        <checkbox_with_filter v-if="types.length"
+                              :items="types"
                               :legend="'Categorie'"
                               :selected_legend="'categorie(ën)'"
                               :name="'types[]'"
                               v-model="filter['types[]']"/>
 
-        <fieldset class="form-item">
+        <fieldset v-if="formalFrameworks.length" class="form-item">
           <legend>Rechtmatigheid</legend>
           <div v-for="(formalFramework, index) in formalFrameworks" :key="index" class="checkbox" >
             <input :id="`formalFrameworks-chk-${index}`"
