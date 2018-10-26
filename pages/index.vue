@@ -48,7 +48,7 @@ export default {
     }
   },
   mounted() {
-    const Modal = require("~/assets/styleguide/js/modal.functions-min")
+    const Modal = require("~/assets/styleguide/js/modal.functions")
     const CheckboxFilter = require("~/assets/styleguide/js/checkbox_filter.functions")
 
     // init gent_styleguide modal
@@ -62,6 +62,11 @@ export default {
         }
       }
     })
+
+    const modal = document.querySelectorAll(".modal")
+    for (let i = modal.length; i--; ) {
+      new Modal(modal[i])
+    }
 
     // init gent_styleguide checkbox-with-filters
     const checkboxWithFilters = document.querySelectorAll(".checkbox-filter")

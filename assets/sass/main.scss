@@ -12,7 +12,7 @@ $styleguide-dir: '../styleguide';
 @import "../styleguide/sass/00-mixins/grid/_grid.scss";
 @import "../styleguide/sass/00-mixins/grid/_responsive-utilities.scss";
 @import "../styleguide/sass/00-mixins/svg/_spot-images.scss";
-@import "../styleguide/sass/00-mixins/svg/_svg-icons.scss";
+//@import "../styleguide/sass/00-mixins/svg/_svg-icons.scss";
 @import "../styleguide/sass/00-mixins/themify/_themify.scss";
 // endinject
 
@@ -42,7 +42,6 @@ $styleguide-dir: '../styleguide';
 @import "../styleguide/sass/21-atoms/link/_link.scss";
 @import "../styleguide/sass/21-atoms/list/_list.scss";
 @import "../styleguide/sass/21-atoms/logo/_logo.scss";
-@import "../styleguide/sass/21-atoms/modal-close/_modal-close.scss";
 @import "../styleguide/sass/21-atoms/paragraph/_paragraph.scss";
 @import "../styleguide/sass/21-atoms/skiplink/_skiplink.scss";
 @import "../styleguide/sass/21-atoms/tag/_tag.scss";
@@ -104,6 +103,7 @@ $styleguide-dir: '../styleguide';
 @import "../styleguide/sass/31-molecules/teasers/teaser-person/_teaser-person.scss";
 @import "../styleguide/sass/31-molecules/teasers/teaser-search/_teaser-search.scss";
 @import "../styleguide/sass/31-molecules/teasers/teaser-topic/_teaser-topic.scss";
+@import "../styleguide/sass/31-molecules/modal/_modal.scss";
 // endinject
 
 // inject:organisms
