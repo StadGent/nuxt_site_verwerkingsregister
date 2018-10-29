@@ -161,6 +161,7 @@ objects:
         protocol: TCP
         targetPort: 8080
     selector:
+      app: verwerkingsregister
       deploymentconfig: verwerkingsregister
     sessionAffinity: None
     type: ClusterIP
