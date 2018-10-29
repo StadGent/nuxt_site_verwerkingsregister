@@ -30,8 +30,9 @@ podTemplate(cloud: 'openshift') {
         stage('Deploy to DV') {
             checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
 
-            sh 'oc project verwerkingsregisterdv'
-            sh 'oc start-build verwerkingsregister'
+            sh 'chmod +x openshift/deploy-dv.sh'
+            sh 'openshift/deploy-dv.sh'
+			sh 'sleep 10'
 
             openshiftVerifyBuild bldCfg: 'verwerkingsregister', checkForTriggeredDeployments: 'false', namespace: 'verwerkingsregisterdv', verbose: 'false', waitTime: '600000'
             openshiftVerifyDeployment depCfg: 'verwerkingsregister', namespace: 'verwerkingsregisterdv', verbose: 'false', verifyReplicaCount: 'true', waitTime: '6000', waitUnit: 'sec'
@@ -49,7 +50,7 @@ podTemplate(cloud: 'openshift') {
 
 	            openshiftTag alias: 'false', destStream: 'verwerkingsregister', destTag: 'qa', destinationNamespace: 'verwerkingsregisterdv', namespace: 'verwerkingsregisterdv', srcStream: 'verwerkingsregister', srcTag: 'accepted_dv'
 
-	            sh 'oc project verwerkingsregisterqa'
+	            sh 'chmod +x openshift/deploy-qa.sh'
 	            sh "openshift/deploy-qa.sh"
 				sh "sleep 30"
 
@@ -72,16 +73,17 @@ podTemplate(cloud: 'openshift') {
 
 	    		checkout([$class: 'GitSCM', branches: [[name: 'refs/tags/approved_qa']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
 
+                sh 'chmod +x openshift/deploy-qa.sh'
 	    		sh "openshift/deploy-qa.sh"
 				sh "sleep 10"
 
 				openshiftVerifyDeployment depCfg: 'verwerkingsregister', namespace: 'verwerkingsregisterqa', verbose: 'false', verifyReplicaCount: 'true', waitTime: '6000', waitUnit: 'sec'
 
 				tagSource("approved_qa", "qa", 'Rolled QA back to last known good version')
-	    	} catch (err) {
+	    	} catch (error) {
 	    		// there is no approved_qa image or tag on the first run
 	    	}
-	    	throw err;
+	    	throw error;
 	    }
 	    throw err;
 
@@ -114,7 +116,7 @@ podTemplate(cloud: 'openshift') {
 					checkout([$class: 'GitSCM', branches: [[name: 'refs/tags/approved_qa']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
 
 	            	sh 'oc login https://openshift.gentgrp.gent.be:8443 --token=$token --insecure-skip-tls-verify'
-	                sh 'oc project verwerkingsregisterpr'
+	                sh 'chmod +x openshift/deploy-pr.sh'
 					sh "openshift/deploy-pr.sh"
 					sh "sleep 30"
 
@@ -133,7 +135,7 @@ podTemplate(cloud: 'openshift') {
     				openshiftTag alias: 'false', destStream: 'verwerkingsregister', destTag: 'production', destinationNamespace: 'verwerkingsregisterpr', namespace: 'verwerkingsregisterpr', srcStream: 'verwerkingsregister', srcTag: 'previous_production', apiURL: 'https://openshift.gentgrp.gent.be:8443', authToken: '$token'
 
     				sh 'oc login https://openshift.gentgrp.gent.be:8443 --token=$token --insecure-skip-tls-verify'
-	        		sh 'oc project verwerkingsregisterpr'
+	        		sh 'chmod +x openshift/deploy-pr.sh'
 	        		sh "openshift/deploy-pr.sh"
 					sh "sleep 30"
 
@@ -141,10 +143,10 @@ podTemplate(cloud: 'openshift') {
 
 					tagSource("previous_production", "production", 'Reverted production to last known good version')
         		}
-        	} catch (err) {
+        	} catch (error) {
         		// there is no previous_production image or tag on the first run
         	}
-        	throw err;
+        	throw error;
         }
         throw err;        
     }

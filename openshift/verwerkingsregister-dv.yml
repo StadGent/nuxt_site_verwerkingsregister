@@ -23,7 +23,7 @@ objects:
     output:
       to:
         kind: ImageStreamTag
-        name: 'verwerkingsregister:latest'
+        name: verwerkingsregister:latest
     postCommit: {}
     runPolicy: Serial
     source:
@@ -39,7 +39,7 @@ objects:
           - name: HOST
             value: 0.0.0.0
           - name: NODE_ENV
-            value: production
+            value: test
         from:
           kind: ImageStreamTag
           name: nodejs-8-rhel7:latest
@@ -69,6 +69,8 @@ objects:
       name: latest
       referencePolicy:
         type: ""
+  status:
+    dockerImageRepository: ""
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
@@ -118,9 +120,9 @@ objects:
                 protocol: TCP
             resources: 
               requests:
-                memory: 0.1Gi
-              limits:
                 memory: 0.5Gi
+              limits:
+                memory: 1Gi
             terminationMessagePath: /dev/termination-log
             terminationMessagePolicy: File
         dnsPolicy: ClusterFirst
@@ -137,7 +139,7 @@ objects:
             - verwerkingsregister
           from:
             kind: ImageStreamTag
-            name: 'verwerkingsregister:latest'
+            name: verwerkingsregister:latest
             namespace: verwerkingsregisterdv
           lastTriggeredImage: >-
             10.248.155.180:5000/verwerkingsregisterdv/verwerkingsregister:latest

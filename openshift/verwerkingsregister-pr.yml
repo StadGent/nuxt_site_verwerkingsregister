@@ -54,9 +54,9 @@ objects:
                 protocol: TCP
             resources: 
               requests:
-                memory: 0.1Gi
-              limits:
                 memory: 0.5Gi
+              limits:
+                memory: 1Gi
             terminationMessagePath: /dev/termination-log
             terminationMessagePolicy: File
         dnsPolicy: ClusterFirst
