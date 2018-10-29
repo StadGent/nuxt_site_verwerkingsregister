@@ -63,7 +63,7 @@ export default {
       }
     })
 
-    const modal = document.querySelectorAll(".modal")
+    const modal = document.querySelectorAll(".modal:not(#filter)")
     for (let i = modal.length; i--; ) {
       new Modal(modal[i])
     }

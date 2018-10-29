@@ -3,7 +3,7 @@
     <legend>{{ legend }} <span v-if="!required" class="label-optional">(Optioneel)</span></legend>
 
     <div :id="id"
-         class="modal checkbox-filter__modal"
+         class="modal modal--fixed-height checkbox-filter__modal"
          tabindex="-1">
       <div class="modal-inner">
         <div class="modal-header">
@@ -63,7 +63,8 @@
 
     <button :data-hash="hash"
             type="button"
-            class="button button-secondary button-small checkbox-filter__open ">
+            class="button button-secondary button-small checkbox-filter__open"
+            @click="open">
       Selecteer ...
     </button>
   </fieldset>
@@ -111,6 +112,7 @@ export default {
       selectedItems: this.value,
       tempItems: [],
       selectedCount: 0,
+      modalOpen: false,
       hash: `#${this.id}`
     }
   },
@@ -141,11 +143,13 @@ export default {
       this.selectedItems = this.tempItems
       this.updateCount()
       this.updateValue()
+      this.modalOpen = false
     },
     /**
      * Open the modal and save selectedItems.
      */
     open() {
+      this.modalOpen = true
       // make a shallow copy
       this.tempItems = this.selectedItems.slice()
     },
