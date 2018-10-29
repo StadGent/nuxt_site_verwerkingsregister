@@ -29,7 +29,7 @@ objects:
     source:
       git:
         ref: master
-        uri: 'https://github.com/StadGent/nuxt_site_verwerkingsregister.git'
+        uri: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git'
       sourceSecret:
         name: digipolisgent-ci
       type: Git
