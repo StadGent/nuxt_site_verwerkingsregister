@@ -63,7 +63,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: 10.248.155.180:5000/verwerkingsregisterdv/verwerkingsregister:latest
+        name: docker-registry.default.svc:5000/verwerkingsregisterdv/verwerkingsregister
       generation: null
       importPolicy: {}
       name: latest
@@ -112,7 +112,7 @@ objects:
               - name: DEPLOY_ENV
                 value: test
             image: >-
-              10.248.155.180:5000/verwerkingsregisterdv/verwerkingsregister:latest
+              docker-registry.default.svc:5000/verwerkingsregisterdv/verwerkingsregister
             imagePullPolicy: Always
             name: verwerkingsregister
             ports:
@@ -142,7 +142,7 @@ objects:
             name: verwerkingsregister:latest
             namespace: verwerkingsregisterdv
           lastTriggeredImage: >-
-            10.248.155.180:5000/verwerkingsregisterdv/verwerkingsregister:latest
+            docker-registry.default.svc:5000/verwerkingsregisterdv/verwerkingsregister
         type: ImageChange
 - apiVersion: v1
   kind: Service
