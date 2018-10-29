@@ -45,8 +45,10 @@ objects:
                 value: 0.0.0.0
               - name: DEPLOY_ENV
                 value: production
+              - name: NODE_VERSION_URL
+                value: https://semver.io/node/resolve/9.x
             image: >-
-              10.248.155.180:5000/verwerkingsregisterpr/verwerkingsregister:approved_qa
+              10.248.178.111:5000/verwerkingsregisterpr/verwerkingsregister:approved_qa
             imagePullPolicy: Always
             name: verwerkingsregister
             ports:

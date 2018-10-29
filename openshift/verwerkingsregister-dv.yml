@@ -15,9 +15,9 @@ objects:
   spec:
     resources:
       requests:
-        memory: 0.1Gi
-      limits:
         memory: 0.5Gi
+      limits:
+        memory: 1Gi
     failedBuildsHistoryLimit: 5
     nodeSelector: null
     output:
@@ -38,8 +38,10 @@ objects:
         env:
           - name: HOST
             value: 0.0.0.0
-          - name: NODE_ENV
+          - name: DEPLOY_ENV
             value: test
+          - name: NODE_VERSION_URL
+            value: https://semver.io/node/resolve/9.x
         from:
           kind: ImageStreamTag
           name: nodejs-8-rhel7:latest
@@ -63,7 +65,7 @@ objects:
     - annotations: null
       from:
         kind: DockerImage
-        name: docker-registry.default.svc:5000/verwerkingsregisterdv/verwerkingsregister
+        name: 10.248.155.180:5000/verwerkingsregisterdv/verwerkingsregister
       generation: null
       importPolicy: {}
       name: latest
@@ -109,10 +111,14 @@ objects:
       spec:
         containers:
           - env:
-              - name: DEPLOY_ENV
-                value: test
+            - name: HOST
+              value: 0.0.0.0
+            - name: DEPLOY_ENV
+              value: test
+            - name: NODE_VERSION_URL
+              value: https://semver.io/node/resolve/9.x
             image: >-
-              docker-registry.default.svc:5000/verwerkingsregisterdv/verwerkingsregister
+              10.248.155.180:5000/verwerkingsregisterdv/verwerkingsregister
             imagePullPolicy: Always
             name: verwerkingsregister
             ports:
@@ -142,7 +148,7 @@ objects:
             name: verwerkingsregister:latest
             namespace: verwerkingsregisterdv
           lastTriggeredImage: >-
-            docker-registry.default.svc:5000/verwerkingsregisterdv/verwerkingsregister
+            10.248.155.180:5000/verwerkingsregisterdv/verwerkingsregister
         type: ImageChange
 - apiVersion: v1
   kind: Service
