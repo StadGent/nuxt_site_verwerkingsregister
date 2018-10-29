@@ -1,8 +1,14 @@
-export const COUNT = `SELECT (count(?verwerking) as ?count)
+export function COUNT(audience) {
+  return `SELECT (count(?verwerking) as ?count)
 FROM <http://stad.gent/data-processes/>
-WHERE { ?verwerking a <http://data.vlaanderen.be/ns/toestemming#VerwerkingsActiviteit> }`
+WHERE { ?verwerking a <http://data.vlaanderen.be/ns/toestemming#VerwerkingsActiviteit> .
+  ?verwerking <http://schema.org/audience> ?audience 
+  FILTER (?audience="${audience}"^^xsd:string)
+}`
+}
 
-export const LIST = `PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+export function LIST(audience) {
+  return `PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX gdv: <http://stad.gent/data/ns/data-processing/>
 SELECT
@@ -13,6 +19,7 @@ SELECT
   (concat(group_concat(distinct ?personalData;separator=','),group_concat(distinct ?sensitivePersonalData;separator=',')) as ?personalData)
   ?formal_framework
   (group_concat(distinct ?grantee;separator=',') as ?grantees)
+  ?audience
 FROM <http://stad.gent/data-processes/>
 WHERE {
   ?verwerking a <http://data.vlaanderen.be/ns/toestemming#VerwerkingsActiviteit>.
@@ -21,9 +28,11 @@ WHERE {
   ?verwerking dcterms:type/skos:prefLabel ?type.
   ?verwerking dcterms:identifier ?id .
   ?verwerking dcterms:title ?name. 
+  ?verwerking  <http://schema.org/audience> ?audience
   OPTIONAL { ?verwerking  <http://stad.gent/data/ns/data-processing/grantee>/skos:prefLabel ?grantee }.
   OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasPersonalData>/dcterms:type/skos:prefLabel ?personalData }
   OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasSensitivePersonalData>/dcterms:type/skos:prefLabel ?sensitivePersonalData }
+  FILTER (?audience="${audience}"^^xsd:string)
 }
 group by
 ?verwerking
@@ -31,7 +40,9 @@ group by
 ?formal_framework
 ?processor
 ?type
-?name`
+?name
+?audience`
+}
 
 /**
  * @return {string}
