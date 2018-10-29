@@ -141,7 +141,7 @@ podTemplate(cloud: 'openshift') {
 
 					tagSource("previous_production", "production", 'Reverted production to last known good version')
         		}
-        	} cath (err) {
+        	} catch (err) {
         		// there is no previous_production image or tag on the first run
         	}
         	throw err;
