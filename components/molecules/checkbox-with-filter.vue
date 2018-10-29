@@ -47,7 +47,9 @@
           </div>
         </div>
         <div class="modal-actions">
-          <button type="button" class="button button-primary button-small checkbox-filter__submit modal-close"
+          <button :data-target="id"
+                  type="button"
+                  class="button button-primary button-small checkbox-filter__submit modal-close"
                   @click="updateCount">Bevestig selectie</button>
         </div>
       </div>
@@ -159,7 +161,10 @@ export default {
      * Updated the selected items count.
      */
     updateCount() {
+      this.modalOpen = false
       this.selectedCount = this.selectedItems.length
+      console.log(this.selectedItems)
+      this.modalOpen = false
     }
   }
 }

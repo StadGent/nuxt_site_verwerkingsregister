@@ -57,7 +57,7 @@ export default {
       resizeEvent: () => {
         if (window.innerWidth > 768) {
           filter.setAttribute("aria-hidden", "false")
-        } else {
+        } else if (!filter.classList.contains("visible")) {
           filter.setAttribute("aria-hidden", "true")
         }
       },
