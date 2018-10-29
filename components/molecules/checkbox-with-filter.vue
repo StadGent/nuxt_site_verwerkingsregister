@@ -3,7 +3,7 @@
     <legend>{{ legend }} <span v-if="!required" class="label-optional">(Optioneel)</span></legend>
 
     <div :id="id"
-         class="modal modal--fixed-height checkbox-filter__modal"
+         :class="`modal modal--fixed-height checkbox-filter__modal${modalOpen ? ' visible' : ''}`"
          tabindex="-1">
       <div class="modal-inner">
         <div class="modal-header">
@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="modal-actions">
-          <button type="button" class="button button-primary button-small checkbox-filter__submit"
+          <button type="button" class="button button-primary button-small checkbox-filter__submit modal-close"
                   @click="updateCount">Bevestig selectie</button>
         </div>
       </div>
@@ -62,8 +62,10 @@
     </p>
 
     <button :data-hash="hash"
+            :aria-controls="id"
             type="button"
             class="button button-secondary button-small checkbox-filter__open"
+            aria-expanded="false"
             @click="open">
       Selecteer ...
     </button>

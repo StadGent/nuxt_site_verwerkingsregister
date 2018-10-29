@@ -60,12 +60,13 @@ export default {
         } else {
           filter.setAttribute("aria-hidden", "true")
         }
-      }
+      },
+      changeHash: false
     })
 
     const modal = document.querySelectorAll(".modal:not(#filter)")
     for (let i = modal.length; i--; ) {
-      new Modal(modal[i])
+      new Modal(modal[i], { changeHash: false })
     }
 
     // init gent_styleguide checkbox-with-filters
