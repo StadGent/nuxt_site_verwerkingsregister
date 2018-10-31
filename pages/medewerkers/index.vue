@@ -61,11 +61,17 @@ export default {
       resizeEvent: () => {
         if (window.innerWidth > 768) {
           filter.setAttribute("aria-hidden", "false")
-        } else {
+        } else if (!filter.classList.contains("visible")) {
           filter.setAttribute("aria-hidden", "true")
         }
-      }
+      },
+      changeHash: false
     })
+
+    const modal = document.querySelectorAll(".modal:not(#filter)")
+    for (let i = modal.length; i--; ) {
+      new Modal(modal[i], { changeHash: false })
+    }
 
     // init gent_styleguide checkbox-with-filters
     const checkboxWithFilters = document.querySelectorAll(".checkbox-filter")
