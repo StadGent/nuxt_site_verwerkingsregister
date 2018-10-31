@@ -22,7 +22,7 @@
     "axios-extensions": "^3.0.3",
     "babel-polyfill": "^6.26.0",
     "breakpoint-sass": "^2.7.1",
-    "gent_styleguide": "^3.0.0-alpha.7",
+    "gent_styleguide": "^3.0.0-alpha.9",
     "lru-cache": "^4.1.3",
     "node-sass": "^4.9.3",
     "nuxt": "^1.4.2",
