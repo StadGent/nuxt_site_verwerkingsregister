@@ -4,53 +4,64 @@
              :aria-hidden="`${!filterHidden}`"
              :class="`filter-section sidebar modal ${modalOpen ? 'visible' : ''}`"
              tabindex="-1">
-      <div class="modal-actions">
-        <button type="button"
-                class="button close icon-cross modal-close modal__close"
-                @click="closeModal">Sluiten</button>
-      </div>
-      <h2>Zoek verwerking</h2>
-      <form action="#result" @submit.prevent="submitFilter">
-        <div class="form-item">
-          <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
-          <input id="name" v-model="filter.name" type="text" name="name">
+      <div class="modal-inner">
+        <div class="modal-header">
+          <button type="button"
+                  class="button close icon-cross modal-close"
+                  @click="closeModal">Sluiten</button>
         </div>
+        <div class="modal-content">
+          <h2>Zoek verwerking</h2>
+          <form action="#result" @submit.prevent="submitFilter">
+            <div class="form-item">
+              <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
+              <input id="name" v-model="filter.name" type="text" name="name">
+            </div>
+            <checkbox_with_filter v-if="processors.length"
+                                  :id="'services'"
+                                  :items="processors"
+                                  :legend="'Verwerkende dienst'"
+                                  :selected_legend="'dienst(en)'"
+                                  :name="'processor[]'"
+                                  v-model="filter['processor[]']"/>
+            <checkbox_with_filter v-if="personalData.length"
+                                  :id="'data'"
+                                  :items="personalData"
+                                  :legend="'Welke gegevens?'"
+                                  :selected_legend="'gegeven(s)'"
+                                  :name="'personalData[]'"
+                                  v-model="filter['personalData[]']"/>
+            <checkbox_with_filter v-if="grantees.length"
+                                  :id="'recipient'"
+                                  :items="grantees"
+                                  :legend="'Ontvanger'"
+                                  :selected_legend="'ontvanger(s)'"
+                                  :name="'grantees[]'"
+                                  v-model="filter['grantees[]']"/>
+            <checkbox_with_filter v-if="types.length"
+                                  :id="'category'"
+                                  :items="types"
+                                  :legend="'Categorie'"
+                                  :selected_legend="'categorie(ën)'"
+                                  :name="'types[]'"
+                                  v-model="filter['types[]']"/>
 
-        <checkbox_with_filter :items="processors"
-                              :legend="'Verwerkende dienst'"
-                              :selected_legend="'dienst(en)'"
-                              :name="'processor[]'"
-                              v-model="filter['processor[]']"/>
-        <checkbox_with_filter :items="personalData"
-                              :legend="'Welke gegevens?'"
-                              :selected_legend="'gegeven(s)'"
-                              :name="'personalData[]'"
-                              v-model="filter['personalData[]']"/>
-        <checkbox_with_filter :items="grantees"
-                              :legend="'Ontvanger'"
-                              :selected_legend="'ontvanger(s)'"
-                              :name="'grantees[]'"
-                              v-model="filter['grantees[]']"/>
-        <checkbox_with_filter :items="types"
-                              :legend="'Categorie'"
-                              :selected_legend="'categorie(ën)'"
-                              :name="'types[]'"
-                              v-model="filter['types[]']"/>
-
-        <fieldset class="form-item">
-          <legend>Rechtmatigheid</legend>
-          <div v-for="(formalFramework, index) in formalFrameworks" :key="index" class="checkbox" >
-            <input :id="`formalFrameworks-chk-${index}`"
-                   :value="formalFramework"
-                   :name="'formalFrameworks[]'"
-                   v-model="filter['formalFrameworks[]']"
-                   type="checkbox"
-                   class="checkbox">
-            <label :for="`formalFrameworks-chk-${index}`">{{ formalFramework }}</label>
-          </div>
-        </fieldset>
-        <button type="submit" class="button button-primary filter__submit" @click="closeModal">Zoek</button>
-      </form>
+            <fieldset v-if="formalFrameworks.length" class="form-item">
+              <legend>Rechtmatigheid</legend>
+              <div v-for="(formalFramework, index) in formalFrameworks" :key="index" class="checkbox" >
+                <input :id="`formalFrameworks-chk-${index}`"
+                       :value="formalFramework"
+                       :name="'formalFrameworks[]'"
+                       v-model="filter['formalFrameworks[]']"
+                       type="checkbox"
+                       class="checkbox">
+                <label :for="`formalFrameworks-chk-${index}`">{{ formalFramework }}</label>
+              </div>
+            </fieldset>
+            <button type="submit" class="button button-primary filter__submit" @click="closeModal">Zoek</button>
+          </form>
+        </div>
+      </div>
     </section>
     <section id="result" class="content result-section">
       <selectedfilters :allowed-filters="allowedFilters"/>
