@@ -58,7 +58,7 @@
                 <label :for="`formalFrameworks-chk-${index}`">{{ formalFramework }}</label>
               </div>
             </fieldset>
-            <button type="submit" class="button button-primary filter__submit" @click="closeModal">Zoek</button>
+            <button type="submit" class="button button-primary filter__submit modal-close" @click="closeModal">Zoek</button>
           </form>
         </div>
       </div>
@@ -403,7 +403,6 @@ export default {
       this.modalOpen = true
     },
     closeModal() {
-      document.body.style.overflow = null
       this.filterHidden = false
       this.modalOpen = false
     }

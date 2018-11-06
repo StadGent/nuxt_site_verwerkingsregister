@@ -163,7 +163,6 @@ export default {
     updateCount() {
       this.modalOpen = false
       this.selectedCount = this.selectedItems.length
-      console.log(this.selectedItems)
       this.modalOpen = false
     }
   }
@@ -177,9 +176,5 @@ replaced by our own.
 */
 .checkbox-filter__count {
   display: none;
-}
-
-.checkbox-filter .checkbox-filter__modal .checkbox-filter__content {
-  overflow-y: auto;
 }
 </style>
