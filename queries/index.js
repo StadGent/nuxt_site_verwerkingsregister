@@ -75,7 +75,7 @@ export function DETAIL(id) {
     dcterms:temporal/dcterms:title ?storagePeriod;
     <http://data.vlaanderen.be/ns/toestemming#verwerkingsgrond>/skos:prefLabel ?formal_framework;
     <http://data.vlaanderen.be/ns/toestemming#verwerker>/skos:prefLabel ?processor.
-    OPTIONAL { ?verwerking gdv:formalFrameworkClarification ?formal_framework_clarification }
+    OPTIONAL { ?verwerking gdv:verduidelijkingRechtsgrond ?formal_framework_clarification }
     OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/grantee>/skos:prefLabel ?grantee }
     OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasPersonalData>/dcterms:type/skos:prefLabel ?personalData } 
     OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasSensitivePersonalData>/dcterms:type/skos:prefLabel ?sensitivePersonalData } 
