@@ -147,9 +147,46 @@ html.wf-loading {
     opacity: 0;
   }
 }
+
 html.wf-active {
   .container {
     transition: .1s opacity ease-in;
     opacity: 1;
+  }
+}
+
+/*
+  Styleguide fixes
+ */
+
+// strange scrollbars behind the open modal
+.checkbox-filter__modal {
+  overflow: hidden;
+}
+
+// IE issue: content overflows modal-inner
+@media all and (min-width: 769px) {
+  .modal--fixed-height .modal-inner {
+    height: 80vh;
+  }
+}
+
+// modal actions are not on the bottom on mobile
+// mainly an issue in safari where the safari-menu hides the button
+.modal--fixed-height .modal-inner {
+  .modal-content {
+    flex: 1;
+    margin-bottom: 3.8rem;
+  }
+
+  .modal-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin-top: -3.8rem;
+
+    @include tablet {
+      position: relative;
+    }
   }
 }
