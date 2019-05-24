@@ -1,7 +1,7 @@
 module.exports = {
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: "Verwerkingsregister",
     htmlAttrs: {
@@ -54,28 +54,17 @@ module.exports = {
     ]
   },
   /*
-  ** Customize the progress bar color
-  */
+   ** Customize the progress bar color
+   */
   loading: { color: "#009de0" },
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     vendor: [
       "babel-polyfill",
       "~/node_modules/gent_styleguide/build/styleguide/js/base-min.js"
     ],
-    babel: {
-      presets: [
-        [
-          "vue-app",
-          {
-            useBuiltIns: true,
-            targets: { ie: 11, uglify: true }
-          }
-        ]
-      ]
-    },
     extractCSS: {
       allChunks: true
     },
@@ -85,29 +74,23 @@ module.exports = {
       }
     },
     /*
-    ** Run ESLint on save
-    */
-    extend(config, { isDev, isClient }) {
-      if (isDev && isClient) {
-        config.module.rules.push({
-          enforce: "pre",
-          test: /\.(js|vue)$/,
-          loader: "eslint-loader",
-          exclude: /(node_modules|assets)/
-        })
-      }
-      const vueLoader = config.module.rules.find(
-        ({ loader }) => loader === "vue-loader"
-      )
-      const {
-        options: { loaders }
-      } = vueLoader || { options: {} }
-      if (loaders) {
-        for (const loader of Object.values(loaders)) {
-          changeLoaderOptions(Array.isArray(loader) ? loader : [loader])
-        }
-      }
-      config.module.rules.forEach(rule => changeLoaderOptions(rule.use))
+     ** Add sass loader
+     */
+    extend(config) {
+      config.module.rules.push({
+        test: /\.scss$/,
+        use: [
+          {
+            loader: "sass-loader",
+            options: {
+              includePaths: [
+                "node_modules/breakpoint-sass/stylesheets",
+                "node_modules/susy/sass"
+              ]
+            }
+          }
+        ]
+      })
     }
   },
   css: ["@/assets/sass/main.scss"],
@@ -120,19 +103,4 @@ module.exports = {
       }
     ]
   ]
-}
-
-function changeLoaderOptions(loaders) {
-  if (loaders) {
-    for (const loader of loaders) {
-      if (loader.loader === "sass-loader") {
-        Object.assign(loader.options, {
-          includePaths: [
-            "node_modules/breakpoint-sass/stylesheets",
-            "node_modules/susy/sass"
-          ]
-        })
-      }
-    }
-  }
 }

@@ -1,5 +1,5 @@
 <template>
-  <verwerking :item="details"/>
+  <verwerking :item="details" />
 </template>
 
 <script>
@@ -27,6 +27,16 @@ export default {
     breadcrumbs: [{ label: "verwerkingsregister", path: "/" }]
   },
   components: { verwerking },
+  computed: {
+    details() {
+      let id = this.$route.params.id
+      let result = {}
+      if (id) {
+        result = this.$store.state.details[id] || {}
+      }
+      return result
+    }
+  },
   async fetch({ store, params, error }) {
     // Only fetch items once
     let id = params.id
@@ -46,16 +56,6 @@ export default {
           })
         }
       }
-    }
-  },
-  computed: {
-    details() {
-      let id = this.$route.params.id
-      let result = {}
-      if (id) {
-        result = this.$store.state.details[id] || {}
-      }
-      return result
     }
   }
 }

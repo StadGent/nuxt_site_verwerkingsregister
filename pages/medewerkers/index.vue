@@ -1,15 +1,18 @@
 <template>
   <section class="content-container">
     <h1 class="overview-title">
-      <span class="overview-title-colon">Lijst verwerkingen van persoonsgegevens voor medewerkers<span class="colon" aria-hidden="true"/></span>
+      <span class="overview-title-colon">Lijst verwerkingen van persoonsgegevens voor medewerkers<span
+        class="colon"
+        aria-hidden="true"
+      /></span>
     </h1>
     <aside class="box-top">
       <div class="inner-box">
-        <introductietekst/>
-        <div class="accolade "/>
+        <introductietekst />
+        <div class="accolade " />
       </div>
     </aside>
-    <filter-layout :items="$store.state.items_emp"/>
+    <filter-layout :items="$store.state.items_emp" />
   </section>
 </template>
 

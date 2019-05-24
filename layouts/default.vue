@@ -1,11 +1,11 @@
 <template>
   <div class="cs--cyan container">
     <a href="#main" class="skiplink">Overslaan en naar de inhoud gaan</a>
-    <v_header/>
+    <v_header />
     <main id="main">
-      <nuxt/>
+      <nuxt />
     </main>
-    <v_footer/>
+    <v_footer />
   </div>
 </template>
 
