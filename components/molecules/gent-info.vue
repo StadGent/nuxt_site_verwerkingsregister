@@ -1,7 +1,9 @@
 <template>
   <div class="gentinfo-block">
     <div class="gentinfo-block-content">
-      <h2>Gentinfo</h2>
+      <h2>
+        <img src="~assets/styleguide/img/svg/gentinfo-logo.svg" alt="Gentinfo" class="gentinfo-logo">
+      </h2>
       <p class="">
         Bereikbaar van maandag t.e.m. zaterdag van 8:00 tot 19:00 uur.
       </p>

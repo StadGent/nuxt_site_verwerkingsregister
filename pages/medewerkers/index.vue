@@ -34,7 +34,7 @@ export default {
     introductietekst,
     filterLayout
   },
-  watchQuery: ['page'].concat(this.allowedFilters),
+  // watchQuery: ['page'].concat(this.allowedFilters),
   // Key needed to enable watchQuery and update form values
   key: to => to.fullPath,
   async fetch ({ store, error }) {
