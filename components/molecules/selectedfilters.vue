@@ -7,7 +7,9 @@
         <button @click="clearFilter(filter)"><span class="visually-hidden">Verwijder deze filter</span></button>
       </span>
     </template>
-    <nuxt-link :to="$route.path">Wis alle filters</nuxt-link>
+    <nuxt-link :to="$route.path">
+      Wis alle filters
+    </nuxt-link>
   </div>
 </template>
 
@@ -25,7 +27,7 @@ export default {
      *
      * @returns {Array}
      */
-    selectedFilters() {
+    selectedFilters () {
       return Object.keys(this.$route.query).reduce((result, key) => {
         if (!this.allowedFilters.includes(key) || !this.$route.query[key]) {
           return result
@@ -33,7 +35,7 @@ export default {
 
         // Get checkbox query values
         if (Array.isArray(this.$route.query[key])) {
-          for (let i = this.$route.query[key].length; i--; ) {
+          for (let i = this.$route.query[key].length; i--;) {
             result.push({
               key: `${key}-${i}`,
               value: this.$route.query[key][i],
@@ -59,16 +61,14 @@ export default {
      *
      * @param {Object} filter
      */
-    clearFilter(filter) {
-      let query = Object.assign({}, this.$route.query)
+    clearFilter (filter) {
+      const query = Object.assign({}, this.$route.query)
 
       // Delete single query value
       if (query[filter.key]) {
         delete query[filter.key]
-      }
-
-      // Delete checkbox query value
-      else if (filter.filterKey) {
+      } else if (filter.filterKey) {
+        // Delete checkbox query value
         const index = query[filter.filterKey].indexOf(filter.value)
         if (index !== -1) {
           query[filter.filterKey].splice(index, 1)

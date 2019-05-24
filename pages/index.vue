@@ -15,69 +15,69 @@
 </template>
 
 <script>
-import introductietekst from "~/components/introductietekst"
-import filterLayout from "~/components/organisms/filter_layout"
+import introductietekst from '~/components/introductietekst'
+import filterLayout from '~/components/organisms/filter_layout'
 
 export default {
-  head() {
+  head () {
     return {
-      title: "Verwerkingsregister"
+      title: 'Verwerkingsregister'
     }
   },
   components: {
     introductietekst,
     filterLayout
   },
-//  watchQuery: ["page"].concat(this.allowedFilters),
+  // watchQuery: ['page'].concat(this.allowedFilters),
   // Key needed to enable watchQuery and update form values
   key: to => to.fullPath,
-  async fetch({ store, error }) {
+  async fetch ({ store, error }) {
     // Only fetch items once
     if (store.state.items_civ.length === 0) {
       try {
-        await store.dispatch("GET_ITEMS_CIV")
+        await store.dispatch('GET_ITEMS_CIV')
       } catch (err) {
         if (err.statusCode) {
           error(err)
         } else {
           error({
             statusCode: 500,
-            message: err.code || "Unexpected error"
+            message: err.code || 'Unexpected error'
           })
         }
       }
     }
   },
-  mounted() {
-//    const Modal = require("~/assets/styleguide/js/modal.functions")
-//    const CheckboxFilter = require("~/assets/styleguide/js/checkbox_filter.functions")
-//
-//    // init gent_styleguide modal
-//    const filter = document.querySelector("#filter")
-//    console.log(Modal)
-//    new Modal(filter, {
-//      resizeEvent: () => {
-//        if (window.innerWidth > 768) {
-//          filter.setAttribute("aria-hidden", "false")
-//        } else if (!filter.classList.contains("visible")) {
-//          filter.setAttribute("aria-hidden", "true")
-//        }
-//      },
-//      changeHash: false
-//    })
-//
-//    const modal = document.querySelectorAll(".modal:not(#filter)")
-//    for (let i = modal.length; i--; ) {
-//      new Modal(modal[i], { changeHash: false })
-//    }
-//
-//    // init gent_styleguide checkbox-with-filters
-//    const checkboxWithFilters = document.querySelectorAll(".checkbox-filter")
-//    for (let i = checkboxWithFilters.length; i--; ) {
-//      new CheckboxFilter(checkboxWithFilters[i], {
-//        makeTags: false
-//      })
-//    }
+  mounted () {
+    //    const Modal = require("~/assets/styleguide/js/modal.functions")
+    //    const CheckboxFilter = require("~/assets/styleguide/js/checkbox_filter.functions")
+    //
+    //    // init gent_styleguide modal
+    //    const filter = document.querySelector("#filter")
+    //    console.log(Modal)
+    //    new Modal(filter, {
+    //      resizeEvent: () => {
+    //        if (window.innerWidth > 768) {
+    //          filter.setAttribute("aria-hidden", "false")
+    //        } else if (!filter.classList.contains("visible")) {
+    //          filter.setAttribute("aria-hidden", "true")
+    //        }
+    //      },
+    //      changeHash: false
+    //    })
+    //
+    //    const modal = document.querySelectorAll(".modal:not(#filter)")
+    //    for (let i = modal.length; i--; ) {
+    //      new Modal(modal[i], { changeHash: false })
+    //    }
+    //
+    //    // init gent_styleguide checkbox-with-filters
+    //    const checkboxWithFilters = document.querySelectorAll(".checkbox-filter")
+    //    for (let i = checkboxWithFilters.length; i--; ) {
+    //      new CheckboxFilter(checkboxWithFilters[i], {
+    //        makeTags: false
+    //      })
+    //    }
   }
 }
 </script>

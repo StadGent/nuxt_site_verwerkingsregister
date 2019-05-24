@@ -11,7 +11,7 @@
                   type="button"
                   class="button icon-cross modal-close checkbox-filter__close"
                   @click="close">
-            <span>Sluiten</span><i class="icon-close" aria-hidden="true"/>
+            <span>Sluiten</span><i class="icon-close" aria-hidden="true" />
           </button>
         </div>
         <div class="modal-content">
@@ -21,11 +21,11 @@
             <input :id="`checkboxes__filter_id_${legend}`" type="search"
                    class="checkbox-filter__filter">
             <div class="checkbox-filter__selected">
-              <span v-for="(value, index) in selectedItems" :key="`selected-${index}`"
-                    :data-value="value"
+              <span v-for="(item, index) in selectedItems" :key="`selected-${index}`"
+                    :data-value="item"
                     class="tag filter">
-                {{ value }}
-                <button type="button" @click="removeTag(value)">
+                {{ item }}
+                <button type="button" @click="removeTag(item)">
                   <span class="visually-hidden">Verwijder tag</span>
                 </button>
               </span>
@@ -37,12 +37,12 @@
             </strong>
           </p>
           <div class="checkbox-filter__checkboxes">
-            <div v-for="(value, index) in items" :key="`${name}-chk-${index}`" class="checkbox">
-              <input :value="value" :id="`${name}-chk-${index}`"
-                     v-model="selectedItems"
+            <div v-for="(item, index) in items" :key="`${name}-chk-${index}`" class="checkbox">
+              <input :id="`${name}-chk-${index}`" v-model="selectedItems"
+                     :value="item"
                      :name="name" type="checkbox"
                      @change.prevent="updateValue">
-              <label :for="`${name}-chk-${index}`">{{ value }}</label>
+              <label :for="`${name}-chk-${index}`">{{ item }}</label>
             </div>
           </div>
         </div>
@@ -50,7 +50,9 @@
           <button :data-target="id"
                   type="button"
                   class="button button-primary button-small checkbox-filter__submit modal-close"
-                  @click="updateCount">Bevestig selectie</button>
+                  @click="updateCount">
+            Bevestig selectie
+          </button>
         </div>
       </div>
 
@@ -60,7 +62,7 @@
     </div>
 
     <p v-if="selectedCount > 0">
-      <strong><span class="checkbox-filter__count"/>{{ `${selectedCount} ${selected_legend} geselecteerd` }}</strong>
+      <strong><span class="checkbox-filter__count" />{{ `${selectedCount} ${selectedLegend} geselecteerd` }}</strong>
     </p>
 
     <button :data-hash="hash"
@@ -91,7 +93,7 @@ export default {
       type: String,
       required: true
     },
-    selected_legend: {
+    selectedLegend: {
       type: String,
       required: true
     },
@@ -111,7 +113,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       selectedItems: this.value,
       tempItems: [],
@@ -120,21 +122,21 @@ export default {
       hash: `#${this.id}`
     }
   },
-  mounted() {
+  mounted () {
     this.updateCount()
   },
   methods: {
     /**
      * Emit the selected items.
      */
-    updateValue() {
-      this.$emit("input", this.selectedItems)
+    updateValue () {
+      this.$emit('input', this.selectedItems)
     },
     /**
      * Remove an item from selectedItems.
      * @param {String} tag
      */
-    removeTag(tag) {
+    removeTag (tag) {
       const index = this.selectedItems.indexOf(tag)
       if (index > -1) {
         this.selectedItems.splice(index, 1)
@@ -143,7 +145,7 @@ export default {
     /**
      * Close the modal and restore selectedItems.
      */
-    close() {
+    close () {
       this.selectedItems = this.tempItems
       this.updateCount()
       this.updateValue()
@@ -152,7 +154,7 @@ export default {
     /**
      * Open the modal and save selectedItems.
      */
-    open() {
+    open () {
       this.modalOpen = true
       // make a shallow copy
       this.tempItems = this.selectedItems.slice()
@@ -160,7 +162,7 @@ export default {
     /**
      * Updated the selected items count.
      */
-    updateCount() {
+    updateCount () {
       this.modalOpen = false
       this.selectedCount = this.selectedItems.length
       this.modalOpen = false
