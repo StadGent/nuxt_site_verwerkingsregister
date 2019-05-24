@@ -55,34 +55,41 @@ export default {
     }
   },
   mounted () {
-    //    const Modal = require('~/assets/styleguide/js/modal.functions-min')
-    //    const CheckboxFilter = require('~/assets/styleguide/js/checkbox_filter.functions')
+    require('~/assets/styleguide/js/base')
+    require('~/assets/styleguide/js/modal.functions')
+    require('~/assets/styleguide/js/checkbox_filter.functions')
 
-    //    // init gent_styleguide modal
-    //    const filter = document.querySelector('#filter')
-    //    new Modal(filter, {
-    //      resizeEvent: () => {
-    //        if (window.innerWidth > 768) {
-    //          filter.setAttribute('aria-hidden', 'false')
-    //        } else if (!filter.classList.contains('visible')) {
-    //          filter.setAttribute('aria-hidden', 'true')
-    //        }
-    //      },
-    //      changeHash: false
-    //    })
-    //
-    //    const modal = document.querySelectorAll('.modal:not(#filter)')
-    //    for (let i = modal.length; i--;) {
-    //      new Modal(modal[i], { changeHash: false })
-    //    }
-    //
-    //    // init gent_styleguide checkbox-with-filters
-    //    const checkboxWithFilters = document.querySelectorAll('.checkbox-filter')
-    //    for (let i = checkboxWithFilters.length; i--;) {
-    //      new CheckboxFilter(checkboxWithFilters[i], {
-    //        makeTags: false
-    //      })
-    //    }
+    const Modal = window.Modal
+    const CheckboxFilter = window.CheckboxFilter
+
+    // init gent_styleguide modal
+    const filter = document.querySelector('#filter')
+    // eslint-disable-next-line no-new
+    new Modal(filter, {
+      resizeEvent: () => {
+        if (window.innerWidth > 768) {
+          filter.setAttribute('aria-hidden', 'false')
+        } else if (!filter.classList.contains('visible')) {
+          filter.setAttribute('aria-hidden', 'true')
+        }
+      },
+      changeHash: false
+    })
+
+    const modal = document.querySelectorAll('.modal:not(#filter)')
+    for (let i = modal.length; i--;) {
+      // eslint-disable-next-line no-new
+      new Modal(modal[i], { changeHash: false })
+    }
+
+    // init gent_styleguide checkbox-with-filters
+    const checkboxWithFilters = document.querySelectorAll('.checkbox-filter')
+    for (let i = checkboxWithFilters.length; i--;) {
+      // eslint-disable-next-line no-new
+      new CheckboxFilter(checkboxWithFilters[i], {
+        makeTags: false
+      })
+    }
   }
 }
 </script>

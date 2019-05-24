@@ -62,8 +62,7 @@ export default {
    */
   build: {
     vendor: [
-      'babel-polyfill',
-      '~/node_modules/gent_styleguide/build/styleguide/js/base-min.js'
+      'babel-polyfill'
     ],
     extractCSS: {
       allChunks: true
