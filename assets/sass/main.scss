@@ -25,6 +25,10 @@ html.wf-active {
   Styleguide fixes
  */
 
+.modal--fixed-height {
+  max-height: 100vh;
+  max-height: -webkit-fill-available;
+}
 //// strange scrollbars behind the open modal
 //.checkbox-filter__modal {
 //  overflow: hidden;

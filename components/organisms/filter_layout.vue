@@ -69,16 +69,18 @@
     </section>
     <section id="result" class="content result-section">
       <selectedfilters :allowed-filters="allowedFilters" />
-      <button type="button"
-              class="button button-primary icon-filter result__show-filters modal-trigger"
-              aria-expanded="false"
-              aria-controls="filter"
-              @click="openModal">
-        Toon filters
-      </button>
-      <h2 :class="{'visually-hidden': selectedFilters.length === 0}">
-        We vonden {{ total }} {{ total === 1 ? 'resultaat' : 'resultaten' }}
-      </h2>
+      <div class="filter__result-count">
+        <h2 :class="{'visually-hidden': selectedFilters.length === 0}">
+          We vonden {{ total }} {{ total === 1 ? 'resultaat' : 'resultaten' }}
+        </h2>
+        <button type="button"
+                class="button button-secondary icon-filter result__show-filters modal-trigger"
+                aria-expanded="false"
+                aria-controls="filter"
+                @click="openModal">
+          Toon filters
+        </button>
+      </div>
       <ul class="filter__results">
         <teaser v-for="(item, index) in paginatedItems"
                 :key="index"
