@@ -7,7 +7,7 @@
     <aside class="box-top">
       <div class="inner-box">
         <introductietekst />
-        <div class="accolade " />
+        <div class="accolade" />
       </div>
     </aside>
     <filter-layout :items="$store.state.items_civ" />

@@ -393,13 +393,6 @@ export default {
      * Push selected filters to the query.
      */
     submitFilter () {
-      /*
-        Nuxt bug.
-        URL won't update if an array in the query changes.
-        Altering the route query first solves this.
-         */
-      this.$route.query.check++
-
       this.$router.push({
         path: `${this.$route.path}#result`,
         // Override existing query, including pagination
