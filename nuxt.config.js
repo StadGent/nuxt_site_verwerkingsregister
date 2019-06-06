@@ -1,4 +1,5 @@
 export default {
+  mode: 'universal',
   /*
    ** Headers of the page
    */
@@ -19,6 +20,9 @@ export default {
       },
       { name: 'msapplication-TileColor', content: '#009DE0' },
       { name: 'theme-color', content: '#009DE0' }
+    ],
+    script: [
+      { src: `https://polyfill.io/v3/polyfill.js?features=es5,es6,es7&flags=gated`, body: true }
     ],
     link: [
       {
@@ -51,7 +55,10 @@ export default {
         type: 'image/x-icon',
         href: '/favicon.ico'
       }
-    ]
+    ],
+    bodyAttrs: {
+      class: 'cs--cyan'
+    }
   },
   /*
    ** Customize the progress bar color
@@ -61,9 +68,6 @@ export default {
    ** Build configuration
    */
   build: {
-    vendor: [
-      'babel-polyfill'
-    ],
     extractCSS: {
       allChunks: true
     },

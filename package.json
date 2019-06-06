@@ -17,20 +17,21 @@
     "lint"
   ],
   "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/google-analytics": "^2.2.0",
     "axios": "^0.18.0",
     "axios-extensions": "^3.0.5",
     "babel-polyfill": "^6.26.0",
+    "body-scroll-lock": "^2.6.1",
     "breakpoint-sass": "^2.7.1",
+    "cross-env": "^5.2.0",
     "gent_styleguide": "3.0.0-beta8",
     "lru-cache": "^4.1.5",
     "node-sass": "^4.12.0",
+    "nuxt": "2.7.1",
     "sass-loader": "^7.1.0",
     "susy": "^3.0.5",
-    "webfontloader": "^1.6.28",
-    "cross-env": "^5.2.0",
-    "nuxt": "2.7.1",
-    "@nuxtjs/axios": "^5.3.6"
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",

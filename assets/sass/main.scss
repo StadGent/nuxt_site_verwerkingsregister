@@ -25,38 +25,35 @@ html.wf-active {
   Styleguide fixes
  */
 
-.modal--fixed-height {
-  max-height: 100vh;
-  max-height: -webkit-fill-available;
+
+// Needed for smooth scrolling on iphone / ipad inside modals
+body {
+  -webkit-overflow-scrolling: touch;
 }
-//// strange scrollbars behind the open modal
-//.checkbox-filter__modal {
-//  overflow: hidden;
-//}
-//
-//// IE issue: content overflows modal-inner
-//@media all and (min-width: 769px) {
-//  .modal--fixed-height .modal-inner {
-//    height: 80vh;
-//  }
-//}
-//
-//// modal actions are not on the bottom on mobile
-//// mainly an issue in safari where the safari-menu hides the button
-//.modal--fixed-height .modal-inner {
-//  .modal-content {
-//    flex: 1;
-//    margin-bottom: 3.8rem;
-//  }
-//
-//  .modal-actions {
-//    position: fixed;
-//    bottom: 0;
-//    left: 0;
-//    margin-top: -3.8rem;
-//
-//    @include tablet {
-//      position: relative;
-//    }
-//  }
-//}
+
+// Filter modal should cover the screen when opened
+.filter-section.modal {
+  .modal-inner {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+// modal actions are not on the bottom on mobile
+// mainly an issue in safari where the safari-menu hides the button
+.modal--fixed-height .modal-inner {
+  .modal-content {
+    margin-bottom: 3.8rem;
+  }
+
+  .modal-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin-top: -3.8rem;
+
+    @include tablet {
+      position: relative;
+    }
+  }
+}

@@ -78,6 +78,9 @@ export default {
       required: true
     }
   },
-  layout: 'default'
+  layout: 'default',
+  mounted () {
+    console.warn(JSON.parse(JSON.stringify(this.error)))
+  }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="cs--cyan container">
+  <div class="container">
     <a href="#main" class="skiplink">Overslaan en naar de inhoud gaan</a>
     <v-header />
     <main id="main">

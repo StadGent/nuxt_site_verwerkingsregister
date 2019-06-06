@@ -6,6 +6,7 @@
       <div class="">
         <div :id="id"
              :class="`modal modal--fixed-height checkbox-filter__modal${modalOpen ? ' visible' : ''}`"
+             :data-scrollable="'#' + id + '_scrollable'"
              tabindex="-1">
           <div class="modal-inner">
             <div class="modal-header">
@@ -16,7 +17,7 @@
                 <span>Sluiten</span><i class="icon-close" aria-hidden="true" />
               </button>
             </div>
-            <div class="modal-content">
+            <div :id="id + '_scrollable'" class="modal-content">
               <h3>{{ legend }} <span v-if="!required" class="label-optional">(Optioneel)</span></h3>
               <div class="checkbox-filter__selected">
                 <span v-for="(item, index) in selectedItems" :key="`selected-${index}`"
