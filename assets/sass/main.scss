@@ -25,9 +25,15 @@ html.wf-active {
   Styleguide fixes
  */
 
-
-// Needed for smooth scrolling on iphone / ipad inside modals
+/**
+  Needed for smooths scrolling on iphone / ipad inside modals.
+  Placing it on .modal is not sufficient for safari.
+ */
 body {
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal {
   -webkit-overflow-scrolling: touch;
 }
 
@@ -36,6 +42,40 @@ body {
   .modal-inner {
     margin: 0;
     padding: 0;
+  }
+}
+
+.modal {
+  animation: fade .2s ease-in-out;
+
+  .modal-inner {
+    opacity: 0;
+    animation: fade .2s ease-in-out forwards;
+    animation-delay: .2s;
+  }
+}
+
+.modal.sidebar {
+  .modal-inner {
+    animation-delay: unset;
+  }
+
+  @include desktop {
+    animation: none;
+
+    .modal-inner {
+      opacity: 1;
+      animation: none;
+    }
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
