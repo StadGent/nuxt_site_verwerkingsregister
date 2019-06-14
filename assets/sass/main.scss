@@ -30,6 +30,7 @@ html.wf-active {
   Needed for smooths scrolling on iphone / ipad inside modals.
   Placing it on .modal is not sufficient for safari.
  */
+// SGD8-629
 body {
   -webkit-overflow-scrolling: touch;
 }
@@ -39,6 +40,7 @@ body {
 }
 
 // Filter modal should cover the screen when opened
+// SGD8-629
 .filter-section.modal {
   .modal-inner {
     margin: 0;

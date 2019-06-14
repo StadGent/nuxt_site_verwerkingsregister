@@ -19,6 +19,7 @@
 <script>
 import introductietekst from '~/components/introductietekst'
 import filterLayout from '~/components/organisms/filter_layout'
+import Modal from '~/modal'
 
 export default {
   head () {
@@ -34,7 +35,6 @@ export default {
     introductietekst,
     filterLayout
   },
-  // watchQuery: ['page'].concat(this.allowedFilters),
   // Key needed to enable watchQuery and update form values
   key: to => to.fullPath,
   async fetch ({ store, error }) {
@@ -55,19 +55,16 @@ export default {
     }
   },
   mounted () {
-    require('~/assets/styleguide/js/base')
-    require('~/assets/styleguide/js/modal.functions')
-    require('~/assets/styleguide/js/checkbox_filter.functions')
-
-    const Modal = window.Modal
+    require('~/assets/checkbox_filter.functions')
     const CheckboxFilter = window.CheckboxFilter
 
     // init gent_styleguide modal
     const filter = document.querySelector('#filter')
     // eslint-disable-next-line no-new
     new Modal(filter, {
-      resizeEvent: () => {
-        if (window.innerWidth > 768) {
+      resizeEvent: (open, close) => {
+        if (window.innerWidth > 960) {
+          close()
           filter.setAttribute('aria-hidden', 'false')
         } else if (!filter.classList.contains('visible')) {
           filter.setAttribute('aria-hidden', 'true')
