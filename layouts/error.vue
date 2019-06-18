@@ -58,8 +58,8 @@
         <h2>Vanaf hier kan u...</h2>
         <ul class="icon-list">
           <li>
-            <i class="icon-home" aria-hidden="true" /><span>Terugkeren naar de
-              <nuxt-link :to="'/'">homepage</nuxt-link></span>
+            <i class="icon-home" aria-hidden="true" />
+            <span>Terugkeren naar de <nuxt-link :to="'/'">homepage</nuxt-link></span>
           </li>
           <li>
             <i class="icon-fancyback" aria-hidden="true" /><span>De terugknop van uw browser gebruiken</span>
@@ -78,9 +78,6 @@ export default {
       required: true
     }
   },
-  layout: 'default',
-  mounted () {
-    console.warn(JSON.parse(JSON.stringify(this.error)))
-  }
+  layout: 'default'
 }
 </script>
