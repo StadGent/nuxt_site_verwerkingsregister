@@ -5,7 +5,7 @@
       <h2>Hoe kunnen we u verder helpen?</h2>
       <div class="help-block-section">
         <h3>1. Verder navigeren vanaf hier?</h3>
-        <p class="">
+        <p>
           Dat kan op verschillende manieren:
         </p>
         <ul class="icon-list">
