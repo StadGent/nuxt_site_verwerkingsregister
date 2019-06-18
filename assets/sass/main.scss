@@ -2,9 +2,6 @@ $styleguide-dir: '../styleguide';
 
 @import "~gent_styleguide/build/styleguide/sass/main_cli";
 
-@import "molecules/checkbox-with-filter";
-@import "organisms/header";
-
 /*
  webfontLoader classes
  to prevent font flashing
@@ -26,23 +23,12 @@ html.wf-active {
   Styleguide fixes
  */
 
-/**
-  Needed for smooths scrolling on iphone / ipad inside modals.
-  Placing it on .modal is not sufficient for safari.
- */
-// SGD8-629
-body {
-  -webkit-overflow-scrolling: touch;
-}
-
-.modal {
-  -webkit-overflow-scrolling: touch;
-}
-
-// Filter modal should cover the screen when opened
-// SGD8-629
+// Filter modal should cover the screen when opened.
+// Overrides styleguide where the modal is not moved to DOM root.
 .filter-section.modal {
   .modal-inner {
+    width: 100%;
+    max-width: unset;
     margin: 0;
     padding: 0;
   }
@@ -79,24 +65,5 @@ body {
   }
   100% {
     opacity: 1;
-  }
-}
-
-// modal actions are not on the bottom on mobile
-// mainly an issue in safari where the safari-menu hides the button
-.modal--fixed-height .modal-inner {
-  .modal-content {
-    margin-bottom: 3.8rem;
-  }
-
-  .modal-actions {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    margin-top: -3.8rem;
-
-    @include tablet {
-      position: relative;
-    }
   }
 }
