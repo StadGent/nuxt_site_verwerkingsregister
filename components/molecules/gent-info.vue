@@ -4,7 +4,7 @@
       <h2>
         <img src="~assets/styleguide/img/svg/gentinfo-logo.svg" alt="Gentinfo" class="gentinfo-logo">
       </h2>
-      <p class="">
+      <p>
         Bereikbaar van maandag t.e.m. zaterdag van 8:00 tot 19:00 uur.
       </p>
       <ul class="icon-list">
