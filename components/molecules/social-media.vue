@@ -2,7 +2,7 @@
   <div class="dg-blocks-social">
     <span>Volg Stad Gent op sociale media</span>
     <div class="social-list">
-      <ul class="">
+      <ul>
         <li>
           <a href="https://www.facebook.com/stadsbestuurgent">
             <i aria-hidden="true" class="icon-facebook" />

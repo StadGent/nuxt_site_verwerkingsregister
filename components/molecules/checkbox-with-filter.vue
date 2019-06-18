@@ -3,7 +3,7 @@
     <legend>{{ legend }} <span v-if="!required" class="label-optional">(Optioneel)</span></legend>
 
     <div class="form-columns">
-      <div class="">
+      <div>
         <div :id="id"
              :class="`modal modal--fixed-height checkbox-filter__modal${modalOpen ? ' visible' : ''}`"
              :data-scrollable="'#' + id + '_scrollable'"
