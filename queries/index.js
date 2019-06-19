@@ -1,4 +1,4 @@
-export function COUNT(audience) {
+export function COUNT (audience) {
   return `SELECT (count(?verwerking) as ?count)
 FROM <http://stad.gent/data-processes/>
 WHERE { ?verwerking a <http://data.vlaanderen.be/ns/toestemming#VerwerkingsActiviteit> .
@@ -7,7 +7,7 @@ WHERE { ?verwerking a <http://data.vlaanderen.be/ns/toestemming#VerwerkingsActiv
 }`
 }
 
-export function LIST(audience) {
+export function LIST (audience) {
   return `PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX gdv: <http://stad.gent/data/ns/data-processing/>
@@ -47,7 +47,7 @@ group by
 /**
  * @return {string}
  */
-export function DETAIL(id) {
+export function DETAIL (id) {
   return `PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
   PREFIX dcterms: <http://purl.org/dc/terms/> 
   PREFIX gdv: <http://stad.gent/data/ns/data-processing/> 

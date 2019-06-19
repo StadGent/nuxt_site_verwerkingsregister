@@ -5,28 +5,34 @@
       <h2>Hoe kunnen we u verder helpen?</h2>
       <div class="help-block-section">
         <h3>1. Verder navigeren vanaf hier?</h3>
-        <p class="">Dat kan op verschillende manieren:</p>
+        <p>
+          Dat kan op verschillende manieren:
+        </p>
         <ul class="icon-list">
-          <li><i class="icon-home" aria-hidden="true"/><span>Terugkeren naar de <nuxt-link :to="'/'" >homepage</nuxt-link></span></li>
-          <li><i class="icon-fancyback" aria-hidden="true"/><span>De terugknop van uw browser gebruiken</span></li>
+          <li>
+            <i class="icon-home" aria-hidden="true" /><span>Terugkeren naar de
+              <nuxt-link :to="'/'">homepage</nuxt-link></span>
+          </li>
+          <li>
+            <i class="icon-fancyback" aria-hidden="true" /><span>De terugknop van uw browser gebruiken</span>
+          </li>
         </ul>
-
       </div>
     </div>
     <div class="404-poetry">
       <h2>Speurtocht</h2>
-      <p>we kamden de stad uit,<br >
-        braken tegels los, keerden <br >
-        kapelletjes, kerken, begraafplaatsen <br >
-        ondersteboven, daalden in waterputten af, <br >
-        stonden met huiszoekingsbevelen te zwaaien.<br >
-        <br >
-        helaas, wat u zocht, heeft zich verstopt<br >
+      <p>
+        we kamden de stad uit,<br>
+        braken tegels los, keerden <br>
+        kapelletjes, kerken, begraafplaatsen <br>
+        ondersteboven, daalden in waterputten af, <br>
+        stonden met huiszoekingsbevelen te zwaaien.<br>
+        <br>
+        helaas, wat u zocht, heeft zich verstopt<br>
         bij het verdwenen paneel van het Lam Gods.
       </p>
       <p><strong>David Troch, Stadsdichter Gent</strong></p>
     </div>
-
   </article>
   <article v-else-if="error.statusCode === 403" class="detail-layout">
     <h1>Geen toegang tot deze pagina</h1>
@@ -34,8 +40,13 @@
       <div class="search-block-content">
         <h2>Vanaf hier kan u...</h2>
         <ul class="icon-list">
-          <li><i class="icon-home" aria-hidden="true"/><span>Terugkeren naar de <nuxt-link :to="'/'" >homepage</nuxt-link></span></li>
-          <li><i class="icon-fancyback" aria-hidden="true"/><span>De terugknop van uw browser gebruiken</span></li>
+          <li>
+            <i class="icon-home" aria-hidden="true" /><span>Terugkeren naar de
+              <nuxt-link :to="'/'">homepage</nuxt-link></span>
+          </li>
+          <li>
+            <i class="icon-fancyback" aria-hidden="true" /><span>De terugknop van uw browser gebruiken</span>
+          </li>
         </ul>
       </div>
     </div>
@@ -46,8 +57,13 @@
       <div class="search-block-content">
         <h2>Vanaf hier kan u...</h2>
         <ul class="icon-list">
-          <li><i class="icon-home" aria-hidden="true"/><span>Terugkeren naar de <nuxt-link :to="'/'" >homepage</nuxt-link></span></li>
-          <li><i class="icon-fancyback" aria-hidden="true"/><span>De terugknop van uw browser gebruiken</span></li>
+          <li>
+            <i class="icon-home" aria-hidden="true" />
+            <span>Terugkeren naar de <nuxt-link :to="'/'">homepage</nuxt-link></span>
+          </li>
+          <li>
+            <i class="icon-fancyback" aria-hidden="true" /><span>De terugknop van uw browser gebruiken</span>
+          </li>
         </ul>
       </div>
     </div>
@@ -62,6 +78,6 @@ export default {
       required: true
     }
   },
-  layout: "default"
+  layout: 'default'
 }
 </script>

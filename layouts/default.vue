@@ -1,20 +1,20 @@
 <template>
-  <div class="cs--cyan container">
+  <div class="container">
     <a href="#main" class="skiplink">Overslaan en naar de inhoud gaan</a>
-    <v_header/>
+    <v-header />
     <main id="main">
-      <nuxt/>
+      <nuxt />
     </main>
-    <v_footer/>
+    <v-footer />
   </div>
 </template>
 
 <script>
-import v_header from "~/components/organisms/header"
-import v_footer from "~/components/organisms/footer"
+import vHeader from '~/components/organisms/header'
+import vFooter from '~/components/organisms/footer'
 
 export default {
-  components: { v_header, v_footer }
+  components: { vHeader, vFooter }
 }
 </script>
 

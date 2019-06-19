@@ -1,7 +1,7 @@
-const WebFont = require("webfontloader")
+const WebFont = require('webfontloader')
 
 WebFont.load({
   typekit: {
-    id: "pjt6aem"
+    id: 'pjt6aem'
   }
 })
