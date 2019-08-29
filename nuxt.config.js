@@ -105,5 +105,8 @@ export default {
         id: 'UA-791237-60'
       }
     ]
-  ]
+  ],
+  env: {
+    deployEnv: process.env.DEPLOY_ENV
+  }
 }
