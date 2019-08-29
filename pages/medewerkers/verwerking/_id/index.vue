@@ -1,62 +1,62 @@
 <template>
-  <verwerking :item="details"/>
+  <verwerking :item="details" />
 </template>
 
 <script>
-import verwerking from "~/components/organisms/verwerking"
+import verwerking from '~/components/organisms/verwerking'
 
 export default {
-  head() {
+  head () {
     return {
       title: `${
-        this.details.name ? this.details.name.value : ""
+        this.details.name ? this.details.name.value : ''
       } | verwerkingsregister`,
       meta: [
         {
-          hid: "description",
-          name: "description",
+          hid: 'description',
+          name: 'description',
           content: this.details.description
             ? this.details.description.value
-            : "De Stad en het OCMW Gent vinden de bescherming van uw persoonsgegevens erg belangrijk.\n" +
-              "Daarom vindt u op deze pagina een overzicht van de verwerkingen van persoonsgegevens die we uitvoeren."
+            : 'De Stad en het OCMW Gent vinden de bescherming van uw persoonsgegevens erg belangrijk.\n' +
+              'Daarom vindt u op deze pagina een overzicht van de verwerkingen van persoonsgegevens die we uitvoeren.'
         }
       ]
     }
   },
   meta: {
-    home: "/medewerkers"
+    home: '/medewerkers'
   },
-  middleware: "home",
+  middleware: 'home',
   components: { verwerking },
-  async fetch({ store, params, error }) {
+  computed: {
+    details () {
+      const id = this.$route.params.id
+      let result = {}
+      if (id) {
+        result = this.$store.state.details[id] || {}
+      }
+      return result
+    }
+  },
+  async fetch ({ store, params, error }) {
     // Only fetch items once
-    let id = params.id
+    const id = params.id
     if (!id) {
-      error({ statusCode: 404, message: "Post not found" })
+      error({ statusCode: 404, message: 'Post not found' })
     }
     if (!store.state.details[id]) {
       try {
-        await store.dispatch("GET_DETAIL_EMP", id)
+        await store.dispatch('GET_DETAIL_EMP', id)
       } catch (err) {
         if (err.statusCode) {
           error(err)
         } else {
           error({
             statusCode: 500,
-            message: err.code || "Unexpected error"
+            message: err.code || 'Unexpected error'
           })
         }
       }
-    }
-  },
-  computed: {
-    details() {
-      let id = this.$route.params.id
-      let result = {}
-      if (id) {
-        result = this.$store.state.details[id] || {}
-      }
-      return result
     }
   }
 }

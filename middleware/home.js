@@ -8,8 +8,8 @@
 export default ({ store, route }) => {
   const meta = route.meta[0]
   if (meta && meta.home) {
-    store.commit("SET_HOME_URL", meta.home)
+    store.commit('SET_HOME_URL', meta.home)
   } else {
-    store.commit("SET_HOME_URL", "/")
+    store.commit('SET_HOME_URL', '/')
   }
 }
