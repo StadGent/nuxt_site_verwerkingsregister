@@ -1,0 +1,18 @@
+#!/usr/bin/env groovy
+
+podTemplate(cloud: 'openshift') {
+
+    node('maven') {
+        stage('Deploy to DV') {
+            checkout([$class: 'GitSCM', branches: [[name: 'develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
+
+            sh 'chmod +x openshift/deploy-dvdv.sh'
+            sh 'openshift/deploy-dvdv.sh'
+			sh 'sleep 10'
+
+            openshiftVerifyBuild bldCfg: 'verwerkingsregister', checkForTriggeredDeployments: 'false', namespace: 'verwerkingsregisterdv', verbose: 'false', waitTime: '600000'
+            openshiftVerifyDeployment depCfg: 'verwerkingsregister', namespace: 'verwerkingsregisterdv', verbose: 'false', verifyReplicaCount: 'true', waitTime: '6000', waitUnit: 'sec'
+
+		}
+    }
+}
