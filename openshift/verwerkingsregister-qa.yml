@@ -40,27 +40,27 @@ objects:
           deploymentconfig: verwerkingsregister
       spec:
         containers:
-          - env:
-              - name: HOST
-                value: 0.0.0.0
-              - name: DEPLOY_ENV
-                value: qa
-              - name: NODE_VERSION_URL
-                value: https://semver.io/node/resolve/9.x
-            image: >-
-              10.248.155.180:5000/verwerkingsregisterdv/verwerkingsregister:accepted_dv
-            imagePullPolicy: Always
-            name: verwerkingsregister
-            ports:
-              - containerPort: 8080
-                protocol: TCP
-            resources: 
-              requests:
-                memory: 0.5Gi
-              limits:
-                memory: 1Gi
-            terminationMessagePath: /dev/termination-log
-            terminationMessagePolicy: File
+        - env:
+          - name: HOST
+            value: 0.0.0.0
+          - name: DEPLOY_ENV
+            value: qa
+          - name: NODE_VERSION_URL
+            value: https://semver.io/node/resolve/9.x
+          image: >-
+            10.248.155.180:5000/verwerkingsregisterdv/verwerkingsregister:accepted_dv
+          imagePullPolicy: Always
+          name: verwerkingsregister
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: 
+            requests:
+              memory: 0.5Gi
+            limits:
+              memory: 1Gi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         schedulerName: default-scheduler
@@ -81,10 +81,10 @@ objects:
     namespace: verwerkingsregisterqa
   spec:
     ports:
-      - name: 8080-tcp
-        port: 8080
-        protocol: TCP
-        targetPort: 8080
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
     selector:
       app: verwerkingsregister
       deploymentconfig: verwerkingsregister
