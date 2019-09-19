@@ -17,9 +17,9 @@ const http = axios.create({
   })
 })
 
-let URL = 'https://qa.stad.gent/'
-if (process.env.deployEnv === 'production') {
-  URL = 'https://stad.gent/'
+let URL = 'https://stad.gent/'
+if (process.env.deployEnv === 'test') {
+  URL = 'https://qa.stad.gent/'
 }
 
 const processDetail = (result) => {
