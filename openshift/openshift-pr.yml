@@ -3,23 +3,19 @@ kind: Template
 metadata:
   name: verwerkingsregister
 objects:
-- apiVersion: v1
+- apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
   metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewApp
-    creationTimestamp: null
-    generation: 1
+    name: verwerkingsregister
+    namespace: webcomponentspr
     labels:
       app: verwerkingsregister
-    name: verwerkingsregister
-    namespace: verwerkingsregisterqa
+      component: verwerkingsregister
   spec:
     replicas: 1
-    revisionHistoryLimit: 10
     selector:
       app: verwerkingsregister
-      deploymentconfig: verwerkingsregister
+      component: verwerkingsregister
     strategy:
       activeDeadlineSeconds: 21600
       resources: {}
@@ -32,33 +28,53 @@ objects:
       type: Rolling
     template:
       metadata:
-        annotations:
-          openshift.io/generated-by: OpenShiftNewApp
-        creationTimestamp: null
+        name: verwerkingsregister
+        namespace: webcomponentspr
         labels:
           app: verwerkingsregister
-          deploymentconfig: verwerkingsregister
+          component: verwerkingsregister
       spec:
         containers:
         - env:
           - name: HOST
             value: 0.0.0.0
           - name: DEPLOY_ENV
-            value: qa
+            value: production
           - name: NODE_VERSION_URL
             value: https://semver.io/node/resolve/9.x
-          image: >-
-            10.248.155.180:5000/verwerkingsregisterdv/verwerkingsregister:accepted_dv
+          image: docker-registry.default.svc:5000/webcomponentspr/verwerkingsregister:approved_qa
           imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 30
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          readinessProbe:
+            failureThreshold: 30
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
           name: verwerkingsregister
           ports:
           - containerPort: 8080
             protocol: TCP
           resources: 
-            requests:
-              memory: 0.5Gi
             limits:
-              memory: 1Gi
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 10m
+              memory: 25Mi
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
         dnsPolicy: ClusterFirst
@@ -67,18 +83,15 @@ objects:
         securityContext: {}
         terminationGracePeriodSeconds: 30
     test: false
-    triggers:
-      - type: ConfigChange
+    triggers: []
 - apiVersion: v1
   kind: Service
   metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewApp
-    creationTimestamp: null
+    name: verwerkingsregister
+    namespace: webcomponentspr
     labels:
       app: verwerkingsregister
-    name: verwerkingsregister
-    namespace: verwerkingsregisterqa
+      component: verwerkingsregister
   spec:
     ports:
     - name: 8080-tcp
@@ -87,8 +100,6 @@ objects:
       targetPort: 8080
     selector:
       app: verwerkingsregister
-      deploymentconfig: verwerkingsregister
+      component: verwerkingsregister
     sessionAffinity: None
     type: ClusterIP
-  status:
-    loadBalancer: {}

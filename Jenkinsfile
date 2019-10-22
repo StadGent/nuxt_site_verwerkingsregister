@@ -1,152 +1,146 @@
 #!/usr/bin/env groovy
 
-def tagSource(fromTag, toTag, commitMessage) {
-	tagBranch("refs/tags/${fromTag}", toTag, commitMessage);
-}
+node('maven') {
+	openshift.withCluster("openshiftqa") {
+		stage ('Unit tests') {
+			checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
 
-def tagBranch(fromBranch, toTag, commitMessage) {
-	checkout([$class: 'GitSCM', branches: [[name: fromBranch]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
-	
-	sh """
-		git config user.name Jenkins
-		git config user.email jenkins@digipolis.gent
-		git tag -l ${toTag}
-		git tag -a -f -m '${commitMessage}' ${toTag}
-	"""
-	
-	withCredentials([sshUserPrivateKey(credentialsId: 'digipolisgent-ci', keyFileVariable: 'GITHUB_KEY')]) {
-		sh 'echo ssh -i $GITHUB_KEY -l git -o StrictHostKeyChecking=no \\"\\$@\\" > ./run_ssh.sh'
-		sh 'chmod +x ./run_ssh.sh'
-		
-		withEnv(['GIT_SSH=./run_ssh.sh']) {
-			sh "git push git@github.com:StadGent/nuxt_site_verwerkingsregister.git ${toTag} -f"
+			//withSonarQubeEnv("DGSonarQube") {
+			//	sh "./mvnw -s .mvn/settings.xml -B clean org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:prepare-agent-integration deploy sonar:sonar"
+			//}
+
+			//junit testResults: '**/target/surefire-reports/TEST-*.xml', allowEmptyResults: true;
+			//junit testResults: '**/target/failsafe-reports/TEST-*.xml', allowEmptyResults: true;
 		}
-	}
-}
 
-podTemplate(cloud: 'openshift') {
+        stage ('Deploy to DV') {
+        	sh 'openshift/deploy-dv.sh'
 
-    node('maven') {
-        stage('Deploy to DV') {
-            checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
+        	openshiftStartBuild namespace:"webcomponentsdv", bldCfg: "verwerkingsregister"
 
-            sh 'chmod +x openshift/deploy-dv.sh'
-            sh 'openshift/deploy-dv.sh'
-			sh 'sleep 10'
-
-            openshiftVerifyBuild bldCfg: 'verwerkingsregister', checkForTriggeredDeployments: 'false', namespace: 'verwerkingsregisterdv', verbose: 'false', waitTime: '600000'
-            openshiftVerifyDeployment depCfg: 'verwerkingsregister', namespace: 'verwerkingsregisterdv', verbose: 'false', verifyReplicaCount: 'true', waitTime: '6000', waitUnit: 'sec'
-
-            openshiftTag alias: 'false', destStream: 'verwerkingsregister', destTag: 'accepted_dv', destinationNamespace: 'verwerkingsregisterdv', namespace: 'verwerkingsregisterdv', srcStream: 'verwerkingsregister', srcTag: 'latest'
-
-            tagBranch("master", "accepted_dv", "Deployed on openshift DV project")
+			openshiftVerifyDeployment namespace : "webcomponentsdv", depCfg: "verwerkingsregister"
         }
+
+        stage ('Blackbox tests') {
+			//withCredentials([string(credentialsId: 'net_service_medewerker-api_dv_v1', variable: 'apiTokenV1'), string(credentialsId: 'net_service_burgeraccount_dv_v2', variable: 'apiTokenV2')]) {
+				//	sh "cd cucumber && ../mvnw -s ../.mvn/settings.xml test -Dmaven.test.failure.ignore=true -Dcucumber.test.host=\"https://apidgdv.gent.be\"  -Dcucumber.test.userkey.v1=${apiTokenV1} -Dcucumber.test.namespace=/supporting/document-generation -Dcucumber.test.userkey.v2=${apiTokenV2} -Dcucumber.options=\"--tags 'not @bypassGateway and not @localOnly and not @ignore'\""
+			//}
+
+			//junit testResults: 'cucumber/target/surefire-reports/TEST-*.xml'
+
+			//if (currentBuild.result == null) {
+	            openshiftTag srcNs: "webcomponentsdv", srcStrm: "verwerkingsregister", srcTag: "latest", destNs: "webcomponentsdv", destStrm: "verwerkingsregister", destTag: "accepted_dv"
+			//} else {
+			//	error 'Build unstable'
+			//}
+		}
 
 		input message: "Promote to QA?"
         
 		try {
-			stage('Deploy to QA') {
-				checkout([$class: 'GitSCM', branches: [[name: 'accepted_dv']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
+			stage ('Deploy to QA') {
+				openshiftTag srcNs: "webcomponentsdv", srcStrm: "verwerkingsregister", srcTag: "accepted_dv", destNs: "webcomponentsdv", destStrm: "verwerkingsregister", destTag: "qa"
 
-				openshiftTag alias: 'false', destStream: 'verwerkingsregister', destTag: 'qa', destinationNamespace: 'verwerkingsregisterdv', namespace: 'verwerkingsregisterdv', srcStream: 'verwerkingsregister', srcTag: 'accepted_dv'
-
-				sh 'chmod +x openshift/deploy-qa.sh'
 				sh "openshift/deploy-qa.sh"
-				sh "sleep 30"
 
-				openshiftVerifyDeployment depCfg: 'verwerkingsregister', namespace: 'verwerkingsregisterqa', verbose: 'false', verifyReplicaCount: 'true', waitTime: '6000', waitUnit: 'sec'
+				openshiftVerifyDeployment namespace : "webcomponentsqa", depCfg: "medewerker-api"
+			}
 
-				tagSource("accepted_dv", "qa", "Deployed on openshift QA project")
+			stage ('Blackbox tests') {
+				//sh "curl http://burgeraccount.employeesqa.svc:8080"
+				//sh "npm install"
+			    //sh "TEST_URL='http://burgeraccount.employeesqa.svc:8080/' API_NAMESPACE_PREFIX='employees/burgeraccount/v1/' npm run test-v1"
+			}
+
+			stage ('Performantie tests') {
+				//sh "cd gatling/; TEST_URL='http://burgeraccount.servicesdv.svc:8080/employees/burgeraccount' ../mvnw gatling:test"
+
+				//archiveArtifacts artifacts: 'gatling/target/gatling/**/*', allowEmptyArchive: false
 			}
 
 			input message: "Approve version on QA?"
 
 			stage ('Approved QA') {
-				openshiftTag alias: 'false', destStream: 'verwerkingsregister', destTag: 'approved_qa', destinationNamespace: 'verwerkingsregisterdv', namespace: 'verwerkingsregisterdv', srcStream: 'verwerkingsregister', srcTag: 'accepted_dv'
-
-				tagSource("qa", "approved_qa", 'Tested manually and approved on QA')
+				openshiftTag srcNs: "webcomponentsdv", srcStrm: "verwerkingsregister", srcTag: "accepted_dv", destNs: "webcomponentsdv", destStrm: "verwerkingsregister", destTag: "approved_qa"
 			}
-		} catch(error1) {
-			echo "Error deploying to QA, trying to rollback"
-			
+		} catch (error1) {
 			try {
-				openshiftTag alias: 'false', destStream: 'verwerkingsregister', destTag: 'qa', destinationNamespace: 'verwerkingsregisterdv', namespace: 'verwerkingsregisterdv', srcStream: 'verwerkingsregister', srcTag: 'approved_qa'
+				echo "Error deploying to QA, trying to rollback"
 
-				checkout([$class: 'GitSCM', branches: [[name: 'refs/tags/approved_qa']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
+				openshiftTag srcNs: "webcomponentsdv", srcStrm: "verwerkingsregister", srcTag: "approved_qa", destNs: "webcomponentsdv", destStrm: "verwerkingsregister", destTag: "qa"
 
-				sh 'chmod +x openshift/deploy-qa.sh'
 				sh "openshift/deploy-qa.sh"
-				sh "sleep 10"
 
-				openshiftVerifyDeployment depCfg: 'verwerkingsregister', namespace: 'verwerkingsregisterqa', verbose: 'false', verifyReplicaCount: 'true', waitTime: '6000', waitUnit: 'sec'
-
-				tagSource("approved_qa", "qa", 'Rolled QA back to last known good version')
+				openshiftVerifyDeployment namespace : "webcomponentsqa", depCfg: "verwerkingsregister"
 			} catch (error2) {
 				// there is no approved_qa image or tag on the first run
 			}
 			throw error1;
 		}
-	
-		input message: "Promote to PR?"
+	}
 
+	input message: "Promote to PR?"
+
+	openshift.withCluster("openshiftpr") {
 		try {
         	stage ('Import image from QA') {
-	            withCredentials([string(credentialsId: 'verwerkingsregisterpr-dg-image-manager-secret', variable: 'token')]) {
-	                sh 'oc login https://openshift.gentgrp.gent.be:8443 --token=$token --insecure-skip-tls-verify'
-	                sh 'oc project verwerkingsregisterpr'
-	                sh 'oc import-image verwerkingsregister:approved_qa --from registry.servicesqa.local/verwerkingsregisterdv/verwerkingsregister --confirm --insecure=true'
+        		// Import image from qa-cluster
+	            withCredentials([string(credentialsId: 'dg_deployer_pr', variable: 'dg_deployer_pr')]) {
+	                sh 'oc login https://openshift.gentgrp.gent.be:8443 --token=$dg_deployer_pr --insecure-skip-tls-verify'
+					sh 'oc project webcomponentspr'
+	                sh 'oc import-image verwerkingsregister:approved_qa --from registry.servicesqa.local/webcomponentsdv/verwerkingsregister --confirm --insecure=true'
 	            }
         	}
         
-	        stage('Deploy to PR') {
-	            withCredentials([string(credentialsId: 'verwerkingsregisterpr-dg-image-manager-secret', variable: 'token')]) {
+	        stage ('Deploy to PR') {
+	            withCredentials([string(credentialsId: 'dg_deployer_pr', variable: 'dg_deployer_pr')]) {
 	            	try {
 	            		// Tag previous production in openshift
-						openshiftTag alias: 'false', destStream: 'verwerkingsregister', destTag: 'previous_production', destinationNamespace: 'verwerkingsregisterpr', namespace: 'verwerkingsregisterpr', srcStream: 'verwerkingsregister', srcTag: 'production', apiURL: 'https://openshift.gentgrp.gent.be:8443', authToken: '$token'
-
-	            		//Tag previous_production in GitHub
-						tagSource("production", "previous_production", 'Previous version in production')
-	            	} catch (error3) {
+						openshiftTag srcNs: "webcomponentspr", srcStrm: "verwerkingsregister", srcTag: "production", destNs: "webcomponentspr", destStrm: "verwerkingsregister", destTag: "previous_production", cluster: "openshiftpr"
+	            	} catch (error4) {
 	            		// there is no previous_production image or tag on the first run
 	            	}
 
 					// Tag new production image in docker
-					openshiftTag alias: 'false', destStream: 'verwerkingsregister', destTag: 'production', destinationNamespace: 'verwerkingsregisterpr', namespace: 'verwerkingsregisterpr', srcStream: 'verwerkingsregister', srcTag: 'approved_qa', apiURL: 'https://openshift.gentgrp.gent.be:8443', authToken: '$token'
+					openshiftTag srcNs: "webcomponentspr", srcStrm: "verwerkingsregister", srcTag: "approved_qa", destNs: "webcomponentspr", destStrm: "verwerkingsregister", destTag: "production", cluster: "openshiftpr"
 
-					checkout([$class: 'GitSCM', branches: [[name: 'refs/tags/approved_qa']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
-
-	            	sh 'oc login https://openshift.gentgrp.gent.be:8443 --token=$token --insecure-skip-tls-verify'
-	                sh 'chmod +x openshift/deploy-pr.sh'
+	            	sh 'oc login https://openshift.gentgrp.gent.be:8443 --token=$dg_deployer_pr --insecure-skip-tls-verify'
+					sh 'oc project webcomponentspr'
 					sh "openshift/deploy-pr.sh"
-					sh "sleep 30"
 
-	                openshiftVerifyDeployment depCfg: 'verwerkingsregister', namespace: 'verwerkingsregisterpr', verbose: 'false', verifyReplicaCount: 'true', waitTime: '6000', waitUnit: 'sec', apiURL: 'https://openshift.gentgrp.gent.be:8443', authToken: '$token'
+	                openshiftVerifyDeployment namespace : "webcomponentspr", depCfg: "verwerkingsregister", cluster: "openshiftpr"
 	            }
 	        }
 
-        	stage ('In production') {
-				tagSource("approved_qa", "production", 'Deployed and passed smoke tests on openshift PR project')
+	        stage ('Smoke tests') {
+				//withCredentials([string(credentialsId: 'api-burgeraccount-pr', variable: 'TOKEN')]) {
+					//git url: "git@github.com:digipolisgent/net_service_burgeraccount.git", credentialsId: 'digipolisgent-ci'
+
+					//sh 'curl --header "user_key: $TOKEN" https://apidg.gent.be:443/status/am-i-up'
+					//sh "npm install"
+				    //sh "TEST_URL='https://apidg.gent.be:443' API_KEY='$TOKEN' npm run smoke-test"
+				//}
 			}
-		} catch (error4) {
+
+        	stage ('In production') {
+			}
+		} catch (error3) {
 			try {
-				withCredentials([string(credentialsId: 'verwerkingsregisterpr-dg-image-manager-secret', variable: 'token')]) {
+				withCredentials([string(credentialsId: 'dg_deployer_pr', variable: 'dg_deployer_pr')]) {
 					echo "Error deploying to production, trying to rollback"
 
-					openshiftTag alias: 'false', destStream: 'verwerkingsregister', destTag: 'production', destinationNamespace: 'verwerkingsregisterpr', namespace: 'verwerkingsregisterpr', srcStream: 'verwerkingsregister', srcTag: 'previous_production', apiURL: 'https://openshift.gentgrp.gent.be:8443', authToken: '$token'
+					openshiftTag srcNs: "webcomponentspr", srcStrm: "verwerkingsregister", srcTag: "previous_production", destNs: "webcomponentspr", destStrm: "verwerkingsregister", destTag: "production", cluster: "openshiftpr"
 
-					sh 'oc login https://openshift.gentgrp.gent.be:8443 --token=$token --insecure-skip-tls-verify'
-					sh 'chmod +x openshift/deploy-pr.sh'
+					sh 'oc login https://openshift.gentgrp.gent.be:8443 --token=$dg_deployer_pr --insecure-skip-tls-verify'
+					sh 'oc project webcomponentspr'
 					sh "openshift/deploy-pr.sh"
-					sh "sleep 30"
 
-					openshiftVerifyDeployment depCfg: 'verwerkingsregister', namespace: 'verwerkingsregisterpr', verbose: 'false', verifyReplicaCount: 'true', waitTime: '6000', waitUnit: 'sec', apiURL: 'https://openshift.gentgrp.gent.be:8443', authToken: '$token'
-
-					tagSource("previous_production", "production", 'Reverted production to last known good version')
+					openshiftVerifyDeployment namespace : "webcomponentspr", depCfg: "verwerkingsregister", cluster: "openshiftpr"
 				}
 			} catch (error5) {
 				// there is no previous_production image or tag on the first run
 			}
-			throw error4;
+			throw error3;
 		}
 	}
 }

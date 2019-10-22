@@ -2,19 +2,17 @@
 
 set -e
 
-
 echo "Running as user: $(oc whoami)"
 echo ""
-echo "Changing project to verwerkingsregisterqa"
-oc project verwerkingsregisterqa
+echo "Changing project to webcomponentsqa"
+oc project webcomponentsqa
 
 echo "Processing template and creating"
-oc process -f openshift/verwerkingsregister-qa.yml | oc create -f - || true
+oc process -f openshift/openshift-qa.yml | oc create -f - || true
 NOT_CREATED=$?
 
 if [ $NOT_CREATED ]; then
   echo "Resources already exist, replacing"
-  oc process -f openshift/verwerkingsregister-qa.yml | oc replace -f - || true
-  oc rollout latest dc/verwerkingsregister || true
+  oc process -f openshift/openshift-qa.yml | oc replace -f - || true
 fi
 echo "Done."
