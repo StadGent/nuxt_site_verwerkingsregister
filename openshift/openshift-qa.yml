@@ -48,12 +48,12 @@ objects:
     strategy:
       sourceStrategy:
         env:
-          - name: HOST
-            value: 0.0.0.0
-          - name: DEPLOY_ENV
-            value: qa
-          - name: NODE_VERSION_URL
-            value: https://semver.io/node/resolve/9.x
+        - name: HOST
+          value: 0.0.0.0
+        - name: DEPLOY_ENV
+          value: qa
+        - name: NODE_VERSION_URL
+          value: https://semver.io/node/resolve/9.x
         from:
           kind: ImageStreamTag
           name: nodejs-8-rhel7:latest
