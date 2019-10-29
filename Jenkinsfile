@@ -3,11 +3,11 @@
 node('maven') {
 	openshift.withCluster("openshiftqa") {
         stage ('Deploy to DV') {
-        	//sh 'openshift/deploy-dv.sh'
+        	sh 'openshift/deploy-dv.sh'
 
-        	//openshiftStartBuild namespace:"webcomponentsdv", bldCfg: "verwerkingsregister"
+        	openshiftStartBuild namespace:"webcomponentsdv", bldCfg: "verwerkingsregister"
 
-			//openshiftVerifyDeployment namespace : "webcomponentsdv", depCfg: "verwerkingsregister"
+			openshiftVerifyDeployment namespace : "webcomponentsdv", depCfg: "verwerkingsregister"
         }
 
 		input message: "Promote to QA?"
