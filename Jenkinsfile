@@ -36,47 +36,14 @@ node('maven') {
 		}
 
 		input message: "Promote to QA?"
-        
-		try {
-			stage ('Deploy to QA') {
-				openshiftTag srcNs: "webcomponentsdv", srcStrm: "verwerkingsregister", srcTag: "accepted_dv", destNs: "webcomponentsdv", destStrm: "verwerkingsregister", destTag: "qa"
 
-				sh "openshift/deploy-qa.sh"
+		stage ('Deploy to QA') {
+        	sh 'openshift/deploy-qa.sh'
 
-				openshiftVerifyDeployment namespace : "webcomponentsqa", depCfg: "medewerker-api"
-			}
+        	openshiftStartBuild namespace:"webcomponentsqa", bldCfg: "verwerkingsregister"
 
-			stage ('Blackbox tests') {
-				//sh "curl http://burgeraccount.employeesqa.svc:8080"
-				//sh "npm install"
-			    //sh "TEST_URL='http://burgeraccount.employeesqa.svc:8080/' API_NAMESPACE_PREFIX='employees/burgeraccount/v1/' npm run test-v1"
-			}
-
-			stage ('Performantie tests') {
-				//sh "cd gatling/; TEST_URL='http://burgeraccount.servicesdv.svc:8080/employees/burgeraccount' ../mvnw gatling:test"
-
-				//archiveArtifacts artifacts: 'gatling/target/gatling/**/*', allowEmptyArchive: false
-			}
-
-			input message: "Approve version on QA?"
-
-			stage ('Approved QA') {
-				openshiftTag srcNs: "webcomponentsdv", srcStrm: "verwerkingsregister", srcTag: "accepted_dv", destNs: "webcomponentsdv", destStrm: "verwerkingsregister", destTag: "approved_qa"
-			}
-		} catch (error1) {
-			try {
-				echo "Error deploying to QA, trying to rollback"
-
-				openshiftTag srcNs: "webcomponentsdv", srcStrm: "verwerkingsregister", srcTag: "approved_qa", destNs: "webcomponentsdv", destStrm: "verwerkingsregister", destTag: "qa"
-
-				sh "openshift/deploy-qa.sh"
-
-				openshiftVerifyDeployment namespace : "webcomponentsqa", depCfg: "verwerkingsregister"
-			} catch (error2) {
-				// there is no approved_qa image or tag on the first run
-			}
-			throw error1;
-		}
+        	openshiftVerifyDeployment namespace : "webcomponentsqa", depCfg: "verwerkingsregister"
+        }
 	}
 
 	input message: "Promote to PR?"
