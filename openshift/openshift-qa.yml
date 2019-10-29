@@ -99,7 +99,7 @@ objects:
             value: qa
           - name: NODE_VERSION_URL
             value: https://semver.io/node/resolve/9.x
-          image: docker-registry.default.svc:5000/webcomponentsdv/verwerkingsregister:accepted_dv
+          image: docker-registry.default.svc:5000/webcomponentsqa/verwerkingsregister:latest
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 30
