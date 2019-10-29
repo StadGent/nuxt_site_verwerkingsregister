@@ -2,6 +2,10 @@
 
 node('maven') {
     openshift.withCluster("openshiftqa") {
+        stage ('Unit tests') {
+            checkout([$class: 'GitSCM', branches: [[name: 'develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
+        }
+
         stage ('Deploy to DV') {
             sh 'openshift/deploy-dv.sh'
 
