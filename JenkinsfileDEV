@@ -20,19 +20,5 @@ node('maven') {
 
             openshiftVerifyDeployment namespace : "webcomponentsdv", depCfg: "verwerkingsregister"
         }
-
-        stage ('Blackbox tests') {
-            //withCredentials([string(credentialsId: 'net_service_medewerker-api_dv_v1', variable: 'apiTokenV1'), string(credentialsId: 'net_service_burgeraccount_dv_v2', variable: 'apiTokenV2')]) {
-                //  sh "cd cucumber && ../mvnw -s ../.mvn/settings.xml test -Dmaven.test.failure.ignore=true -Dcucumber.test.host=\"https://apidgdv.gent.be\"  -Dcucumber.test.userkey.v1=${apiTokenV1} -Dcucumber.test.namespace=/supporting/document-generation -Dcucumber.test.userkey.v2=${apiTokenV2} -Dcucumber.options=\"--tags 'not @bypassGateway and not @localOnly and not @ignore'\""
-            //}
-
-            //junit testResults: 'cucumber/target/surefire-reports/TEST-*.xml'
-
-            //if (currentBuild.result == null) {
-                openshiftTag srcNs: "webcomponentsdv", srcStrm: "verwerkingsregister", srcTag: "latest", destNs: "webcomponentsdv", destStrm: "verwerkingsregister", destTag: "accepted_dv"
-            //} else {
-            //  error 'Build unstable'
-            //}
-        }
     }
 }
