@@ -22,48 +22,10 @@ html.wf-active {
 /*
   Styleguide fixes
  */
-
-// Filter modal should cover the screen when opened.
-// Overrides styleguide where the modal is not moved to DOM root.
-.filter-section.modal {
-  .modal-inner {
-    width: 100%;
-    max-width: unset;
-    margin: 0;
-    padding: 0;
-  }
+.sidebar-layout .modal {
+  max-height: unset;
 }
 
-.modal {
-  animation: fade .2s ease-in-out;
-
-  .modal-inner {
-    opacity: 0;
-    animation: fade .2s ease-in-out forwards;
-    animation-delay: .2s;
-  }
-}
-
-.modal.sidebar {
-  .modal-inner {
-    animation-delay: unset;
-  }
-
-  @include desktop {
-    animation: none;
-
-    .modal-inner {
-      opacity: 1;
-      animation: none;
-    }
-  }
-}
-
-@keyframes fade {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.modal.modal--fixed-height > .modal-inner > .modal-actions {
+  height: 3.8rem;
 }
