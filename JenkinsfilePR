@@ -1,50 +1,17 @@
 #!/usr/bin/env groovy
 
 node('maven') {
-	openshift.withCluster("openshiftqa") {
-	    stage ('Unit tests') {
-            checkout([$class: 'GitSCM', branches: [[name: 'develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
-
-            //withSonarQubeEnv("DGSonarQube") {
-            //  sh "./mvnw -s .mvn/settings.xml -B clean org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:prepare-agent-integration deploy sonar:sonar"
-            //}
-
-            //junit testResults: '**/target/surefire-reports/TEST-*.xml', allowEmptyResults: true;
-            //junit testResults: '**/target/failsafe-reports/TEST-*.xml', allowEmptyResults: true;
-        }
-
-        stage ('Deploy to DV') {
-        	sh 'openshift/deploy-dv.sh'
-
-        	openshiftStartBuild namespace:"webcomponentsdv", bldCfg: "verwerkingsregister"
-
-			openshiftVerifyDeployment namespace : "webcomponentsdv", depCfg: "verwerkingsregister"
-        }
-
-		input message: "Promote to QA?"
-
-		stage ('Deploy to QA') {
-        	sh 'openshift/deploy-qa.sh'
-
-        	openshiftStartBuild namespace:"webcomponentsqa", bldCfg: "verwerkingsregister"
-
-        	openshiftVerifyDeployment namespace : "webcomponentsqa", depCfg: "verwerkingsregister"
-        }
-	}
-
-	input message: "Promote to PR?"
-
-	openshift.withCluster("openshiftpr") {
+    openshift.withCluster("openshiftpr") {
 		try {
         	stage ('Import image from QA') {
         		// Import image from qa-cluster
 	            withCredentials([string(credentialsId: 'dg_deployer_pr', variable: 'dg_deployer_pr')]) {
 	                sh 'oc login https://openshift.gentgrp.gent.be:8443 --token=$dg_deployer_pr --insecure-skip-tls-verify'
 					sh 'oc project webcomponentspr'
-	                sh 'oc import-image verwerkingsregister:approved_qa --from registry.servicesqa.local/webcomponentsdv/verwerkingsregister --confirm --insecure=true'
+	                sh 'oc import-image verwerkingsregister:latest --from registry.servicesqa.local/webcomponentsqa/verwerkingsregister --confirm --insecure=true'
 	            }
         	}
-        
+
 	        stage ('Deploy to PR') {
 	            withCredentials([string(credentialsId: 'dg_deployer_pr', variable: 'dg_deployer_pr')]) {
 	            	try {
@@ -55,7 +22,7 @@ node('maven') {
 	            	}
 
 					// Tag new production image in docker
-					openshiftTag srcNs: "webcomponentspr", srcStrm: "verwerkingsregister", srcTag: "approved_qa", destNs: "webcomponentspr", destStrm: "verwerkingsregister", destTag: "production", cluster: "openshiftpr"
+					openshiftTag srcNs: "webcomponentspr", srcStrm: "verwerkingsregister", srcTag: "latest", destNs: "webcomponentspr", destStrm: "verwerkingsregister", destTag: "production", cluster: "openshiftpr"
 
 	            	sh 'oc login https://openshift.gentgrp.gent.be:8443 --token=$dg_deployer_pr --insecure-skip-tls-verify'
 					sh 'oc project webcomponentspr'

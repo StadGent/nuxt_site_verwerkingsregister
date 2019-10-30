@@ -2,7 +2,7 @@
 
 node('maven') {
     openshift.withCluster("openshiftqa") {
-        stage ('Unit tests') {
+    	stage ('Unit tests') {
             checkout([$class: 'GitSCM', branches: [[name: 'develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
 
             //withSonarQubeEnv("DGSonarQube") {
@@ -13,12 +13,12 @@ node('maven') {
             //junit testResults: '**/target/failsafe-reports/TEST-*.xml', allowEmptyResults: true;
         }
 
-        stage ('Deploy to DV') {
-            sh 'openshift/deploy-dv.sh'
+        stage ('Deploy to QA') {
+            sh 'openshift/deploy-qa.sh'
 
-            openshiftStartBuild namespace:"webcomponentsdv", bldCfg: "verwerkingsregister"
+            openshiftStartBuild namespace:"webcomponentsqa", bldCfg: "verwerkingsregister"
 
-            openshiftVerifyDeployment namespace : "webcomponentsdv", depCfg: "verwerkingsregister"
+            openshiftVerifyDeployment namespace : "webcomponentsqa", depCfg: "verwerkingsregister"
         }
     }
 }
