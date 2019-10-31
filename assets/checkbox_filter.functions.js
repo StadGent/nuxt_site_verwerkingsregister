@@ -336,7 +336,10 @@
 
       // Update selectedFilters and close.
       if (submitBtn) {
-        submitBtn.addEventListener('click', updateCount)
+        submitBtn.addEventListener('click', () => {
+          updateCount()
+          document.removeEventListener('keydown', handleKeyboardInput)
+        })
       }
     }
 
@@ -346,14 +349,10 @@
      */
     const handleKeyboardInput = (e) => {
       const keyCode = e.keyCode || e.which
-      switch (keyCode) {
-        case 27: // esc
-          e.preventDefault()
-          reset()
-          updateCount()
-          break
-        case 13: // enter
-          e.preventDefault() // prevent form submit
+      if (keyCode === 27) {
+        e.preventDefault()
+        reset()
+        updateCount()
       }
     }
 
