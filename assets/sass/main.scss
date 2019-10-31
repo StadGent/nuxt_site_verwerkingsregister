@@ -23,7 +23,7 @@ html.wf-active {
   Styleguide fixes
  */
 .sidebar-layout .modal {
-  max-height: unset;
+  max-height: none;
 }
 
 .modal.modal--fixed-height > .modal-inner > .modal-actions {
