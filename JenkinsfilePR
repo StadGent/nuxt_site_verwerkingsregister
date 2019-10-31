@@ -14,11 +14,11 @@ node('maven') {
         }
 
         stage ('Deploy to QA') {
-            sh 'openshift/deploy-qa.sh'
+            //sh 'openshift/deploy-qa.sh'
 
-            openshiftStartBuild namespace:"webcomponentsqa", bldCfg: "verwerkingsregister"
+            //openshiftStartBuild namespace:"webcomponentsqa", bldCfg: "verwerkingsregister"
 
-            openshiftVerifyDeployment namespace : "webcomponentsqa", depCfg: "verwerkingsregister"
+            //openshiftVerifyDeployment namespace : "webcomponentsqa", depCfg: "verwerkingsregister"
         }
 	}
 
