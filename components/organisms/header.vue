@@ -3,11 +3,11 @@
     <div class="content-container">
       <logo />
     </div>
-    <breadcrumbs v-if="hasBreadcrumbs" />
-    <hr>
     <div class="site-name">
       <span>Verwerkingsregister</span>
     </div>
+    <breadcrumbs v-if="hasBreadcrumbs" />
+    <hr>
   </header>
 </template>
 
