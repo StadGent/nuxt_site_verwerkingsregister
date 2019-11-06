@@ -1,24 +1,13 @@
 #!/usr/bin/env groovy
 
 node('maven') {
-    openshift.withCluster("openshiftqa") {
-    	stage ('Unit tests') {
-            checkout([$class: 'GitSCM', branches: [[name: 'develop']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
+    stage ('Build & Deploy - QA') {
+        checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
 
-            //withSonarQubeEnv("DGSonarQube") {
-            //  sh "./mvnw -s .mvn/settings.xml -B clean org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:prepare-agent-integration deploy sonar:sonar"
-            //}
+        openshiftProcessTemplates namespace: "webcomponentsqa", fileName: "openshift/openshift-qa.yml", cluster: "openshiftqa"
 
-            //junit testResults: '**/target/surefire-reports/TEST-*.xml', allowEmptyResults: true;
-            //junit testResults: '**/target/failsafe-reports/TEST-*.xml', allowEmptyResults: true;
-        }
+        openshiftStartBuild namespace:"webcomponentsqa", bldCfg: "verwerkingsregister", cluster: "openshiftqa"
 
-        stage ('Deploy to QA') {
-            sh 'openshift/deploy-qa.sh'
-
-            openshiftStartBuild namespace:"webcomponentsqa", bldCfg: "verwerkingsregister"
-
-            openshiftVerifyDeployment namespace : "webcomponentsqa", depCfg: "verwerkingsregister"
-        }
+        openshiftVerifyDeployment namespace : "webcomponentsqa", depCfg: "verwerkingsregister", cluster: "openshiftqa"
     }
 }
