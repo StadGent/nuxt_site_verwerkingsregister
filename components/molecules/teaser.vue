@@ -26,7 +26,7 @@
           </div>
         </dl>
         <nuxt-link v-if="item.id && item.name" :to="`verwerking/${item.id.value}`" class="standalone-link read-more" append>
-          lees meer <span class="visually-hidden">over {{ item.name.value }}</span>
+          Lees meer <span class="visually-hidden">over {{ item.name.value }}</span>
         </nuxt-link>
       </div>
     </article>

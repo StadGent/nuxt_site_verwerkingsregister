@@ -17,8 +17,8 @@ export default {
           name: 'description',
           content: this.details.description
             ? this.details.description.value
-            : 'De Stad en het OCMW Gent vinden de bescherming van uw persoonsgegevens erg belangrijk.\n' +
-              'Daarom vindt u op deze pagina een overzicht van de verwerkingen van persoonsgegevens die we uitvoeren.'
+            : 'De Stad en het OCMW Gent vinden de bescherming van jouw persoonsgegevens erg belangrijk.\n' +
+              'Daarom vind je op deze pagina een overzicht van de verwerkingen van persoonsgegevens die we uitvoeren.'
         }
       ]
     }
