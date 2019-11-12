@@ -9,7 +9,7 @@
                    class="previous"
                    @click.native="blur"
         >
-          vorige
+          Vorige
           <span class="visually-hidden">pagina</span>
         </nuxt-link>
       </li>
@@ -72,7 +72,7 @@
                    class="next"
                    @click.native="blur"
         >
-          volgende
+          Volgende
           <span class="visually-hidden">pagina</span>
         </nuxt-link>
       </li>

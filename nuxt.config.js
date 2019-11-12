@@ -15,8 +15,8 @@ export default {
         hid: 'description',
         name: 'description',
         content:
-          'De Stad en het OCMW Gent vinden de bescherming van uw persoonsgegevens erg belangrijk.\n' +
-          'Daarom vindt u op deze pagina een overzicht van de verwerkingen van persoonsgegevens die we uitvoeren.'
+          'De Stad en het OCMW Gent vinden de bescherming van jouw persoonsgegevens erg belangrijk.\n' +
+          'Daarom vind je op deze pagina een overzicht van de verwerkingen van persoonsgegevens die we uitvoeren.'
       },
       { name: 'msapplication-TileColor', content: '#009DE0' },
       { name: 'theme-color', content: '#009DE0' }
