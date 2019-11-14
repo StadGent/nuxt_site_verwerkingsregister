@@ -1,6 +1,6 @@
 <template>
   <div v-if="selectedFilters.length > 0" class="selected-filters">
-    <h2>U koos voor:</h2>
+    <h2>Je filterde op:</h2>
     <template v-for="filter in selectedFilters">
       <span :key="filter.key" class="tag filter">
         {{ filter.value }}
@@ -8,7 +8,7 @@
       </span>
     </template>
     <nuxt-link :to="$route.path">
-      Wis alle filters
+      Verwijder alle filters
     </nuxt-link>
   </div>
 </template>
