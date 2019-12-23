@@ -2,9 +2,9 @@
   <div class="sidebar-layout filter">
     <section id="filter"
              :aria-hidden="`${!filterHidden}`"
-             :class="`filter-section sidebar modal ${modalOpen ? 'visible' : ''}`"
+             :class="`filter-section modal--fixed-height sidebar modal ${modalOpen ? 'visible' : ''}`"
              tabindex="-1">
-      <div class="modal-inner">
+      <form action="#result" class="modal-inner" @submit.prevent="submitFilter">
         <div class="modal-header">
           <button type="button"
                   class="button close icon-cross modal-close"
@@ -14,58 +14,58 @@
         </div>
         <div class="modal-content">
           <h2>Zoek verwerking</h2>
-          <form action="#result" @submit.prevent="submitFilter">
-            <div class="form-item">
-              <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
-              <input id="name" v-model="filter.name" type="text" name="name">
+          <div class="form-item">
+            <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
+            <input id="name" v-model="filter.name" type="text" name="name">
+          </div>
+          <checkbox-with-filter v-if="processors.length"
+                                :id="'services'"
+                                v-model="filter['processor[]']"
+                                :items="processors"
+                                :legend="'Verwerkende dienst'"
+                                :selected-legend="'dienst(en)'"
+                                :name="'processor[]'" />
+          <checkbox-with-filter v-if="personalData.length"
+                                :id="'data'"
+                                v-model="filter['personalData[]']"
+                                :items="personalData"
+                                :legend="'Welke gegevens?'"
+                                :selected-legend="'gegeven(s)'"
+                                :name="'personalData[]'" />
+          <checkbox-with-filter v-if="grantees.length"
+                                :id="'recipient'"
+                                v-model="filter['grantees[]']"
+                                :items="grantees"
+                                :legend="'Ontvanger'"
+                                :selected-legend="'ontvanger(s)'"
+                                :name="'grantees[]'" />
+          <checkbox-with-filter v-if="types.length"
+                                :id="'category'"
+                                v-model="filter['types[]']"
+                                :items="types"
+                                :legend="'Categorie'"
+                                :selected-legend="'categorie(ën)'"
+                                :name="'types[]'" />
+          <fieldset v-if="formalFrameworks.length" class="form-item">
+            <legend>Rechtmatigheid</legend>
+            <div v-for="(formalFramework, index) in formalFrameworks" :key="index" class="checkbox">
+              <input :id="`formalFrameworks-chk-${index}`"
+                     v-model="filter['formalFrameworks[]']"
+                     :value="formalFramework"
+                     :name="'formalFrameworks[]'"
+                     type="checkbox"
+                     class="checkbox">
+              <label :for="`formalFrameworks-chk-${index}`">{{ formalFramework }}</label>
             </div>
-            <checkbox-with-filter v-if="processors.length"
-                                  :id="'services'"
-                                  v-model="filter['processor[]']"
-                                  :items="processors"
-                                  :legend="'Verwerkende dienst'"
-                                  :selected-legend="'dienst(en)'"
-                                  :name="'processor[]'" />
-            <checkbox-with-filter v-if="personalData.length"
-                                  :id="'data'"
-                                  v-model="filter['personalData[]']"
-                                  :items="personalData"
-                                  :legend="'Welke gegevens?'"
-                                  :selected-legend="'gegeven(s)'"
-                                  :name="'personalData[]'" />
-            <checkbox-with-filter v-if="grantees.length"
-                                  :id="'recipient'"
-                                  v-model="filter['grantees[]']"
-                                  :items="grantees"
-                                  :legend="'Ontvanger'"
-                                  :selected-legend="'ontvanger(s)'"
-                                  :name="'grantees[]'" />
-            <checkbox-with-filter v-if="types.length"
-                                  :id="'category'"
-                                  v-model="filter['types[]']"
-                                  :items="types"
-                                  :legend="'Categorie'"
-                                  :selected-legend="'categorie(ën)'"
-                                  :name="'types[]'" />
-
-            <fieldset v-if="formalFrameworks.length" class="form-item">
-              <legend>Rechtmatigheid</legend>
-              <div v-for="(formalFramework, index) in formalFrameworks" :key="index" class="checkbox">
-                <input :id="`formalFrameworks-chk-${index}`"
-                       v-model="filter['formalFrameworks[]']"
-                       :value="formalFramework"
-                       :name="'formalFrameworks[]'"
-                       type="checkbox"
-                       class="checkbox">
-                <label :for="`formalFrameworks-chk-${index}`">{{ formalFramework }}</label>
-              </div>
-            </fieldset>
-            <button type="submit" class="button button-primary filter__submit modal-close" @click="closeModal">
-              Zoek
-            </button>
-          </form>
+          </fieldset>
         </div>
-      </div>
+        <div class="modal-actions">
+          <button type="submit" class="button button-primary filter__submit modal-close" @click="closeModal">
+            Zoek
+          </button>
+        </div>
+      </form>
+      <div class="modal-overlay modal-close" data-target="filter" tabindex="-1" />
     </section>
     <section id="result" class="content result-section">
       <selectedfilters :allowed-filters="allowedFilters" />
