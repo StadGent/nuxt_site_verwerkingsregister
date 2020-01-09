@@ -1,6 +1,6 @@
 <template>
   <fieldset class="form-item checkbox-filter">
-    <legend>{{ legend }} <span v-if="!required" class="label-optional">(Optioneel)</span></legend>
+    <legend>{{ legend }}</legend>
 
     <div class="form-columns">
       <div>
@@ -18,7 +18,7 @@
               </button>
             </div>
             <div :id="id + '_scrollable'" class="modal-content">
-              <h3>{{ legend }} <span v-if="!required" class="label-optional">(Optioneel)</span></h3>
+              <h3>{{ legend }}</h3>
               <div class="checkbox-filter__selected">
                 <span v-for="(item, index) in selectedItems" :key="`selected-${index}`"
                       :data-value="item"
@@ -90,12 +90,6 @@ export default {
     id: {
       type: String,
       required: true
-    },
-    required: {
-      type: Boolean,
-      default: () => {
-        return false
-      }
     },
     legend: {
       type: String,
