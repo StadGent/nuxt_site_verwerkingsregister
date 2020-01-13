@@ -25,3 +25,12 @@ html.wf-active {
 .modal.modal--fixed-height > .modal-inner > .modal-actions {
   height: 3.8rem;
 }
+.fieldset-wrapper fieldset, .fieldset-wrapper fieldset.form-item, fieldset, fieldset.form-item {
+  margin-top: 1rem;
+}
+// system pages
+@include desktop {
+  .detail-layout > .help-block > .highlight__inner {
+    padding-left: 0;
+  }
+}
