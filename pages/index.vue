@@ -19,7 +19,7 @@
 <script>
 import introductietekst from '~/components/introductietekst'
 import filterLayout from '~/components/organisms/filter_layout'
-import Modal from '~/modal'
+import Modal from '@digipolis-gent/modal'
 
 export default {
   head () {
