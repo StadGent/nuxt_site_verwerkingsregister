@@ -48,14 +48,16 @@
                                 :name="'types[]'" />
           <fieldset v-if="formalFrameworks.length" class="form-item">
             <legend>Rechtmatigheid</legend>
-            <div v-for="(formalFramework, index) in formalFrameworks" :key="index" class="checkbox">
-              <input :id="`formalFrameworks-chk-${index}`"
-                     v-model="filter['formalFrameworks[]']"
-                     :value="formalFramework"
-                     :name="'formalFrameworks[]'"
-                     type="checkbox"
-                     class="checkbox">
-              <label :for="`formalFrameworks-chk-${index}`">{{ formalFramework }}</label>
+            <div class="form-item">
+              <div v-for="(formalFramework, index) in formalFrameworks" :key="index" class="checkbox">
+                <input :id="`formalFrameworks-chk-${index}`"
+                       v-model="filter['formalFrameworks[]']"
+                       :value="formalFramework"
+                       :name="'formalFrameworks[]'"
+                       type="checkbox"
+                       class="checkbox">
+                <label :for="`formalFrameworks-chk-${index}`">{{ formalFramework }}</label>
+              </div>
             </div>
           </fieldset>
         </div>

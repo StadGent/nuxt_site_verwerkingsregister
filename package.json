@@ -10,24 +10,23 @@
     "start": "HOST=0.0.0.0 PORT=8080 nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .eslintignore .",
-    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .eslintignore .",
-    "postinstall": "./postinstall.sh"
+    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .eslintignore ."
   },
   "pre-commit": [
     "lint"
   ],
   "dependencies": {
+    "@digipolis-gent/modal": "^1.0.2",
     "@nuxtjs/google-analytics": "^2.2.0",
     "axios": "^0.18.0",
     "axios-extensions": "^3.0.5",
     "babel-polyfill": "^6.26.0",
-    "body-scroll-lock": "^2.6.1",
     "breakpoint-sass": "^2.7.1",
     "cross-env": "^5.2.0",
-    "gent_styleguide": "3.0.0-beta17",
+    "gent_styleguide": "3.0.1",
     "lru-cache": "^4.1.5",
-    "node-sass": "^4.12.0",
-    "nuxt": "2.7.1",
+    "node-sass": "^4.13.1",
+    "nuxt": "^2.11.0",
     "sass-loader": "^7.1.0",
     "susy": "^3.0.5",
     "webfontloader": "^1.6.28"

@@ -68,8 +68,18 @@ export default {
    ** Build configuration
    */
   build: {
-    extractCSS: {
-      allChunks: true
+    extractCSS: true,
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /\.(css|vue|scss)$/,
+            chunks: 'all',
+            enforce: true
+          }
+        }
+      }
     },
     postcss: {
       plugins: {
@@ -87,8 +97,7 @@ export default {
             loader: 'sass-loader',
             options: {
               includePaths: [
-                'node_modules/breakpoint-sass/stylesheets',
-                'node_modules/susy/sass'
+                'node_modules/breakpoint-sass/stylesheets'
               ]
             }
           }

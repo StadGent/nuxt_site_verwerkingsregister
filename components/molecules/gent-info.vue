@@ -2,7 +2,7 @@
   <div class="gentinfo-block">
     <div class="gentinfo-block-content">
       <h2>
-        <img src="~assets/styleguide/img/svg/gentinfo-logo.svg" alt="Gentinfo" class="gentinfo-logo">
+        <img src="~gent_styleguide/build/styleguide/img/svg/gentinfo-logo.svg" alt="Gentinfo" class="gentinfo-logo">
       </h2>
       <p>
         Bereikbaar van maandag t.e.m. zaterdag van 8:00 tot 19:00 uur.

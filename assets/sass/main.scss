@@ -1,6 +1,15 @@
-$styleguide-dir: '../styleguide';
+$styleguide-dir: '../../node_modules/gent_styleguide/build/styleguide' !default;
+@import '../../node_modules/gent_styleguide/build/styleguide/sass/main_cli';
 
-@import "~gent_styleguide/build/styleguide/sass/main_cli";
+/*
+ Styleguide unreleased
+ */
+// STIJ-340
+@import "styleguide_unreleased/filter";
+
+.modal--fixed-height .modal-content[tabindex='0']:focus {
+  outline: none;
+}
 
 /*
  webfontLoader classes
@@ -19,15 +28,6 @@ html.wf-active {
   }
 }
 
-/*
-  Styleguide fixes
- */
-.modal.modal--fixed-height > .modal-inner > .modal-actions {
-  height: 3.8rem;
-}
-.fieldset-wrapper fieldset, .fieldset-wrapper fieldset.form-item, fieldset, fieldset.form-item {
-  margin-top: 1rem;
-}
 // system pages
 @include desktop {
   .detail-layout > .help-block > .highlight__inner {

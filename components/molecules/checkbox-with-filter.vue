@@ -17,7 +17,7 @@
                 <span>Sluiten</span><i class="icon-close" aria-hidden="true" />
               </button>
             </div>
-            <div :id="id + '_scrollable'" class="modal-content">
+            <div :id="id + '_scrollable'" class="modal-content" tabindex="0">
               <h3>{{ legend }}</h3>
               <div class="checkbox-filter__selected">
                 <span v-for="(item, index) in selectedItems" :key="`selected-${index}`"
