@@ -12,12 +12,6 @@
               {{ item.type.value }}
             </dd>
           </div>
-          <div v-if="item.processor">
-            <dt>Verwerkende dienst</dt>
-            <dd v-if="item.processor">
-              {{ item.processor.value }}
-            </dd>
-          </div>
           <div v-if="item.formal_framework">
             <dt>Rechtmatigheid</dt>
             <dd v-if="item.formal_framework">
