@@ -107,14 +107,12 @@ export default {
   },
   css: ['@/assets/sass/main.scss'],
   plugins: [{ src: '~plugins/webFontLoader.js', ssr: false }],
-  modules: [
-    [
-      '@nuxtjs/google-analytics',
-      {
-        id: 'UA-791237-60'
-      }
-    ]
-  ],
+  /*
+   ** Add google-analytics
+   */
+  // buildModules: [
+  //  ['@nuxtjs/google-analytics', { id: 'UA-791237-60' }]
+  // ],
   env: {
     deployEnv: process.env.DEPLOY_ENV
   }
