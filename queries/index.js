@@ -15,7 +15,7 @@ SELECT
   ?id
   ?type
   ?name
-  (concat(group_concat(distinct ?personalData;separator=','),group_concat(distinct ?sensitivePersonalData;separator=',')) as ?personalData)
+  (concat(group_concat(distinct ?personalData;separator=','),',',group_concat(distinct ?sensitivePersonalData;separator=',')) as ?personalData)
   ?formal_framework
   (group_concat(distinct ?grantee;separator=',') as ?grantees)
   ?audience

@@ -149,7 +149,7 @@ export default {
         .reduce((result, item) => {
           if (item.personalData && item.personalData.value) {
             for (let i = item.personalData.value.length; i--;) {
-              if (!result.includes(item.personalData.value[i])) {
+              if (!result.includes(item.personalData.value[i]) && item.personalData.value[i]) {
                 result.push(item.personalData.value[i])
               }
             }
