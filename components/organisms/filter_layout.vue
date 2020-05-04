@@ -18,6 +18,13 @@
             <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
             <input id="name" v-model="filter.name" type="text" name="name">
           </div>
+          <checkbox-with-filter v-if="processors.length"
+                                :id="'services'"
+                                v-model="filter['processor[]']"
+                                :items="processors"
+                                :legend="'Verwerkende dienst'"
+                                :selected-legend="'dienst(en)'"
+                                :name="'processor[]'" />
           <checkbox-with-filter v-if="personalData.length"
                                 :id="'data'"
                                 v-model="filter['personalData[]']"
@@ -130,20 +137,36 @@ export default {
         'grantees[]',
         'personalData[]',
         'types[]',
-        'formalFrameworks[]'
+        'formalFrameworks[]',
+        'processor[]'
       ],
       filter: {
         name: this.$route.query.name,
         'personalData[]': this.parseQueryArray('personalData[]') || [],
         'grantees[]': this.parseQueryArray('grantees[]') || [],
         'types[]': this.parseQueryArray('types[]') || [],
-        'formalFrameworks[]': this.parseQueryArray('formalFrameworks[]') || []
+        'formalFrameworks[]': this.parseQueryArray('formalFrameworks[]') || [],
+        'processor[]': this.parseQueryArray('processor[]') || []
       },
       filterHidden: false,
       modalOpen: false
     }
   },
   computed: {
+    processors () {
+      return this.items
+        .reduce((result, item) => {
+          if (
+            item.processor &&
+            item.processor.value &&
+            !result.includes(item.processor.value)
+          ) {
+            result.push(item.processor.value)
+          }
+          return result
+        }, [])
+        .sort(sortFunction)
+    },
     personalData () {
       return this.items
         .reduce((result, item) => {
@@ -201,6 +224,11 @@ export default {
         .sort(sortFunction)
     },
     filteredItems () {
+      const processors = this.parseQueryArray('processor[]')
+      const processorRegex = processors
+        ? new RegExp(processors.join('|'), 'i')
+        : null
+
       const data = this.parseQueryArray('personalData[]')
       const dataRegex = data ? new RegExp(data.join('|'), 'i') : null
 
@@ -227,6 +255,15 @@ export default {
             item.name.value
               .toUpperCase()
               .indexOf(this.$route.query.name.toUpperCase()) === -1
+          ) {
+            return false
+          }
+
+          // processor
+          if (
+            processors &&
+            processors.length > 0 &&
+            !processorRegex.test(item.processor.value)
           ) {
             return false
           }
@@ -276,6 +313,21 @@ export default {
               return 1
             }
             if (nameA < nameB) {
+              return -1
+            }
+
+            // sort by processor
+            // omit non-word characters
+            const processorA = a.processor.value
+              .replace(/\W/g, '')
+              .toUpperCase()
+            const processorB = b.processor.value
+              .replace(/\W/g, '')
+              .toUpperCase()
+            if (processorA > processorB) {
+              return 1
+            }
+            if (processorA < processorB) {
               return -1
             }
           } catch (error) {
