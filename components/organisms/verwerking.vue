@@ -12,6 +12,10 @@
             <dd>{{ item.type ? item.type.value : "" }}</dd>
           </div>
           <div>
+            <dt>Verwerkende dienst</dt>
+            <dd>{{ item.processor ? item.processor.value : "" }}</dd>
+          </div>
+          <div>
             <dt>Rechtmatigheid</dt>
             <dd>{{ item.formal_framework ? item.formal_framework.value : "" }}</dd>
           </div>
