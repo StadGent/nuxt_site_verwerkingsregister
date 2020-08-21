@@ -4,12 +4,6 @@ $styleguide-dir: '../../node_modules/gent_styleguide/build/styleguide' !default;
 /*
  Styleguide unreleased
  */
-// STIJ-340
-@import "styleguide_unreleased/filter";
-
-.modal--fixed-height .modal-content[tabindex='0']:focus {
-  outline: none;
-}
 
 /*
  webfontLoader classes
