@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "@digipolis-gent/modal": "^1.0.2",
+    "@nuxtjs/robots": "^2.4.2",
     "axios": "^0.18.0",
     "axios-extensions": "^3.0.5",
     "babel-polyfill": "^6.26.0",

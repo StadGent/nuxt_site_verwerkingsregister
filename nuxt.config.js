@@ -1,5 +1,23 @@
 export default {
   mode: 'universal',
+  modules: [
+    '@nuxtjs/robots'
+  ],
+  /*
+   ** Robots.txt
+   */
+  robots: () => {
+    if (process.env.DEPLOY_ENV !== 'production') {
+      return {
+        UserAgent: '*',
+        Disallow: '/'
+      }
+    }
+    return {
+      UserAgent: '*',
+      Disallow: ''
+    }
+  },
   /*
    ** Headers of the page
    */
