@@ -13,9 +13,12 @@ export default {
         Disallow: '/'
       }
     }
+    /*
+     * Todo: allow indexation in production mode after official release.
+     */
     return {
       UserAgent: '*',
-      Disallow: ''
+      Disallow: '/'
     }
   },
   /*
