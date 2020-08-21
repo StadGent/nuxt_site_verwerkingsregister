@@ -52,7 +52,7 @@
             <div class="modal-actions">
               <button :data-target="id"
                       type="button"
-                      class="button button-primary button-small checkbox-filter__submit modal-close"
+                      class="button button-primary checkbox-filter__submit modal-close"
                       @click="updateCount">
                 Bevestig selectie
               </button>
