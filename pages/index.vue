@@ -51,8 +51,7 @@ export default {
     }
   },
   mounted () {
-    require('~/assets/checkbox_filter.functions')
-    const CheckboxFilter = window.CheckboxFilter
+    const CheckboxFilter = require('~/assets/checkbox_filter.functions')
 
     // init gent_styleguide modal
     const filter = document.querySelector('#filter')

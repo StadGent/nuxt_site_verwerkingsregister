@@ -1,5 +1,26 @@
 export default {
   mode: 'universal',
+  modules: [
+    '@nuxtjs/robots'
+  ],
+  /*
+   ** Robots.txt
+   */
+  robots: () => {
+    if (process.env.DEPLOY_ENV !== 'production') {
+      return {
+        UserAgent: '*',
+        Disallow: '/'
+      }
+    }
+    /*
+     * Todo: allow indexation in production mode after official release.
+     */
+    return {
+      UserAgent: '*',
+      Disallow: '/'
+    }
+  },
   /*
    ** Headers of the page
    */
