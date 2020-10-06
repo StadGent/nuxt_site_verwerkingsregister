@@ -6,10 +6,9 @@
         <span class="colon" aria-hidden="true" />
       </span>
     </h1>
-    <aside class="box-top">
-      <div class="inner-box">
+    <aside class="mb-20 highlight highlight--top">
+      <div class="highlight__inner">
         <introductietekst />
-        <div class="accolade" />
       </div>
     </aside>
     <filter-layout :items="$store.state.items_emp" />
@@ -94,9 +93,5 @@ export default {
 <style>
 .selected-filters {
   padding-top: 1.2rem;
-}
-
-.box-top {
-  margin-bottom: 2rem;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <li class="teaser teaser-search">
+  <li class="teaser teaser--wide">
     <article class="teaser-content">
       <div class="teaser__bottom">
         <h3 v-if="item.name">
