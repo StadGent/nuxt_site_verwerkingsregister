@@ -18,7 +18,6 @@
 <script>
 import introductietekst from '~/components/introductietekst'
 import filterLayout from '~/components/organisms/filter_layout'
-import Modal from '@digipolis-gent/modal'
 
 export default {
   head () {
@@ -51,40 +50,6 @@ export default {
           })
         }
       }
-    }
-  },
-  mounted () {
-    require('~/assets/checkbox_filter.functions')
-    const CheckboxFilter = window.CheckboxFilter
-
-    // init gent_styleguide modal
-    const filter = document.querySelector('#filter')
-    // eslint-disable-next-line no-new
-    new Modal(filter, {
-      resizeEvent: (open, close) => {
-        if (window.innerWidth > 960) {
-          close()
-          filter.setAttribute('aria-hidden', 'false')
-        } else if (!filter.classList.contains('visible')) {
-          filter.setAttribute('aria-hidden', 'true')
-        }
-      },
-      changeHash: false
-    })
-
-    const modal = document.querySelectorAll('.modal:not(#filter)')
-    for (let i = modal.length; i--;) {
-      // eslint-disable-next-line no-new
-      new Modal(modal[i], { changeHash: false })
-    }
-
-    // init gent_styleguide checkbox-with-filters
-    const checkboxWithFilters = document.querySelectorAll('.checkbox-filter')
-    for (let i = checkboxWithFilters.length; i--;) {
-      // eslint-disable-next-line no-new
-      new CheckboxFilter(checkboxWithFilters[i], {
-        makeTags: false
-      })
     }
   }
 }

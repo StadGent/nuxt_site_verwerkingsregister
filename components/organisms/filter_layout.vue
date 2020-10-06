@@ -18,48 +18,36 @@
             <label for="name">Naam <span class="label-optional">(Optioneel)</span></label>
             <input id="name" v-model="filter.name" type="text" name="name">
           </div>
-          <checkbox-with-filter v-if="processors.length"
-                                :id="'services'"
-                                v-model="filter['processor[]']"
-                                :items="processors"
-                                :legend="'Verwerkende dienst'"
-                                :selected-legend="'dienst(en)'"
-                                :name="'processor[]'" />
-          <checkbox-with-filter v-if="personalData.length"
-                                :id="'data'"
-                                v-model="filter['personalData[]']"
-                                :items="personalData"
-                                :legend="'Welke gegevens?'"
-                                :selected-legend="'gegeven(s)'"
-                                :name="'personalData[]'" />
-          <checkbox-with-filter v-if="grantees.length"
-                                :id="'recipient'"
-                                v-model="filter['grantees[]']"
-                                :items="grantees"
-                                :legend="'Ontvanger'"
-                                :selected-legend="'ontvanger(s)'"
-                                :name="'grantees[]'" />
-          <checkbox-with-filter v-if="types.length"
-                                :id="'category'"
-                                v-model="filter['types[]']"
-                                :items="types"
-                                :legend="'Categorie'"
-                                :selected-legend="'categorie(ën)'"
-                                :name="'types[]'" />
-          <fieldset v-if="formalFrameworks.length" class="form-item">
-            <legend>Rechtmatigheid</legend>
-            <div class="form-item">
-              <div v-for="(formalFramework, index) in formalFrameworks" :key="index" class="checkbox">
-                <input :id="`formalFrameworks-chk-${index}`"
-                       v-model="filter['formalFrameworks[]']"
-                       :value="formalFramework"
-                       :name="'formalFrameworks[]'"
-                       type="checkbox"
-                       class="checkbox">
-                <label :for="`formalFrameworks-chk-${index}`">{{ formalFramework }}</label>
-              </div>
-            </div>
-          </fieldset>
+          <checkboxes-dynamic v-if="processors.length"
+                              id="services"
+                              v-model="filter['processor[]']"
+                              :items="processors"
+                              legend="Verwerkende dienst"
+                              name="processor[]" />
+          <checkboxes-dynamic v-if="personalData.length"
+                              id="data"
+                              v-model="filter['personalData[]']"
+                              :items="personalData"
+                              legend="Welke gegevens?"
+                              name="personalData[]" />
+          <checkboxes-dynamic v-if="grantees.length"
+                              id="recipient"
+                              v-model="filter['grantees[]']"
+                              :items="grantees"
+                              legend="Ontvanger"
+                              name="grantees[]" />
+          <checkboxes-dynamic v-if="types.length"
+                              id="category"
+                              v-model="filter['types[]']"
+                              :items="types"
+                              legend="Categorie"
+                              name="types[]" />
+          <checkboxes-dynamic v-if="formalFrameworks.length"
+                              id="formalFrameworks"
+                              v-model="filter['formalFrameworks[]']"
+                              :items="formalFrameworks"
+                              legend="Rechtmatigheid"
+                              name="formalFrameworks[]" />
         </div>
         <div class="modal-actions">
           <button type="submit" class="button button-primary filter__submit modal-close" @click="closeModal">
@@ -100,7 +88,8 @@
 import teaser from '~/components/molecules/teaser'
 import pagination from '~/components/molecules/pagination'
 import selectedfilters from '~/components/molecules/selectedfilters'
-import checkboxWithFilter from '~/components/molecules/checkbox-with-filter'
+import checkboxesDynamic from '~/components/molecules/checkboxes-dynamic'
+import Modal from '@digipolis-gent/modal'
 
 const sortFunction = (a, b) => {
   // omit non-word characters
@@ -121,7 +110,7 @@ export default {
     teaser,
     pagination,
     selectedfilters,
-    checkboxWithFilter
+    checkboxesDynamic
   },
   props: {
     items: {
@@ -374,6 +363,41 @@ export default {
   },
   mounted () {
     this.filterHidden = window.innerWidth > 768
+
+    // init gent_styleguide modal
+    const filter = document.querySelector('#filter')
+    // eslint-disable-next-line no-new
+    new Modal(filter, {
+      resizeEvent: (open, close) => {
+        if (window.innerWidth > 960) {
+          close()
+          filter.setAttribute('aria-hidden', 'false')
+        } else if (!filter.classList.contains('visible')) {
+          filter.setAttribute('aria-hidden', 'true')
+        }
+      },
+      changeHash: false
+    })
+
+    const modals = document.querySelectorAll('.modal:not(#filter)')
+    for (let i = modals.length; i--;) {
+      // eslint-disable-next-line no-new
+      new Modal(modals[i], { changeHash: false })
+    }
+
+    const Accordion = require('gent_styleguide/build/styleguide/js/accordion.functions-min')
+    const accordions = document.querySelectorAll('.checkbox-accordion')
+    for (let i = accordions.length; i--;) {
+      // eslint-disable-next-line no-new
+      new Accordion(accordions[i])
+    }
+
+    const CheckboxFilterDynamic = require('gent_styleguide/build/styleguide/js/checkbox_dynamic.functions')
+    const checkboxFilters = document.querySelectorAll('.checkbox-filter-dynamic')
+    for (let i = checkboxFilters.length; i--;) {
+      // eslint-disable-next-line no-new
+      new CheckboxFilterDynamic(checkboxFilters[i], { hiddenTagText: 'verwijder filter' })
+    }
   },
   methods: {
     /**
