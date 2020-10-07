@@ -79,7 +79,7 @@
                 <div class="tag-list-wrapper">
                   <ul v-if="selectedItems.length" class="tag-list checkbox-filter__selected">
                     <li v-for="(item, index) in selectedItems" :key="`selected-${index}`">
-                      <span class="tag filter" data-value="98">{{ item }}
+                      <span class="tag filter">{{ item }}
                         <button type="button" @click="uncheck(item)">
                           <span class="visually-hidden">Verwijder filter {{ item }}</span>
                         </button>
