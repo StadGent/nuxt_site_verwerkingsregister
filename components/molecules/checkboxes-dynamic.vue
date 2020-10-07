@@ -75,8 +75,17 @@
                     We vonden <span class="checkbox-filter__result">#</span> resultaten.
                   </p>
                 </div>
+
                 <div class="tag-list-wrapper">
-                  <ul class="tag-list checkbox-filter__selected" />
+                  <ul v-if="selectedItems.length" class="tag-list checkbox-filter__selected">
+                    <li v-for="(item, index) in selectedItems" :key="`selected-${index}`">
+                      <span class="tag filter" data-value="98">{{ item }}
+                        <button type="button" @click="uncheck(item)">
+                          <span class="visually-hidden">Verwijder filter {{ item }}</span>
+                        </button>
+                      </span>
+                    </li>
+                  </ul>
                 </div>
 
                 <fieldset class="form-item stacked">
@@ -101,7 +110,7 @@
               </div>
             </div>
             <div :data-target="id"
-                 class="modal-overlay modal-close"
+                 class="modal-overlay modal-close checkbox-filter__close"
                  @click="close" />
           </div>
           <button type="button"
@@ -148,8 +157,6 @@ export default {
   data () {
     return {
       selectedItems: this.value,
-      tempItems: [],
-      selectedCount: 0,
       modalOpen: false,
       hash: `#${this.id}`
     }
@@ -162,20 +169,26 @@ export default {
       this.$emit('input', this.selectedItems)
     },
     /**
-     * Close the modal and restore selectedItems.
+     * Close the modal.
      */
     close () {
-      this.selectedItems = this.tempItems
       this.updateValue()
       this.modalOpen = false
     },
     /**
-     * Open the modal and save selectedItems.
+     * Open the modal.
      */
     open () {
       this.modalOpen = true
-      // make a shallow copy
-      this.tempItems = this.selectedItems.slice()
+    },
+    /**
+     * Remove an item from the selection.
+     *
+     * @param item String
+     */
+    uncheck (item) {
+      this.selectedItems = this.selectedItems.filter(i => i !== item)
+      this.updateValue()
     }
   }
 }

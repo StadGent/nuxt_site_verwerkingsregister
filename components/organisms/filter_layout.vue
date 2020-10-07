@@ -396,7 +396,7 @@ export default {
     const checkboxFilters = document.querySelectorAll('.checkbox-filter-dynamic')
     for (let i = checkboxFilters.length; i--;) {
       // eslint-disable-next-line no-new
-      new CheckboxFilterDynamic(checkboxFilters[i], { hiddenTagText: 'verwijder filter' })
+      new CheckboxFilterDynamic(checkboxFilters[i], { makeTags: false })
     }
   },
   methods: {
