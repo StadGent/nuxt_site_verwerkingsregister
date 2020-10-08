@@ -68,7 +68,7 @@
                 aria-expanded="false"
                 aria-controls="filter"
                 @click="openModal">
-          Toon filters
+          Filters
         </button>
       </div>
       <ul class="filter__results">
