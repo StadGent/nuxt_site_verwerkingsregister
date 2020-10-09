@@ -23,7 +23,7 @@
     "babel-polyfill": "^6.26.0",
     "breakpoint-sass": "^2.7.1",
     "cross-env": "^5.2.0",
-    "gent_styleguide": "4.0.1",
+    "gent_styleguide": "4.0.2",
     "lru-cache": "^4.1.5",
     "node-sass": "^4.14.1",
     "nuxt": "^2.14.3",
