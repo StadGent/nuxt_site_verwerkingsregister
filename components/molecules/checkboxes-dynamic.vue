@@ -16,16 +16,18 @@
     <div class="form-item">
       <div class="form-columns">
         <div v-if="items.length < 21" class="form-item-column">
-          <div v-for="(item, index) in items.slice(0,3)" :key="`${id}-chk-${index}`" class="checkbox">
-            <input :id="`${id}-chk-${index}`" v-model="selectedItems"
-                   :value="item"
-                   :name="name" type="checkbox"
-                   @change.prevent="updateValue">
-            <label :for="`${id}-chk-${index}`">{{ item }}</label>
+          <div class="accordion-preview">
+            <div v-for="(item, index) in previewItems" :key="`${id}-chk-${index}`" class="checkbox">
+              <input :id="`${id}-chk-${item}`" v-model="selectedItems"
+                     :value="item"
+                     :name="name" type="checkbox"
+                     @change.prevent="updateValue">
+              <label :for="`${id}-chk-${item}`">{{ item }}</label>
+            </div>
           </div>
           <div class="checkbox-accordion">
             <div :id="id" class="accordion--content" aria-hidden="true" hidden="hidden">
-              <div v-for="(item, index) in items.slice(3, 21)" :key="`${id}-chk-${index}`" class="checkbox">
+              <div v-for="(item, index) in accordionItems" :key="`${id}-chk-${index}`" class="checkbox">
                 <input :id="`${id}-chk-${index}`" v-model="selectedItems"
                        :value="item"
                        :name="name" type="checkbox"
@@ -33,7 +35,8 @@
                 <label :for="`${id}-chk-${index}`">{{ item }}</label>
               </div>
             </div>
-            <button type="button"
+            <button v-if="accordionItems.length"
+                    type="button"
                     class="accordion--button button button-secondary button-small icon-left"
                     aria-expanded="false"
                     :aria-controls="id">
@@ -42,14 +45,16 @@
           </div>
         </div>
         <div v-else class="form-item-column">
-          <div v-for="(item, index) in items.slice(0,3)" :key="`${id}-chk-${index}`" class="checkbox preview">
-            <input :id="`${id}-chk-${index}-preview`"
-                   :value="item"
-                   :name="null"
-                   :checked="selectedItems.indexOf(item) !== -1"
-                   :data-original="`${id}-chk-${index}`"
-                   type="checkbox">
-            <label :for="`${id}-chk-${index}-preview`">{{ item }}</label>
+          <div class="modal-preview">
+            <div v-for="(item, index) in previewItems" :key="`${id}-chk-${index}`" class="checkbox preview">
+              <input :id="`${id}-chk-${encode(item)}-preview`"
+                     :value="item"
+                     :name="null"
+                     :checked="selectedItems.indexOf(item) !== -1"
+                     :data-original="`${id}-chk-${encode(item)}`"
+                     type="checkbox">
+              <label :for="`${id}-chk-${encode(item)}-preview`">{{ item }}</label>
+            </div>
           </div>
           <div :id="id"
                :class="`modal modal--fixed-height checkbox-filter__modal${modalOpen ? ' visible' : ''}`"
@@ -92,11 +97,11 @@
                   <legend>{{ legend }}</legend>
                   <div class="form-item">
                     <div v-for="(item, index) in items" :key="`${id}-chk-${index}`" class="checkbox">
-                      <input :id="`${id}-chk-${index}`" v-model="selectedItems"
+                      <input :id="`${id}-chk-${encode(item)}`" v-model="selectedItems"
                              :value="item"
                              :name="name" type="checkbox"
                              @change.prevent="updateValue">
-                      <label :for="`${id}-chk-${index}`">{{ item }}</label>
+                      <label :for="`${id}-chk-${encode(item)}`">{{ item }}</label>
                     </div>
                   </div>
                 </fieldset>
@@ -157,6 +162,11 @@ export default {
   data () {
     return {
       selectedItems: this.value,
+      previewItems: [
+        ...this.items.slice(0, 3),
+        ...this.items.slice(3).filter(i => this.value.indexOf(i) !== -1)
+      ],
+      accordionItems: this.items.slice(3).filter(i => this.value.indexOf(i) === -1),
       modalOpen: false,
       hash: `#${this.id}`
     }
@@ -189,6 +199,16 @@ export default {
     uncheck (item) {
       this.selectedItems = this.selectedItems.filter(i => i !== item)
       this.updateValue()
+    },
+    /**
+     * btoa does not exist in node.js,
+     * this regex keeps SSR possible.
+     *
+     * @param v String
+     * @return string
+     */
+    encode (v) {
+      return v.replace(/[^a-zA-Z]/g, '')
     }
   }
 }

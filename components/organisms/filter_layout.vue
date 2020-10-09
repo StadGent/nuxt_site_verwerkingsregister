@@ -392,7 +392,7 @@ export default {
       new Accordion(accordions[i])
     }
 
-    const CheckboxFilterDynamic = require('gent_styleguide/build/styleguide/js/checkbox_dynamic.functions')
+    const CheckboxFilterDynamic = require('~/assets/checkbox_dynamic.functions-min')
     const checkboxFilters = document.querySelectorAll('.checkbox-filter-dynamic')
     for (let i = checkboxFilters.length; i--;) {
       // eslint-disable-next-line no-new
