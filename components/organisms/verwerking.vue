@@ -1,8 +1,8 @@
 <template>
   <article class="detail-layout">
     <h1>{{ item.name ? item.name.value : "" }}</h1>
-    <div class="summary-box box-top">
-      <div class="inner-box">
+    <div class="summary-box highlight highlight--top">
+      <div class="highlight__inner">
         <h2 class="visually-hidden">
           samenvatting
         </h2>

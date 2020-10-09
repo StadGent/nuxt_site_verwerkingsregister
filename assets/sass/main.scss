@@ -25,6 +25,12 @@ html.wf-active {
 // system pages
 @include desktop {
   .detail-layout > .help-block > .highlight__inner {
+    padding-right: 0;
     padding-left: 0;
+
+    > *:not(.accolade) {
+      width: span(7 of 10);
+      margin-left: span(1 wide of 10);
+    }
   }
 }

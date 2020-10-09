@@ -1,15 +1,20 @@
 <template>
   <div v-if="selectedFilters.length > 0" class="selected-filters">
     <h2>Je filterde op:</h2>
-    <template v-for="filter in selectedFilters">
-      <span :key="filter.key" class="tag filter">
-        {{ filter.value }}
-        <button @click="clearFilter(filter)"><span class="visually-hidden">Verwijder deze filter</span></button>
-      </span>
-    </template>
-    <nuxt-link :to="$route.path">
-      Verwijder alle filters
-    </nuxt-link>
+    <div class="tag-list-wrapper">
+      <ul class="tag-list">
+        <li v-for="filter in selectedFilters" :key="filter.key">
+          <span class="tag filter">{{ filter.value }}<button @click="clearFilter(filter)">
+            <span class="visually-hidden">Verwijder deze filter</span></button>
+          </span>
+        </li>
+        <li>
+          <nuxt-link :to="$route.path">
+            Verwijder alle filters
+          </nuxt-link>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
