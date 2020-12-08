@@ -1,6 +1,5 @@
 <template>
   <div class="footer--column partnership">
-    <span class="">In samenwerking met Digipolis</span>
-    <i aria-hidden="true" class="icon-digipolis" />
+    <span>In samenwerking met District09</span><i aria-hidden="true" class="icon-district09"></i>
   </div>
 </template>
