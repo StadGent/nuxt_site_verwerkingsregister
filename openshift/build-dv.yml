@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: verwerkingsregister-dv
+objects:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    name: verwerkingsregister-dv
+    namespace: d09build
+    labels:
+      app: verwerkingsregister-dv
+      component: verwerkingsregister-dv
+  spec:
+    lookupPolicy:
+      local: false
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: verwerkingsregister-dv
+    namespace: d09build
+    labels:
+      app: verwerkingsregister-dv
+      component: verwerkingsregister-dv
+  spec:
+    failedBuildsHistoryLimit: 2
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: verwerkingsregister-dv:latest
+    postCommit: {}
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1Gi
+      requests:
+        cpu: 10m
+        memory: 25Mi
+    runPolicy: Serial
+    source:
+      git:
+        ref: develop
+        uri: git@github.com:StadGent/nuxt_site_verwerkingsregister.git
+      sourceSecret:
+        name: digipolisgent-ci
+      type: Git
+    strategy:
+      sourceStrategy:
+        env:
+        - name: HOST
+          value: 0.0.0.0
+        - name: DEPLOY_ENV
+          value: test
+        - name: NODE_VERSION_URL
+          value: https://semver.io/node/resolve/9.x
+        from:
+          kind: ImageStreamTag
+          name: nodejs-8:latest
+      type: Source
+    successfulBuildsHistoryLimit: 2
+    triggers: []

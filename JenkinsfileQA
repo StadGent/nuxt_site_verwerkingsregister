@@ -4,9 +4,11 @@ node('maven') {
     stage ('Build & Deploy - QA') {
         checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
 
-        openshiftProcessTemplates namespace: "webcomponentsqa", fileName: "openshift/openshift-qa.yml", cluster: "openshiftqa"
+        openshiftProcessTemplates namespace: "d09build", fileName: "openshift/build-qa.yml", cluster: "openshiftqa"
 
-        openshiftStartBuild namespace:"webcomponentsqa", bldCfg: "verwerkingsregister", cluster: "openshiftqa"
+        openshiftStartBuild namespace:"d09build", bldCfg: "verwerkingsregister-qa", cluster: "openshiftqa"
+        
+        openshiftProcessTemplates namespace: "webcomponentsqa", fileName: "openshift/openshift-qa.yml", cluster: "openshiftqa"
 
         openshiftVerifyDeployment namespace : "webcomponentsqa", depCfg: "verwerkingsregister", cluster: "openshiftqa"
     }

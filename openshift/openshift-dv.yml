@@ -3,63 +3,6 @@ kind: Template
 metadata:
   name: verwerkingsregister
 objects:
-- apiVersion: image.openshift.io/v1
-  kind: ImageStream
-  metadata:
-    name: verwerkingsregister
-    namespace: webcomponentsdv
-    labels:
-      app: verwerkingsregister
-      component: verwerkingsregister
-  spec:
-    lookupPolicy:
-      local: false
-- apiVersion: v1
-  kind: BuildConfig
-  metadata:
-    name: verwerkingsregister
-    namespace: webcomponentsdv
-    labels:
-      app: verwerkingsregister
-      component: verwerkingsregister
-  spec:
-    failedBuildsHistoryLimit: 2
-    nodeSelector: null
-    output:
-      to:
-        kind: ImageStreamTag
-        name: verwerkingsregister:latest
-    postCommit: {}
-    resources:
-      limits:
-        cpu: 500m
-        memory: 1Gi
-      requests:
-        cpu: 10m
-        memory: 25Mi
-    runPolicy: Serial
-    source:
-      git:
-        ref: develop
-        uri: git@github.com:StadGent/nuxt_site_verwerkingsregister.git
-      sourceSecret:
-        name: digipolisgent-ci
-      type: Git
-    strategy:
-      sourceStrategy:
-        env:
-        - name: HOST
-          value: 0.0.0.0
-        - name: DEPLOY_ENV
-          value: test
-        - name: NODE_VERSION_URL
-          value: https://semver.io/node/resolve/9.x
-        from:
-          kind: ImageStreamTag
-          name: nodejs-8-rhel7:latest
-      type: Source
-    successfulBuildsHistoryLimit: 2
-    triggers: []
 - apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
   metadata:
@@ -99,7 +42,7 @@ objects:
             value: test
           - name: NODE_VERSION_URL
             value: https://semver.io/node/resolve/9.x
-          image: docker-registry.default.svc:5000/webcomponentsdv/verwerkingsregister:latest
+          image: docker-registry.default.svc:5000/d09build/verwerkingsregister-dv:latest
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 30
