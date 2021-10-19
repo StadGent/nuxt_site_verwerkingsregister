@@ -42,7 +42,7 @@ objects:
             value: production
           - name: NODE_VERSION_URL
             value: https://semver.io/node/resolve/9.x
-          image: docker-registry.default.svc:5000/webcomponentspr/verwerkingsregister:latest
+          image: docker-registry.default.svc:5000/webcomponentspr/verwerkingsregister-pr:latest
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 30
