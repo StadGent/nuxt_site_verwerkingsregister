@@ -4,9 +4,9 @@ node('maven') {
     stage ('Build & Deploy - PR') {
         checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'digipolisgent-ci', url: 'git@github.com:StadGent/nuxt_site_verwerkingsregister.git']]])
 
-        openshiftProcessTemplates namespace: "d09build", fileName: "openshift/build-dv.yml", cluster: "openshiftqa"
+        openshiftProcessTemplates namespace: "d09build", fileName: "openshift/build-pr.yml", cluster: "openshiftqa"
 
-        openshiftStartBuild namespace:"d09build", bldCfg: "verwerkingsregister-pr", cluster: "openshiftpr"
+        openshiftStartBuild namespace:"d09build", bldCfg: "verwerkingsregister-pr", cluster: "openshiftqa"
 
         openshiftMirrorImage source: "d09build/verwerkingsregister-pr:latest", target: "webcomponentspr/verwerkingsregister-pr:latest"
 
