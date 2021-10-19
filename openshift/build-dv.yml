@@ -40,7 +40,7 @@ objects:
     runPolicy: Serial
     source:
       git:
-        ref: develop
+        ref: master
         uri: git@github.com:StadGent/nuxt_site_verwerkingsregister.git
       sourceSecret:
         name: digipolisgent-ci
