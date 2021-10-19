@@ -57,6 +57,8 @@ objects:
         from:
           kind: ImageStreamTag
           name: nodejs-8:latest
+        pullSecret:
+          name: redhat-image-puller
       type: Source
     successfulBuildsHistoryLimit: 2
     triggers: []
