@@ -32,11 +32,11 @@ objects:
     postCommit: {}
     resources:
       limits:
-        cpu: 500m
-        memory: 1Gi
+        cpu: 2
+        memory: 2Gi
       requests:
-        cpu: 10m
-        memory: 25Mi
+        cpu: 1
+        memory: 1Gi
     runPolicy: Serial
     source:
       git:
@@ -56,7 +56,7 @@ objects:
           value: https://semver.io/node/resolve/9.x
         from:
           kind: ImageStreamTag
-          name: nodejs-8:latest
+          name: nodejs-14:latest
         pullSecret:
           name: redhat-image-puller
       type: Source
