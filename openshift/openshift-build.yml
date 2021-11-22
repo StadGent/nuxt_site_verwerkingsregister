@@ -1,86 +1,86 @@
 parameters:
-- name: README
-  description: These parameters are useful to quickly change some metadata. However, there are still things you MUST change in the template, like resource limits and container specs (environment)!
-  value: FIRST
-- name: NAME
-  description: This is the component name which will be also visible in Openshift. Add a suffix like -api, -worker, -sync, -datafetch, ...
-  value: verwerkingsregister
-- name: APP
-  description: This is the application name of which the component is part of. For exemple the email-api is part of the notification application.
-  value: application-test
-- name: GITURI
-  description: Git URI of the source code used for s2i builds
-  value: git@github.com:StadGent/nuxt_site_verwerkingsregister.git
-- name: BUILDER_IMAGE
-  description: s2i builder image used for the Openshift build process. Choose one from the list or ask the Service Factory for other possibilities.
-  value: nodejs-14
+  - name: README
+    description: These parameters are useful to quickly change some metadata. However, there are still things you MUST change in the template, like resource limits and container specs (environment)!
+    value: FIRST
+  - name: NAME
+    description: This is the component name which will be also visible in Openshift. Add a suffix like -api, -worker, -sync, -datafetch, ...
+    value: verwerkingsregister
+  - name: APP
+    description: This is the application name of which the component is part of. For exemple the email-api is part of the notification application.
+    value: verwerkingsregister
+  - name: GITURI
+    description: Git URI of the source code used for s2i builds
+    value: git@github.com:StadGent/nuxt_site_verwerkingsregister.git
+  - name: BUILDER_IMAGE
+    description: s2i builder image used for the Openshift build process. Choose one from the list or ask the Service Factory for other possibilities.
+    value: nodejs-14
 apiVersion: v1
 kind: Template
 metadata:
   name: ${NAME}
 objects:
-- apiVersion: v1
-  kind: ImageStream
-  metadata:
-    name: ${NAME}
-    namespace: d09build
-    labels:
-      app: ${APP}
-      component: ${NAME}
-  spec:
-    lookupPolicy:
-      local: false
-- apiVersion: build.openshift.io/v1
-  kind: BuildConfig
-  metadata:
-    name: ${NAME}
-    namespace: d09build
-    labels:
-      app: ${APP}
-      component: ${NAME}
-  spec:
-    failedBuildsHistoryLimit: 2
-    nodeSelector: null
-    output:
-      to:
-        kind: ImageStreamTag
-        name: ${NAME}:latest
-    postCommit: {}
-    completionDeadlineSeconds: 600
-    resources:
-      limits:
-        cpu: 2
-        memory: 2Gi
-      requests:
-        cpu: 10m
-        memory: 25Mi
-    runPolicy: Serial
-    source:
-      git:
-        ref: "master"
-        uri: ${GITURI}
-      sourceSecret:
-        name: digipolisgent-ci
-      type: Git
-    strategy:
-      sourceStrategy:
-        env:
-        - name: HOST
-          value: 0.0.0.0
-        - name: DEPLOY_ENV
-          value: test
-        - name: NODE_VERSION_URL
-          value: https://semver.io/node/resolve/9.x
-        - name: NEXUS_CREDENTIALS
-          valueFrom:
-            secretKeyRef:
-              name: dg-build-secrets
-              key: NEXUS_CREDENTIALS
-        from:
+  - apiVersion: v1
+    kind: ImageStream
+    metadata:
+      name: ${NAME}
+      namespace: d09build
+      labels:
+        app: ${APP}
+        component: ${NAME}
+    spec:
+      lookupPolicy:
+        local: false
+  - apiVersion: build.openshift.io/v1
+    kind: BuildConfig
+    metadata:
+      name: ${NAME}
+      namespace: d09build
+      labels:
+        app: ${APP}
+        component: ${NAME}
+    spec:
+      failedBuildsHistoryLimit: 2
+      nodeSelector: null
+      output:
+        to:
           kind: ImageStreamTag
-          name: ${BUILDER_IMAGE}:latest
-        pullSecret:
-          name: redhat-image-puller
-      type: Source
-    successfulBuildsHistoryLimit: 2
-    triggers: []
+          name: ${NAME}:latest
+      postCommit: {}
+      completionDeadlineSeconds: 600
+      resources:
+        limits:
+          cpu: 2
+          memory: 2Gi
+        requests:
+          cpu: 10m
+          memory: 25Mi
+      runPolicy: Serial
+      source:
+        git:
+          ref: "master"
+          uri: ${GITURI}
+        sourceSecret:
+          name: digipolisgent-ci
+        type: Git
+      strategy:
+        sourceStrategy:
+          env:
+            - name: HOST
+              value: 0.0.0.0
+            - name: DEPLOY_ENV
+              value: test
+            - name: NODE_VERSION_URL
+              value: https://semver.io/node/resolve/9.x
+            - name: NEXUS_CREDENTIALS
+              valueFrom:
+                secretKeyRef:
+                  name: dg-build-secrets
+                  key: NEXUS_CREDENTIALS
+          from:
+            kind: ImageStreamTag
+            name: ${BUILDER_IMAGE}:latest
+          pullSecret:
+            name: redhat-image-puller
+        type: Source
+      successfulBuildsHistoryLimit: 2
+      triggers: []
