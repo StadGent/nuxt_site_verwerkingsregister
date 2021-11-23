@@ -16,7 +16,7 @@ parameters:
     value: qa
   - name: IMAGE_TAG
     description: This is the tag of the image that should be deployed. Our CICD will set this property automatically!
-    value: "1"
+    value: "5"
   - name: APM_SERVICE_NAME
     description: The Elastic APM service name should be written in full and contain the environment.
     value: Verwerkingsregister DV
