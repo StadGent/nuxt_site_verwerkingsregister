@@ -144,7 +144,7 @@ objects:
         component: ${NAME}
     spec:
       ports:
-        - name: ${NAME}-8080
+        - name: ${NAME}-8080-tcp
           port: 8080
           protocol: TCP
           targetPort: 8080
