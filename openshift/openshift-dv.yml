@@ -64,36 +64,34 @@ objects:
                   value: test
                 - name: NODE_VERSION_URL
                   value: https://semver.io/node/resolve/9.x
-                    - name: MAX_NODE_MEMORY
-                      value: "768"
-                    - name: "APP_NAMESPACE_PREFIX"
-                      value: "${NAMESPACE}/${NAME}"
-                    - name: "APP_LOG_LEVEL"
-                      value: "INFO"
-                    - name: APM_SECRET_TOKEN
-                      valueFrom:
-                        secretKeyRef:
-                          name: apm-secrets
-                          key: SECRETTOKEN
-                    - name: APM_SERVER_URL
-                      valueFrom:
-                        secretKeyRef:
-                          name: apm-secrets
-                          key: SERVERURL
-                    - name: APM_VERIFY_SERVER_CERT
-                      valueFrom:
-                        secretKeyRef:
-                          name: apm-secrets
-                          key: SERVERCERT
-                    - name: APM_CENTRAL_CONFIG
-                      valueFrom:
-                        secretKeyRef:
-                          name: apm-secrets
-                          key: CENTRALCONFIG
-                    - name: APM_SERVICE_NAME
-                      value: ${APM_SERVICE_NAME}
-                    - name: APM_ENVIRONMENT
-                      value: 'DV'
+                - name: "APP_NAMESPACE_PREFIX"
+                  value: "${NAMESPACE}/${NAME}"
+                - name: "APP_LOG_LEVEL"
+                  value: "INFO"
+                - name: APM_SECRET_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: apm-secrets
+                      key: SECRETTOKEN
+                - name: APM_SERVER_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: apm-secrets
+                      key: SERVERURL
+                - name: APM_VERIFY_SERVER_CERT
+                  valueFrom:
+                    secretKeyRef:
+                      name: apm-secrets
+                      key: SERVERCERT
+                - name: APM_CENTRAL_CONFIG
+                  valueFrom:
+                    secretKeyRef:
+                      name: apm-secrets
+                      key: CENTRALCONFIG
+                - name: APM_SERVICE_NAME
+                  value: ${APM_SERVICE_NAME}
+                - name: APM_ENVIRONMENT
+                  value: 'DV'
               image: docker-registry.default.svc:5000/d09build/${NAME}:${IMAGE_TAG}
               imagePullPolicy: Always
               livenessProbe:
