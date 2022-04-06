@@ -18,7 +18,7 @@ const http = axios.create({
 })
 
 let URL = 'https://stad.gent/'
-if (process.env.deployEnv === 'test') {
+if (process.env.DEPLOY_ENV === 'test') {
   URL = 'https://qa.stad.gent/'
 }
 
