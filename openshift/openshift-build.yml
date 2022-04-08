@@ -65,12 +65,6 @@ objects:
       strategy:
         sourceStrategy:
           env:
-            - name: HOST
-              value: 0.0.0.0
-            - name: DEPLOY_ENV
-              value: test
-            - name: NODE_VERSION_URL
-              value: https://semver.io/node/resolve/9.x
             - name: NEXUS_CREDENTIALS
               valueFrom:
                 secretKeyRef:
