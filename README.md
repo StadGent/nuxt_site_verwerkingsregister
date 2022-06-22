@@ -1,4 +1,4 @@
-# verwerkingsregister
+# Verwerkingsregister
 
 > Nuxt.js project
 
