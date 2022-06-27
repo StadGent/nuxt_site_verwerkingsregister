@@ -57,7 +57,7 @@ objects:
       runPolicy: Serial
       source:
         git:
-          ref: "master"
+          ref: "main"
           uri: ${GITURI}
         sourceSecret:
           name: district09-ci
