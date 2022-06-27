@@ -60,7 +60,7 @@ objects:
           ref: "master"
           uri: ${GITURI}
         sourceSecret:
-          name: digipolisgent-ci
+          name: district09-ci
         type: Git
       strategy:
         sourceStrategy:

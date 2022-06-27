@@ -19,4 +19,5 @@
 
 d09Project  kind: "node14",
             namespace: "webcomponents",
-            service: ["verwerkingsregister"]
+            service: ["verwerkingsregister"],
+            ciSkipJenkinsBuild: true
