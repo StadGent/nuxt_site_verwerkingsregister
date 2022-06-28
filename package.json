@@ -3,7 +3,9 @@
   "version": "2.4.1",
   "description": "Nuxt.js project",
   "author": "bart <bart.delrue@digipolis.gent>",
-  "private": true,
+  "publishConfig": {
+    "registry": "https://nexussfqa.gent.be/repository/npm-releases/"
+  },
   "scripts": {
     "dev": "HOST=0.0.0.0 DEPLOY_ENV=test nuxt",
     "build": "nuxt build",
