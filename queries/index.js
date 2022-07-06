@@ -32,7 +32,7 @@ WHERE {
   OPTIONAL { ?verwerking  <http://stad.gent/data/ns/data-processing/grantee>/skos:prefLabel ?grantee }.
   OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasPersonalData>/dcterms:type/skos:prefLabel ?personalData }
   OPTIONAL { ?verwerking <http://stad.gent/data/ns/data-processing/hasSensitivePersonalData>/dcterms:type/skos:prefLabel ?sensitivePersonalData }
-  FILTER (?audience="${audience}"^^xsd:string)
+  FILTER (?audience="${audience}")
 }
 group by
 ?verwerking
