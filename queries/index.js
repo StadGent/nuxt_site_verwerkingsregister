@@ -2,9 +2,9 @@ export function COUNT (audience) {
   return `SELECT (count(?verwerking) as ?count)
 FROM <http://stad.gent/data-processes/>
 WHERE { ?verwerking a <http://data.vlaanderen.be/ns/toestemming#VerwerkingsActiviteit> .
-  ?verwerking <http://schema.org/audience> ?audience 
-  FILTER (?audience="${audience}"^^xsd:string)
-}`
+  ?verwerking <http://schema.org/audience> ?audience
+  FILTER (?audience="${audience}")
+}`;
 }
 
 export function LIST (audience) {
