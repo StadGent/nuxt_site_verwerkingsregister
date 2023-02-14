@@ -1,5 +1,4 @@
 export default {
-  mode: 'universal',
   modules: [
     '@nuxtjs/robots'
   ],
@@ -103,7 +102,7 @@ export default {
       }
     },
     postcss: {
-      plugins: {
+      postcssOptions: {
         'postcss-custom-properties': false
       }
     },
