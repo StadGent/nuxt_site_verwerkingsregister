@@ -6,6 +6,10 @@
   "publishConfig": {
     "registry": "https://nexussfqa.gent.be/repository/npm-releases/"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StadGent/nuxt_site_verwerkingsregister.git"
+  },
   "scripts": {
     "dev": "HOST=0.0.0.0 DEPLOY_ENV=test nuxt",
     "build": "nuxt build",
