@@ -32,8 +32,8 @@
     "cross-env": "^5.2.1",
     "gent_styleguide": "4.1.0",
     "lru-cache": "^4.1.5",
-    "node-sass": "^4.14.1",
     "nuxt": "^2.16.1",
+    "sass": "^1.58.1",
     "sass-loader": "^10.1.1",
     "susy": "^3.0.8",
     "webfontloader": "^1.6.28"
