@@ -17,7 +17,8 @@
     "start": "HOST=0.0.0.0 PORT=8080 nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .eslintignore .",
-    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .eslintignore ."
+    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .eslintignore .",
+    "test": "echo \"No tests yet.\""
   },
   "dependencies": {
     "@digipolis-gent/modal": "^1.0.4",
