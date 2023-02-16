@@ -13,7 +13,7 @@ parameters:
     value: git@github.com:StadGent/nuxt_site_verwerkingsregister.git
   - name: BUILDER_IMAGE
     description: s2i builder image used for the Openshift build process. Choose one from the list or ask the Service Factory for other possibilities.
-    value: nodejs-14
+    value: nodejs-16
 apiVersion: v1
 kind: Template
 metadata:
