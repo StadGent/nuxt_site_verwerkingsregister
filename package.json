@@ -26,7 +26,7 @@
     "axios": "^0.21.4",
     "axios-extensions": "^3.1.6",
     "babel-polyfill": "^6.26.0",
-    "breakpoint-sass": "^2.7.1",
+    "breakpoint-sass": "^3.0.0",
     "cross-env": "^7.0.3",
     "fs-extra": "^11.1.0",
     "gent_styleguide": "^5.1.4",
