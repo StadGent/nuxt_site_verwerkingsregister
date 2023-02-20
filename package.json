@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@digipolis-gent/modal": "^1.0.4",
-    "@nuxtjs/robots": "^2.5.0",
+    "@nuxtjs/robots": "^3.0.0",
     "axios": "^0.21.4",
     "axios-extensions": "^3.1.6",
     "babel-polyfill": "^6.26.0",
