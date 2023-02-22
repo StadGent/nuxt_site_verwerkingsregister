@@ -13,7 +13,10 @@ const http = axios.create({
   baseURL: '/',
   // cache will be enabled by default
   adapter: cacheAdapterEnhancer(axios.defaults.adapter, {
-    defaultCache: new LRUCache({ maxAge: SIX_HOURS })
+    defaultCache: new LRUCache({
+      ttl: SIX_HOURS,
+      max: Math.pow(2, 16),
+    })
   })
 })
 

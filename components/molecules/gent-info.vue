@@ -2,12 +2,7 @@
   <div class="footer--column">
     <div class="gentinfo-block">
       <div class="gentinfo-block-content">
-        <h3 class="visually-hidden">
-          Gentinfo
-        </h3>
-        <figure class="gentinfo-logo">
-          <img src="~gent_styleguide/build/styleguide/img/svg/gentinfo-logo.svg" alt="Gentinfo" class="gentinfo-logo">
-        </figure>
+        <h3 class="gentinfo-title">Gent<strong>info</strong></h3>
         <p class="">
           Bereikbaar van maandag tot en met zaterdag van 8 tot 19 uur.
         </p>

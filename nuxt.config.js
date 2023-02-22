@@ -1,5 +1,4 @@
 export default {
-  mode: 'universal',
   modules: [
     '@nuxtjs/robots'
   ],
@@ -103,7 +102,7 @@ export default {
       }
     },
     postcss: {
-      plugins: {
+      postcssOptions: {
         'postcss-custom-properties': false
       }
     },
@@ -117,9 +116,11 @@ export default {
           {
             loader: 'sass-loader',
             options: {
-              includePaths: [
-                'node_modules/breakpoint-sass/stylesheets'
-              ]
+              sassOptions: {
+                includePaths: [
+                  'node_modules/breakpoint-sass/stylesheets'
+                ]
+              }
             }
           }
         ]

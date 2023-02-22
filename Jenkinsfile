@@ -17,6 +17,6 @@
 
 **/
 
-d09Project  kind: "node14",
+d09Project  kind: "node16",
             namespace: "webcomponents",
             service: ["verwerkingsregister"]
