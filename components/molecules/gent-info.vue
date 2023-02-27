@@ -1,6 +1,6 @@
 <template>
   <div class="footer--column">
-    <div class="gentinfo-block">
+    <div class="gentinfo gentinfo-block">
       <div class="gentinfo-block-content">
         <h3 class="gentinfo-title">Gent<strong>info</strong></h3>
         <p class="">
