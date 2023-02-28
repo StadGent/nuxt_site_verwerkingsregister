@@ -4,7 +4,7 @@
       <div class="gentinfo-block-content">
         <h3 class="gentinfo-title">Gent<strong>info</strong></h3>
         <p class="">
-          Bereikbaar van maandag tot en met zaterdag van 7 tot 17 uur.
+          Bereikbaar van maandag tot en met zaterdag van 9 tot 17 uur.
         </p>
         <ul class="icon-list">
           <li>
