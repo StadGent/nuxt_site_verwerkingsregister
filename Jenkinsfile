@@ -4,7 +4,7 @@
 
 d09Project  jenkinsCiAgent: "node16",
 			cdServices: ["verwerkingsregister-v1"],
-			openshiftDeployNamespace: "webcomponents",
+			openshiftDeployNamespace: "d09-webcomponents",
 			gitOpsPath: "verwerkingsregister/verwerkingsregister-v1",
 			argoCdApplication: "verwerkingsregister",
 			argoCdComponent: "verwerkingsregister-v1"
