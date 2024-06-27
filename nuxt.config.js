@@ -41,9 +41,6 @@ export default {
       { name: 'msapplication-TileColor', content: '#009DE0' },
       { name: 'theme-color', content: '#009DE0' }
     ],
-    script: [
-      { src: `https://polyfill.io/v3/polyfill.js?features=es5,es6,es7&flags=gated`, body: true }
-    ],
     link: [
       {
         rel: 'apple',
