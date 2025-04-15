@@ -4,9 +4,6 @@
   "description": "Nuxt.js project",
   "author": "bart <bart.delrue@digipolis.gent>",
   "license": "EUPL-1.2",
-  "publishConfig": {
-    "registry": "https://nexussfqa.gent.be/repository/npm-releases/"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/StadGent/nuxt_site_verwerkingsregister.git"
